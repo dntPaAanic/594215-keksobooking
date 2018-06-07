@@ -131,8 +131,20 @@ var mapPin = document.querySelector('template').content.querySelector('.map__pin
 var mapCard = document.querySelector('template').content.querySelector('.map__card');
 
 var makePin = function (offerObject) {
-
+  var newPin = mapPin.cloneNode(true);
+  var left = offerObject.location.x - 30;
+  var top = offerObject.location.y - 30;
+  newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
+  newPin.querySelector('img').src = offerObject.author.avatar;
+  return newPin;
 };
 
+var makePins = function (offersObject) {
+  var docFragment = document.createDocumentFragment();
+  for (var i = 0; i < offersObject.length; i++) {
+    docFragment.appendChild(makePin(offersObject[i]));
+  }
+  mapPins.appendChild(docFragment);
+};
 
 map.classList.remove('map--faded');
