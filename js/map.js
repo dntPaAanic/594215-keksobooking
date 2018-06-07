@@ -175,6 +175,18 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__features').appendChild(featureFragment);
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
 
+  var photoElementTemplate = document.querySelector('template').content.querySelector('.popup__photo');
+  var photoFragment = document.createDocumentFragment();
+
+  for (i = 1; i < offerData.offer.photos.length; i++) {
+    var photoElement = photoElementTemplate.cloneNode(true);
+    photoElement.src = offerData.offer.photos[i];
+    photoFragment.appendChild(photoElement);
+  }
+
+  advert.querySelector('.popup__photos img').src = offerData.offer.photos[0];
+  advert.querySelector('.popup__photos').appendChild(photoFragment);
+
   return advert;
 };
 
