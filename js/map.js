@@ -4,9 +4,10 @@ var OFFERS_COUNT = 8;
 
 var AVATAR_LINK_PATH = 'img/avatars/user';
 var AVATAR_NAME_PREFIX = 0;
+var avatarID = 0;
 var AVATAR_FILENAME_EXTENSION = '.png';
 
-var OFFER__TITLE = [
+var OFFER_TITLE = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
   'Огромный прекрасный дворец',
@@ -26,6 +27,8 @@ var TYPES = [
 ];
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
+var GUEST_MIN = 1;
+var GUEST_MAX = 15;
 var TIME_CHECK_IN = [
   '12:00',
   '13:00',
@@ -54,15 +57,72 @@ var LOCATION_X_MAX = 900;
 var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 
-//случайное число из диапазона
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-// возврат случайного элемента из массива
 var getRandomElement = function (arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return arr[Math.floor(Math.random() * (arr.length - 1))];
 };
+
+var offerTitle = OFFER_TITLE.slice(0, OFFER_TITLE.length);
+var getOfferTitle = function (title) {
+  var offerTitleIndex = getRandomNumber(0, title.length - 1);
+  var newOfferTitle = offerTitle[offerTitleIndex];
+  offerTitle.splice(offerTitleIndex, 1);
+  return newOfferTitle;
+};
+
+var getRandomLengthArray = function (arr) {
+  return arr.slice(getRandomNumber(1, arr.length));
+};
+
+var getShuffleArray = function (arr) {                  //Fisher–Yates shuffle
+  for (var i = arr.length - 1; i > 0; i--) {
+    var rand = Math.floor(Math.random() * (i + 1));
+    var temp = arr[i];
+    arr[i] = arr[rand];
+    arr[rand] = temp;
+  }
+  return arr;
+};
+
+var getOfferInfo = function () {
+  var locationX = getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
+  var locationY = getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
+  avatarID++;
+
+  return {
+    'author': {
+      'avatar': AVATAR_LINK_PATH + AVATAR_NAME_PREFIX + avatarID + AVATAR_FILENAME_EXTENSION
+    },
+    'offer': {
+      'title': getOfferTitle(offerTitle),
+      'address': locationX + ',' + locationY,
+      'price': getRandomNumber(PRICE_MIN, PRICE_MAX),
+      'type': getRandomElement(TYPES),
+      'guests': getRandomNumber(GUEST_MIN, GUEST_MAX),
+      'checkin': getRandomElement(TIME_CHECK_IN),
+      'checkout': getRandomElement(TIME_CHECK_OUT),
+      'features': getRandomLengthArray(FEATURES),
+      'description': '',
+      'photos': getShuffleArray(PHOTOS)
+    },
+    'location': {
+      'x': locationX,
+      'y': locationY
+    }
+  };
+};
+
+var getOffer = function (offersCount) {
+  var offers = [];
+  for (var i = 0; i < offersCount; i++) {
+    offers.push(getOfferInfo());
+  }
+  return offers;
+};
+
 
 
 var map = document.querySelector('.map');
