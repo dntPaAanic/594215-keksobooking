@@ -77,7 +77,8 @@ var getRandomLengthArray = function (arr) {
   return arr.slice(getRandomNumber(1, arr.length));
 };
 
-var getShuffleArray = function (arr) {                  //Fisher–Yates shuffle
+// Fisher–Yates shuffle
+var getShuffleArray = function (arr) {
   for (var i = arr.length - 1; i > 0; i--) {
     var rand = Math.floor(Math.random() * (i + 1));
     var temp = arr[i];
@@ -132,8 +133,8 @@ var mapCard = document.querySelector('template').content.querySelector('.map__ca
 
 var makePin = function (offerObject) {
   var newPin = mapPin.cloneNode(true);
-  var left = offerObject.location.x - 30;  //вычитание поставил рандомное. Спросить у наставника
-  var top = offerObject.location.y - 30;
+  var left = offerObject.location.x;
+  var top = offerObject.location.y;
   newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
   newPin.querySelector('.map__pin img').src = offerObject.author.avatar;
   newPin.querySelector('.map__pin img').alt = offerObject.offer.title;
@@ -149,10 +150,7 @@ var makePins = function (offerObjects) {
 };
 
 var createAdvert = function (offerData) {
-  var advert = mapCard.cloneNode(true);
-
   var accomodationType;
-
   if (offerData.type === 'flat') {
     accomodationType = 'Квартира';
   } else if (offerData.offer.type === 'bungalo') {
@@ -162,7 +160,7 @@ var createAdvert = function (offerData) {
   } else if (offerData.offer.type === 'palace') {
     accomodationType = 'Дворец';
   }
-
+  var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
   advert.querySelector('.popup__text--address').textContent = offerData.offer.address;
   advert.querySelector('.popup__text--price').textContent = offerData.offer.price + ' ₽/ночь';
