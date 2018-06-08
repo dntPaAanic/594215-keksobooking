@@ -171,25 +171,30 @@ var createAdvert = function (offerData) {
   // } else if (offerData.offer.type === 'palace') {
   //   accomodationType = 'Дворец';
   // }
+  var accomodationType = function (val) {
+    var typeOffer = '';
+    switch (val) {
+      case 'flat':
+        typeOffer = 'Квартира';
+        break;
+      case 'bungalo':
+        typeOffer = 'Бунгало';
+        break;
+      case 'house':
+        typeOffer = 'Дом';
+        break;
+      case 'palace':
+        typeOffer = 'Дворец';
+        break;
+    }
+    return typeOffer;
+  };
+
   var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
   advert.querySelector('.popup__text--address').textContent = offerData.offer.address;
   advert.querySelector('.popup__text--price').textContent = offerData.offer.price + ' ₽/ночь';
-  // advert.querySelector('.popup__type').textContent = accomodationType;
-  switch (offerData.offer.type) {
-    case 'flat':
-      advert.querySelector('.popup__type').textContent = 'Квартира';
-      break;
-    case 'bungalo':
-      advert.querySelector('.popup__type').textContent = 'Бунгало';
-      break;
-    case 'house':
-      advert.querySelector('.popup__type').textContent = 'Дом';
-      break;
-    case 'palace':
-      advert.querySelector('.popup__type').textContent = 'Дворец';
-      break;
-  }
+  advert.querySelector('.popup__type').textContent = accomodationType(offerData.offer.type);
   advert.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
