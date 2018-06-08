@@ -57,6 +57,9 @@ var LOCATION_X_MAX = 900;
 var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
+
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -137,8 +140,8 @@ var mapCard = document.querySelector('template').content.querySelector('.map__ca
 
 var makePin = function (offerObject) {
   var newPin = mapPin.cloneNode(true);
-  var left = offerObject.location.x;
-  var top = offerObject.location.y;
+  var left = offerObject.location.x - PIN_WIDTH / 2;
+  var top = offerObject.location.y - PIN_HEIGHT;
   newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
   newPin.querySelector('.map__pin img').src = offerObject.author.avatar;
   newPin.querySelector('.map__pin img').alt = offerObject.offer.title;
