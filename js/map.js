@@ -78,9 +78,9 @@ var getRandomUniqueElement = function (arr) {
   return splicedElement[0];
 };
 
-var getRandomLengthArray = function (arr) {
-  return arr.slice(getRandomNumber(1, arr.length));
-};
+// var getRandomLengthArray = function (arr) {
+//   return arr.slice(getRandomNumber(1, arr.length));
+// };
 
 var offerTitle = OFFER_TITLE.slice();
 
@@ -93,6 +93,10 @@ var getShuffleArray = function (arr) {
     arr[rand] = temp;
   }
   return arr;
+};
+// делает случайный массив
+var getShuffleArrayWithRandomLength = function (array) {
+  return getShuffleArray(array).slice(0, getRandomNumber(1, array.length));
 };
 
 var getOfferInfo = function () {
@@ -113,7 +117,7 @@ var getOfferInfo = function () {
       'guests': getRandomNumber(GUEST_MIN, GUEST_MAX),
       'checkin': getRandomElement(TIME_CHECK_IN),
       'checkout': getRandomElement(TIME_CHECK_OUT),
-      'features': getRandomLengthArray(FEATURES),
+      'features': getShuffleArrayWithRandomLength(FEATURES),
       'description': '',
       'photos': getShuffleArray(PHOTOS)
     },
