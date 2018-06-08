@@ -189,7 +189,6 @@ var createAdvert = function (offerData) {
     }
     return typeOffer;
   };
-
   var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
   advert.querySelector('.popup__text--address').textContent = offerData.offer.address;
