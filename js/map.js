@@ -65,17 +65,21 @@ var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * (arr.length - 1))];
 };
 
-var offerTitle = OFFER_TITLE.slice(0, OFFER_TITLE.length);
-var getOfferTitle = function (title) {
-  var offerTitleIndex = getRandomNumber(0, title.length - 1);
-  var newOfferTitle = offerTitle[offerTitleIndex];
-  offerTitle.splice(offerTitleIndex, 1);
-  return newOfferTitle;
+var getRandomIndex = function (arr) {
+  return Math.round(Math.random() * (arr.length - 1));
+};
+
+var getRandomUniqueElement = function (arr) {
+  var indexRandom = getRandomIndex(arr);
+  var splicedElement = arr.splice(indexRandom, 1);
+  return splicedElement[0];
 };
 
 var getRandomLengthArray = function (arr) {
   return arr.slice(getRandomNumber(1, arr.length));
 };
+
+var offerTitle = OFFER_TITLE.slice();
 
 // Fisher–Yates shuffle
 var getShuffleArray = function (arr) {
@@ -98,7 +102,7 @@ var getOfferInfo = function () {
       'avatar': AVATAR_LINK_PATH + AVATAR_NAME_PREFIX + avatarID + AVATAR_FILENAME_EXTENSION
     },
     'offer': {
-      'title': getOfferTitle(offerTitle),
+      'title': getRandomUniqueElement(offerTitle),
       'address': locationX + ',' + locationY,
       'price': getRandomNumber(PRICE_MIN, PRICE_MAX),
       'type': getRandomElement(TYPES),
