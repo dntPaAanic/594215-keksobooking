@@ -146,4 +146,3 @@ var makePins = function (offerObjects) {
   }
   mapPins.appendChild(docFragment);
 };
-
