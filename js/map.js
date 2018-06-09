@@ -144,9 +144,11 @@ var mapCard = document.querySelector('template').content.querySelector('.map__ca
 
 var makePin = function (offerObject) {
   var newPin = mapPin.cloneNode(true);
-  var left = offerObject.location.x - PIN_WIDTH / 2;
-  var top = offerObject.location.y - PIN_HEIGHT;
-  newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
+  // var left = offerObject.location.x - PIN_WIDTH / 2;
+  // var top = offerObject.location.y - PIN_HEIGHT;
+  // newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
+  newPin.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
+  newPin.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
   newPin.querySelector('.map__pin img').src = offerObject.author.avatar;
   newPin.querySelector('.map__pin img').alt = offerObject.offer.title;
   return newPin;
@@ -160,35 +162,26 @@ var makePins = function (offerObjects) {
   mapPins.appendChild(docFragment);
 };
 
+var accomodationType = function (val) {
+  var typeOffer = '';
+  switch (val) {
+    case 'flat':
+      typeOffer = 'Квартира';
+      break;
+    case 'bungalo':
+      typeOffer = 'Бунгало';
+      break;
+    case 'house':
+      typeOffer = 'Дом';
+      break;
+    case 'palace':
+      typeOffer = 'Дворец';
+      break;
+  }
+  return typeOffer;
+};
+
 var createAdvert = function (offerData) {
-  // var accomodationType;
-  // if (offerData.offer.type === 'flat') {
-  //   accomodationType = 'Квартира';
-  // } else if (offerData.offer.type === 'bungalo') {
-  //   accomodationType = 'Бунгало';
-  // } else if (offerData.offer.type === 'house') {
-  //   accomodationType = 'Дом';
-  // } else if (offerData.offer.type === 'palace') {
-  //   accomodationType = 'Дворец';
-  // }
-  var accomodationType = function (val) {
-    var typeOffer = '';
-    switch (val) {
-      case 'flat':
-        typeOffer = 'Квартира';
-        break;
-      case 'bungalo':
-        typeOffer = 'Бунгало';
-        break;
-      case 'house':
-        typeOffer = 'Дом';
-        break;
-      case 'palace':
-        typeOffer = 'Дворец';
-        break;
-    }
-    return typeOffer;
-  };
   var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
   advert.querySelector('.popup__text--address').textContent = offerData.offer.address;
