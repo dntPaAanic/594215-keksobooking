@@ -181,6 +181,14 @@ var accomodationType = function (val) {
   return typeOffer;
 };
 
+var getFeaturesList = function (features) {
+  var featuresList = '';
+  for (var i = 0; i < features.length; i++) {
+    featuresList += '<li class="popup__feature popup__feature--' + features[i] + '"></li>';
+  }
+  return featuresList;
+};
+
 var createAdvert = function (offerData) {
   var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
@@ -189,29 +197,14 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__type').textContent = accomodationType(offerData.offer.type);
   advert.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
+  advert.querySelector('.popup__features').innerHTML = getFeaturesList(offerData.offer.features);
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
-
-  var featuresList = document.querySelector('template').content.querySelector('.popup__feature');
-  var featureFragment = document.createDocumentFragment();
-
-  while (advert.querySelector('.popup__feature')) {
-    advert.querySelector('.popup__features').removeChild(advert.querySelector('.popup__feature'));
-  }
-
-  for (var i = 0; i < offerData.offer.features.length; i++) {
-    var featureElement = featuresList.cloneNode(true);
-    featureElement.classList.add('popup__feature');
-    featureElement.classList.add('popup__feature--' + offerData.offer.features[i]);
-    featureFragment.appendChild(featureElement);
-  }
-
-  advert.querySelector('.popup__features').appendChild(featureFragment);
 
   var photoElementTemplate = document.querySelector('template').content.querySelector('.popup__photo');
   var photoFragment = document.createDocumentFragment();
 
-  for (i = 1; i < offerData.offer.photos.length; i++) {
+  for (var i = 1; i < offerData.offer.photos.length; i++) {
     var photoElement = photoElementTemplate.cloneNode(true);
     photoElement.src = offerData.offer.photos[i];
     photoFragment.appendChild(photoElement);
