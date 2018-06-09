@@ -96,7 +96,7 @@ var getShuffleArray = function (arr) {
 };
 // делает случайный массив
 var getShuffleArrayWithRandomLength = function (array) {
-  return getShuffleArray(array).slice(0, getRandomNumber(1, array.length));
+  return getShuffleArray(array).slice(0, getRandomNumber(1, array.length + 1));
 };
 
 var getOfferInfo = function () {
@@ -183,9 +183,13 @@ var accomodationType = function (val) {
 };
 
 var getFeaturesList = function (features) {
-  var featuresList = '';
+  var featuresList = document.createDocumentFragment();
+
   for (var i = 0; i < features.length; i++) {
-    featuresList += '<li class="popup__feature popup__feature--' + features[i] + '"></li>';
+    var liElement = document.createElement('li');
+    liElement.classList.add('popup__feature');
+    liElement.classList.add('popup__feature--' + features[i]);
+    featuresList.appendChild(liElement);
   }
   return featuresList;
 };
@@ -206,7 +210,20 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__type').textContent = accomodationType(offerData.offer.type);
   advert.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
-  advert.querySelector('.popup__features').innerHTML = getFeaturesList(offerData.offer.features);
+  // todo как лучше очистить контейнер?????
+  // var featureListSearch = advert.querySelector('.popup__features');
+  //
+  // var deleteInner = function (element) {
+  //   while (element.firstChild) {
+  //     element.removeChild(element.firstChild);
+  //   }
+  //   return element;
+  // };
+  //
+  // deleteInner(featureListSearch);
+  // featureListSearch.appendChild(getFeaturesList(offerData.offer.features));
+  advert.querySelector('.popup__features').innerHTML = null;
+  advert.querySelector('.popup__features').appendChild(getFeaturesList(offerData.offer.features));
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
   advert.querySelector('.popup__photos').innerHTML = getPhotosList(offerData.offer.photos);
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
