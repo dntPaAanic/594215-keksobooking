@@ -195,11 +195,17 @@ var getFeaturesList = function (features) {
 };
 
 var getPhotosList = function (photosArray) {
-  var photosItem = '';
+  var photoList = document.createDocumentFragment();
   for (var i = 0; i < photosArray.length; i++) {
-    photosItem += '<img src =' + photosArray[i] + ' width="45" height="40" alt="Фотография жилья">';
+    var mapCardPhoto = document.createElement('img');
+    mapCardPhoto.classList.add('popup__photo');
+    mapCardPhoto.src = photosArray[i];
+    mapCardPhoto.width = '45';
+    mapCardPhoto.height = '40';
+    mapCardPhoto.alt = 'Фотография жилья';
+    photoList.appendChild(mapCardPhoto);
   }
-  return photosItem;
+  return photoList;
 };
 
 var createAdvert = function (offerData) {
@@ -225,7 +231,8 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__features').innerHTML = null;
   advert.querySelector('.popup__features').appendChild(getFeaturesList(offerData.offer.features));
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
-  advert.querySelector('.popup__photos').innerHTML = getPhotosList(offerData.offer.photos);
+  advert.querySelector('.popup__photos').innerHTML = null;
+  advert.querySelector('.popup__photos').appendChild(getPhotosList(offerData.offer.photos));
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
   return advert;
 };
