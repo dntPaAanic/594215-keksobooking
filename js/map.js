@@ -144,13 +144,14 @@ var mapCard = document.querySelector('template').content.querySelector('.map__ca
 
 var makePin = function (offerObject) {
   var newPin = mapPin.cloneNode(true);
+  var addNewPin = newPin.querySelector('.map__pin img');
   // var left = offerObject.location.x - PIN_WIDTH / 2;
   // var top = offerObject.location.y - PIN_HEIGHT;
   // newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
   newPin.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
   newPin.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
-  newPin.querySelector('.map__pin img').src = offerObject.author.avatar;
-  newPin.querySelector('.map__pin img').alt = offerObject.offer.title;
+  addNewPin.src = offerObject.author.avatar;
+  addNewPin.alt = offerObject.offer.title;
   return newPin;
 };
 
@@ -209,7 +210,6 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
   advert.querySelector('.popup__photos').innerHTML = getPhotosList(offerData.offer.photos);
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
-  
   return advert;
 };
 
