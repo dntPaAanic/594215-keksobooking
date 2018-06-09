@@ -189,6 +189,14 @@ var getFeaturesList = function (features) {
   return featuresList;
 };
 
+var getPhotosList = function (photosArray) {
+  var photosItem = '';
+  for (var i = 0; i < photosArray.length; i++) {
+    photosItem += '<img src =' + photosArray[i] + ' width="45" height="40" alt="Фотография жилья">';
+  }
+  return photosItem;
+};
+
 var createAdvert = function (offerData) {
   var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
@@ -199,20 +207,9 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
   advert.querySelector('.popup__features').innerHTML = getFeaturesList(offerData.offer.features);
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
+  advert.querySelector('.popup__photos').innerHTML = getPhotosList(offerData.offer.photos);
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
-
-  var photoElementTemplate = document.querySelector('template').content.querySelector('.popup__photo');
-  var photoFragment = document.createDocumentFragment();
-
-  for (var i = 1; i < offerData.offer.photos.length; i++) {
-    var photoElement = photoElementTemplate.cloneNode(true);
-    photoElement.src = offerData.offer.photos[i];
-    photoFragment.appendChild(photoElement);
-  }
-
-  advert.querySelector('.popup__photos img').src = offerData.offer.photos[0];
-  advert.querySelector('.popup__photos').appendChild(photoFragment);
-
+  
   return advert;
 };
 
