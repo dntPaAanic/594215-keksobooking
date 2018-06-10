@@ -133,6 +133,7 @@ var getOffers = function (offersCount) {
 };
 
 var map = document.querySelector('.map');
+var mapFilters = document.querySelector('.map__filters-container');
 map.classList.remove('map--faded');
 var mapPins = document.querySelector('.map__pins');
 var mapPin = document.querySelector('template').content.querySelector('.map__pin');
@@ -220,7 +221,9 @@ var createAdvert = function (offerData) {
 
 var showAdvert = function (adverts, number) {
   var currentAdvert = createAdvert(adverts[number]);
-  map.appendChild(currentAdvert);
+  var fragmentCardElement = document.createDocumentFragment();
+  fragmentCardElement.appendChild(currentAdvert);
+  map.insertBefore(fragmentCardElement, mapFilters);
 };
 
 var offers = getOffers(OFFERS_COUNT);
