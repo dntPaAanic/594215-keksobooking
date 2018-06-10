@@ -175,7 +175,7 @@ var accomodationType = function (val) {
   return typeOffer;
 };
 
-var getFeaturesList = function (features) {
+var createFeaturesList = function (features) {
   var featuresList = document.createDocumentFragment();
 
   for (var i = 0; i < features.length; i++) {
@@ -187,7 +187,7 @@ var getFeaturesList = function (features) {
   return featuresList;
 };
 
-var getPhotosList = function (photosArray) {
+var createPhotosList = function (photosArray) {
   var photoList = document.createDocumentFragment();
   for (var i = 0; i < photosArray.length; i++) {
     var mapCardPhoto = document.createElement('img');
@@ -210,10 +210,10 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
   advert.querySelector('.popup__features').innerHTML = '';
-  advert.querySelector('.popup__features').appendChild(getFeaturesList(offerData.offer.features));
+  advert.querySelector('.popup__features').appendChild(createFeaturesList(offerData.offer.features));
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
   advert.querySelector('.popup__photos').innerHTML = '';
-  advert.querySelector('.popup__photos').appendChild(getPhotosList(offerData.offer.photos));
+  advert.querySelector('.popup__photos').appendChild(createPhotosList(offerData.offer.photos));
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
   return advert;
 };
