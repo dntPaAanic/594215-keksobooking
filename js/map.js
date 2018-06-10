@@ -78,10 +78,6 @@ var getRandomUniqueElement = function (arr) {
   return splicedElement[0];
 };
 
-// var getRandomLengthArray = function (arr) {
-//   return arr.slice(getRandomNumber(1, arr.length));
-// };
-
 var offerTitle = OFFER_TITLE.slice();
 
 // Fisher–Yates shuffle
@@ -145,9 +141,6 @@ var mapCard = document.querySelector('template').content.querySelector('.map__ca
 var makePin = function (offerObject) {
   var newPin = mapPin.cloneNode(true);
   var addNewPin = newPin.querySelector('.map__pin img');
-  // var left = offerObject.location.x - PIN_WIDTH / 2;
-  // var top = offerObject.location.y - PIN_HEIGHT;
-  // newPin.style = 'left:' + left + 'px;' + 'top:' + top + 'px';
   newPin.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
   newPin.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
   addNewPin.src = offerObject.author.avatar;
@@ -216,22 +209,10 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__type').textContent = accomodationType(offerData.offer.type);
   advert.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
-  // todo как лучше очистить контейнер?????
-  // var featureListSearch = advert.querySelector('.popup__features');
-  //
-  // var deleteInner = function (element) {
-  //   while (element.firstChild) {
-  //     element.removeChild(element.firstChild);
-  //   }
-  //   return element;
-  // };
-  //
-  // deleteInner(featureListSearch);
-  // featureListSearch.appendChild(getFeaturesList(offerData.offer.features));
-  advert.querySelector('.popup__features').innerHTML = null;
+  advert.querySelector('.popup__features').innerHTML = '';
   advert.querySelector('.popup__features').appendChild(getFeaturesList(offerData.offer.features));
   advert.querySelector('.popup__description').textContent = offerData.offer.description;
-  advert.querySelector('.popup__photos').innerHTML = null;
+  advert.querySelector('.popup__photos').innerHTML = '';
   advert.querySelector('.popup__photos').appendChild(getPhotosList(offerData.offer.photos));
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
   return advert;
