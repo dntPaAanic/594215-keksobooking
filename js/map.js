@@ -60,18 +60,22 @@ var LOCATION_Y_MAX = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
+// создание случайного числа из диапазона
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+// создание случайного элемента из массива
 var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+// создание случайного числа
 var getRandomIndex = function (arr) {
   return Math.round(Math.random() * (arr.length - 1));
 };
 
+// создание уник элемента
 var getRandomUniqueElement = function (arr) {
   var indexRandom = getRandomIndex(arr);
   var splicedElement = arr.splice(indexRandom, 1);
@@ -90,11 +94,12 @@ var getShuffleArray = function (arr) {
   }
   return arr;
 };
-// делает случайный массив
+// создание массива случайной длинны
 var getShuffleArrayWithRandomLength = function (array) {
   return getShuffleArray(array).slice(0, getRandomNumber(1, array.length + 1));
 };
 
+// формирование предложения с данными
 var getOfferInfo = function () {
   var locationX = getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
   var locationY = getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
@@ -124,6 +129,7 @@ var getOfferInfo = function () {
   };
 };
 
+// формирование массива объектов недвижимости
 var getOffers = function (offersCount) {
   var offers = [];
   for (var i = 0; i < offersCount; i++) {
@@ -139,6 +145,8 @@ var mapPins = document.querySelector('.map__pins');
 var mapPin = document.querySelector('template').content.querySelector('.map__pin');
 var mapCard = document.querySelector('template').content.querySelector('.map__card');
 
+
+// создание меток на карте
 var makePin = function (offerObject) {
   var newPin = mapPin.cloneNode(true);
   var addNewPin = newPin.querySelector('.map__pin img');
@@ -176,6 +184,7 @@ var accomodationType = function (val) {
   return typeOffer;
 };
 
+// добавление иконки фич
 var createFeaturesList = function (features) {
   var featuresList = document.createDocumentFragment();
 
@@ -188,20 +197,22 @@ var createFeaturesList = function (features) {
   return featuresList;
 };
 
+// добавление фотографий
 var createPhotosList = function (photosArray) {
   var photoList = document.createDocumentFragment();
   for (var i = 0; i < photosArray.length; i++) {
     var mapCardPhoto = document.createElement('img');
     mapCardPhoto.classList.add('popup__photo');
     mapCardPhoto.src = photosArray[i];
-    mapCardPhoto.width = '45';
-    mapCardPhoto.height = '40';
+    mapCardPhoto.width = 45;
+    mapCardPhoto.height = 40;
     mapCardPhoto.alt = 'Фотография жилья';
     photoList.appendChild(mapCardPhoto);
   }
   return photoList;
 };
 
+// создание объявления
 var createAdvert = function (offerData) {
   var advert = mapCard.cloneNode(true);
   advert.querySelector('.popup__title').textContent = offerData.offer.title;
