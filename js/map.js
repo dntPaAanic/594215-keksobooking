@@ -264,24 +264,9 @@ var showOffer = function (offer) {
   mapElement.insertBefore(currentOffer, mapFiltersElement);
 };
 
-// убирает активное состояние у пина
-var removeActivePin = function () {
-  var activePin = mapPinsElement.querySelector('.map__pin--active');
-  if (activePin) {
-    activePin.classList.remove('map__pin--active');
-  }
-};
-
-// Добавляет активное состояние пину
-var addCurrentActivePin = function (currentPin) {
-  removeActivePin();
-  currentPin.classList.add('map__pin--active');
-};
-
 // закрытие попапа
 var closePopup = function () {
   removePopup();
-  removeActivePin();
   document.removeEventListener('keydown', onPopupEscapePress);
 };
 
@@ -307,7 +292,6 @@ var onMapPinClick = function (evt) {
   var targetPin = evt.target.closest('.map__pin');
   if (targetPin && targetPin.classList.contains('map__pin') && !targetPin.classList.contains('map__pin--main')) {
     showOffer(offers[targetPin.tabIndex]);
-    addCurrentActivePin(targetPin);
     var popup = document.querySelector('.popup');
     var popupClose = popup.querySelector('.popup__close');
     popupClose.addEventListener('click', onPopupCloseClick);
