@@ -146,11 +146,11 @@ var getOffers = function (offersCount) {
 
 var makePin = function (offerObject, offerNumber) {
   var newPinIconElement = mapPinElement.cloneNode(true);
-  var addNewPinElement = newPinIconElement.querySelector('.map__pin img');
+  var pinAvatarElement = newPinIconElement.querySelector('.map__pin img');
   newPinIconElement.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
   newPinIconElement.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
-  addNewPinElement.src = offerObject.author.avatar;
-  addNewPinElement.alt = offerObject.offer.title;
+  pinAvatarElement.src = offerObject.author.avatar;
+  pinAvatarElement.alt = offerObject.offer.title;
   newPinIconElement.tabIndex = offerNumber;
   return newPinIconElement;
 };
@@ -184,7 +184,6 @@ var accomodationType = function (val) {
 
 var createFeaturesList = function (features) {
   var featuresList = document.createDocumentFragment();
-
   for (var i = 0; i < features.length; i++) {
     var liElement = document.createElement('li');
     liElement.classList.add('popup__feature');
