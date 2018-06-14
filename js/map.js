@@ -61,16 +61,16 @@ var PIN_HEIGHT = 70;
 
 var ESCAPE_KEYCODE = 27;
 
-var map = document.querySelector('.map');
-var mapFilters = document.querySelector('.map__filters-container');
-var mapPins = document.querySelector('.map__pins');
-var mapPinMain = map.querySelector('.map__pin--main');
-var mapPin = document.querySelector('template').content.querySelector('.map__pin');
-var mapCard = document.querySelector('template').content.querySelector('.map__card');
+var mapElement = document.querySelector('.map');
+var mapFiltersElement = document.querySelector('.map__filters-container');
+var mapPinsElement = document.querySelector('.map__pins');
+var mapPinMainElement = mapElement.querySelector('.map__pin--main');
+var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
+var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
-var adForm = document.querySelector('.ad-form');
-var adFormFieldsets = document.querySelectorAll('fieldset');
-var addressField = adForm.querySelector('#address');
+var adFormElement = document.querySelector('.ad-form');
+var adFormFieldsetsElement = document.querySelectorAll('fieldset');
+var addressFieldElement = adFormElement.querySelector('#address');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -145,7 +145,7 @@ var getOffers = function (offersCount) {
 
 
 var makePin = function (offerObject, offerNumber) {
-  var newPin = mapPin.cloneNode(true);
+  var newPin = mapPinElement.cloneNode(true);
   var addNewPin = newPin.querySelector('.map__pin img');
   newPin.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
   newPin.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
@@ -160,7 +160,7 @@ var makePins = function (offerObjects) {
   for (var i = 0; i < offerObjects.length; i++) {
     docFragment.appendChild(makePin(offerObjects[i], i));
   }
-  mapPins.appendChild(docFragment);
+  mapPinsElement.appendChild(docFragment);
 };
 
 var accomodationType = function (val) {
@@ -210,7 +210,7 @@ var createPhotosList = function (photosArray) {
 
 // создает текст объявления
 var createCardOffer = function (offerData) {
-  var CardElement = mapCard.cloneNode(true);
+  var CardElement = mapCardElement.cloneNode(true);
   CardElement.querySelector('.popup__title').textContent = offerData.offer.title;
   CardElement.querySelector('.popup__text--address').textContent = offerData.offer.address;
   CardElement.querySelector('.popup__text--price').textContent = offerData.offer.price + ' ₽/ночь';
@@ -229,15 +229,15 @@ var createCardOffer = function (offerData) {
 // ******************** module4-task-1 ***************************//
 // Переключает форму из неактивного состояния
 var toggleFormDisabled = function (formDisabled) {
-  adForm.classList.toggle('ad-form--disabled', formDisabled);
-  for (var i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].disabled = formDisabled;
+  adFormElement.classList.toggle('ad-form--disabled', formDisabled);
+  for (var i = 0; i < adFormFieldsetsElement.length; i++) {
+    adFormFieldsetsElement[i].disabled = formDisabled;
   }
 };
 
 // Переключает карту из неактивного состояния
 var toggleMapDisabled = function (mapDisabled) {
-  map.classList.toggle('map--faded', mapDisabled);
+  mapElement.classList.toggle('map--faded', mapDisabled);
 };
 
 // Отключает неактивный режим карты и создает пины при отжатии кнопки мыши
@@ -245,28 +245,28 @@ var onClickActivatePage = function () {
   toggleMapDisabled(false);
   toggleFormDisabled(false);
   makePins(offers);
-  map.addEventListener('click', onMapPinClick);
-  mapPinMain.removeEventListener('mouseup', onClickActivatePage);
+  mapElement.addEventListener('click', onMapPinClick);
+  mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
 };
 
 // удаляет попап
 var removePopup = function () {
-  var popup = map.querySelector('.popup');
+  var popup = mapElement.querySelector('.popup');
   if (popup) {
-    map.removeChild(popup);
+    mapElement.removeChild(popup);
   }
 };
 
 // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
-var showAdvert = function (offer) {
+var showOffer = function (offer) {
   removePopup();
-  var currentAdvert = createCardOffer(offer);
-  map.insertBefore(currentAdvert, mapFilters);
+  var currentOffer = createCardOffer(offer);
+  mapElement.insertBefore(currentOffer, mapFiltersElement);
 };
 
 // убирает активное состояние у пина
 var removeActivePin = function () {
-  var activePin = mapPins.querySelector('.map__pin--active');
+  var activePin = mapPinsElement.querySelector('.map__pin--active');
   if (activePin) {
     activePin.classList.remove('map__pin--active');
   }
@@ -298,15 +298,15 @@ var onPopupCloseClick = function () {
 };
 
 // Создает обработчик отпускания кнопки мыши
-if (mapPinMain) {
-  mapPinMain.addEventListener('mouseup', onClickActivatePage);
+if (mapPinMainElement) {
+  mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
 }
 
 // добавляет обработчик клика по карте
 var onMapPinClick = function (evt) {
   var targetPin = evt.target.closest('.map__pin');
   if (targetPin && targetPin.classList.contains('map__pin') && !targetPin.classList.contains('map__pin--main')) {
-    showAdvert(offers[targetPin.tabIndex]);
+    showOffer(offers[targetPin.tabIndex]);
     addCurrentActivePin(targetPin);
     var popup = document.querySelector('.popup');
     var popupClose = popup.querySelector('.popup__close');
@@ -317,10 +317,10 @@ var onMapPinClick = function (evt) {
 
 // Получает координаты адреса по умолчанию
 var getAddress = function () {
-  if (mapPinMain) {
-    var pinLeft = window.getComputedStyle(mapPinMain, null).getPropertyValue('left').slice(0, -2);
-    var pinTop = window.getComputedStyle(mapPinMain, null).getPropertyValue('top').slice(0, -2);
-    addressField.value = pinLeft + ', ' + pinTop;
+  if (mapPinMainElement) {
+    var pinLeft = window.getComputedStyle(mapPinMainElement, null).getPropertyValue('left').slice(0, -2);
+    var pinTop = window.getComputedStyle(mapPinMainElement, null).getPropertyValue('top').slice(0, -2);
+    addressFieldElement.value = pinLeft + ', ' + pinTop;
   }
 };
 
