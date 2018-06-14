@@ -68,8 +68,10 @@ var mapPins = document.querySelector('.map__pins');
 var mapPinMain = map.querySelector('.map__pin--main');
 var mapPin = document.querySelector('template').content.querySelector('.map__pin');
 var mapCard = document.querySelector('template').content.querySelector('.map__card');
+
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = document.querySelectorAll('fieldset');
+var addressField = adForm.querySelector('#address');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -219,7 +221,6 @@ var createAdvert = function (offerData) {
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
   advert.querySelector('.popup__features').innerHTML = '';
   advert.querySelector('.popup__features').appendChild(createFeaturesList(offerData.offer.features));
-  advert.querySelector('.popup__description').textContent = offerData.offer.description;
   advert.querySelector('.popup__photos').innerHTML = '';
   advert.querySelector('.popup__photos').appendChild(createPhotosList(offerData.offer.photos));
   advert.querySelector('.popup__avatar').src = offerData.author.avatar;
@@ -318,5 +319,16 @@ var onMapPinClick = function (evt) {
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
+
+// Получает координаты адреса по умолчанию
+var getAddress = function () {
+  if (mapPinMain) {
+    var pinLeft = window.getComputedStyle(mapPinMain, null).getPropertyValue('left').slice(0, -2);
+    var pinTop = window.getComputedStyle(mapPinMain, null).getPropertyValue('top').slice(0, -2);
+    addressField.value = pinLeft + ', ' + pinTop;
+  }
+};
+
+getAddress();
 
 var offers = getOffers(OFFERS_COUNT);
