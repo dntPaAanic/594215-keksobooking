@@ -85,9 +85,9 @@ var getRandomIndex = function (arr) {
 };
 
 var getRandomUniqueElement = function (arr) {
-  var indexRandom = getRandomIndex(arr);
-  var splicedElement = arr.splice(indexRandom, 1);
-  return splicedElement[0];
+  var randomIndex = getRandomIndex(arr);
+  var randomItem = arr.splice(randomIndex, 1);
+  return randomItem[0];
 };
 
 var offerTitle = OFFER_TITLE.slice();
@@ -145,14 +145,14 @@ var getOffers = function (offersCount) {
 
 
 var makePin = function (offerObject, offerNumber) {
-  var newPin = mapPinElement.cloneNode(true);
-  var addNewPin = newPin.querySelector('.map__pin img');
-  newPin.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
-  newPin.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
-  addNewPin.src = offerObject.author.avatar;
-  addNewPin.alt = offerObject.offer.title;
-  newPin.tabIndex = offerNumber;
-  return newPin;
+  var newPinIconElement = mapPinElement.cloneNode(true);
+  var addNewPinElement = newPinIconElement.querySelector('.map__pin img');
+  newPinIconElement.style.left = offerObject.location.x - PIN_WIDTH / 2 + 'px';
+  newPinIconElement.style.top = offerObject.location.y - PIN_HEIGHT + 'px';
+  addNewPinElement.src = offerObject.author.avatar;
+  addNewPinElement.alt = offerObject.offer.title;
+  newPinIconElement.tabIndex = offerNumber;
+  return newPinIconElement;
 };
 
 var makePins = function (offerObjects) {
@@ -210,19 +210,19 @@ var createPhotosList = function (photosArray) {
 
 // создает текст объявления
 var createCardOffer = function (offerData) {
-  var CardElement = mapCardElement.cloneNode(true);
-  CardElement.querySelector('.popup__title').textContent = offerData.offer.title;
-  CardElement.querySelector('.popup__text--address').textContent = offerData.offer.address;
-  CardElement.querySelector('.popup__text--price').textContent = offerData.offer.price + ' ₽/ночь';
-  CardElement.querySelector('.popup__type').textContent = accomodationType(offerData.offer.type);
-  CardElement.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
-  CardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
-  CardElement.querySelector('.popup__features').innerHTML = '';
-  CardElement.querySelector('.popup__features').appendChild(createFeaturesList(offerData.offer.features));
-  CardElement.querySelector('.popup__photos').innerHTML = '';
-  CardElement.querySelector('.popup__photos').appendChild(createPhotosList(offerData.offer.photos));
-  CardElement.querySelector('.popup__avatar').src = offerData.author.avatar;
-  return CardElement;
+  var cardElement = mapCardElement.cloneNode(true);
+  cardElement.querySelector('.popup__title').textContent = offerData.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = offerData.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = offerData.offer.price + ' ₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = accomodationType(offerData.offer.type);
+  cardElement.querySelector('.popup__text--capacity').textContent = offerData.offer.rooms + ' комнаты для ' + offerData.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
+  cardElement.querySelector('.popup__features').innerHTML = '';
+  cardElement.querySelector('.popup__features').appendChild(createFeaturesList(offerData.offer.features));
+  cardElement.querySelector('.popup__photos').innerHTML = '';
+  cardElement.querySelector('.popup__photos').appendChild(createPhotosList(offerData.offer.photos));
+  cardElement.querySelector('.popup__avatar').src = offerData.author.avatar;
+  return cardElement;
 };
 
 
@@ -251,17 +251,17 @@ var onClickActivatePage = function () {
 
 // удаляет попап
 var removePopup = function () {
-  var popup = mapElement.querySelector('.popup');
-  if (popup) {
-    mapElement.removeChild(popup);
+  var popupElement = mapElement.querySelector('.popup');
+  if (popupElement) {
+    mapElement.removeChild(popupElement);
   }
 };
 
 // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
 var showOffer = function (offer) {
   removePopup();
-  var currentOffer = createCardOffer(offer);
-  mapElement.insertBefore(currentOffer, mapFiltersElement);
+  var currentOfferElement = createCardOffer(offer);
+  mapElement.insertBefore(currentOfferElement, mapFiltersElement);
 };
 
 // закрытие попапа
