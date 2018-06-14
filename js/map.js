@@ -282,19 +282,13 @@ var onPopupCloseClick = function () {
   closePopup();
 };
 
-// Создает обработчик отпускания кнопки мыши
-if (mapPinMainElement) {
-  mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
-}
-
 // добавляет обработчик клика по карте
 var onMapPinClick = function (evt) {
-  var targetPin = evt.target.closest('.map__pin');
-  if (targetPin && targetPin.classList.contains('map__pin') && !targetPin.classList.contains('map__pin--main')) {
-    showOffer(offers[targetPin.tabIndex]);
-    var popup = document.querySelector('.popup');
-    var popupClose = popup.querySelector('.popup__close');
-    popupClose.addEventListener('click', onPopupCloseClick);
+  var targetPinElement = evt.target.closest('.map__pin');
+  if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
+    showOffer(offers[targetPinElement.tabIndex]);
+    var popupCloseElement = document.querySelector('.popup__close');
+    popupCloseElement.addEventListener('click', onPopupCloseClick);
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
@@ -309,6 +303,11 @@ var getAddress = function () {
 };
 
 getAddress();
+
+// Создает обработчик отпускания кнопки мыши
+if (mapPinMainElement) {
+  mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
+}
 
 // по-умолчанию карта и формы отключены
 toggleMapDisabled(true);
