@@ -61,6 +61,13 @@ var PIN_HEIGHT = 70;
 
 var ESCAPE_KEYCODE = 27;
 
+var MIN_PRICE_FOR_NIGHT = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
@@ -71,6 +78,10 @@ var mapCardElement = document.querySelector('template').content.querySelector('.
 var adFormElement = document.querySelector('.ad-form');
 var adFormFieldsetsElement = document.querySelectorAll('fieldset');
 var addressFieldElement = adFormElement.querySelector('#address');
+var timeInFieldElement = adFormElement.querySelector('#timein');
+var timeOutFieldElement = adFormElement.querySelector('#timeout');
+var roomTypeFieldElement = adFormElement.querySelector('#type');
+var priceForNightFieldElement = adFormElement.querySelector('#price');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -313,3 +324,23 @@ toggleMapDisabled(true);
 toggleFormDisabled(true);
 
 var offers = getOffers(OFFERS_COUNT);
+
+// валидация форм
+// синхронизация времени заезда и выезда
+var changeTimeSelection = function (checkIn, checkOut) {
+  checkOut.value = checkIn.value;
+};
+timeInFieldElement.addEventListener('change', function () {
+  changeTimeSelection(timeInFieldElement, timeOutFieldElement);
+});
+timeOutFieldElement.addEventListener('change', function () {
+  changeTimeSelection(timeOutFieldElement, timeInFieldElement);
+});
+
+// меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
+var changeTypeSelection = function () {
+  var minValuePrice = MIN_PRICE_FOR_NIGHT[roomTypeFieldElement.value];
+  priceForNightFieldElement.setAttribute('min', minValuePrice);
+  priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
+};
+roomTypeFieldElement.addEventListener('change', changeTypeSelection);
