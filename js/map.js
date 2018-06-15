@@ -68,6 +68,13 @@ var MIN_PRICE_FOR_NIGHT = {
   palace: 10000
 };
 
+var ROOM_NUMBER_AND_CAPACITY = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
@@ -82,6 +89,8 @@ var timeInFieldElement = adFormElement.querySelector('#timein');
 var timeOutFieldElement = adFormElement.querySelector('#timeout');
 var roomTypeFieldElement = adFormElement.querySelector('#type');
 var priceForNightFieldElement = adFormElement.querySelector('#price');
+var roomNumberElement = adFormElement.querySelector('select#room_number');
+var capacityElement = adFormElement.querySelector('select#capacity');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -344,3 +353,19 @@ var changeTypeSelection = function () {
   priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
 };
 roomTypeFieldElement.addEventListener('change', changeTypeSelection);
+
+
+// Определяет соответствие количества комнат и гостей
+var validateGuests = function () {
+  var roomNumberValue = roomNumberElement.value;
+  var capacityValue = capacityElement.value;
+  var capacityArray = ROOM_NUMBER_AND_CAPACITY[roomNumberValue];
+  roomNumberElement.setCustomValidity('');
+  roomNumberElement.checkValidity();
+  if (capacityArray.indexOf(capacityValue) < 0) {
+    roomNumberElement.setCustomValidity('Количество комнат не подходит для количества гостей');
+  }
+};
+
+roomNumberElement.addEventListener('change', validateGuests);
+capacityElement.addEventListener('change', validateGuests);
