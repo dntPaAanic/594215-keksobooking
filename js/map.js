@@ -61,6 +61,20 @@ var PIN_HEIGHT = 70;
 
 var ESCAPE_KEYCODE = 27;
 
+var MIN_PRICE_FOR_NIGHT = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+
+var ROOM_NUMBER_AND_CAPACITY = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
@@ -71,6 +85,12 @@ var mapCardElement = document.querySelector('template').content.querySelector('.
 var adFormElement = document.querySelector('.ad-form');
 var adFormFieldsetsElement = document.querySelectorAll('fieldset');
 var addressFieldElement = adFormElement.querySelector('#address');
+var timeInFieldElement = adFormElement.querySelector('#timein');
+var timeOutFieldElement = adFormElement.querySelector('#timeout');
+var roomTypeFieldElement = adFormElement.querySelector('#type');
+var priceForNightFieldElement = adFormElement.querySelector('#price');
+var roomNumberElement = adFormElement.querySelector('#room_number');
+var capacityElement = adFormElement.querySelector('#capacity');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -246,6 +266,7 @@ var onClickActivatePage = function () {
   makePins(offers);
   mapElement.addEventListener('click', onMapPinClick);
   mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
+  validateGuests();
 };
 
 // удаляет попап
@@ -301,12 +322,44 @@ var getAddress = function () {
   }
 };
 
-getAddress();
+var changeTimeSelection = function (checkIn, checkOut) {
+  checkOut.value = checkIn.value;
+};
 
+// меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
+var changeTypeSelection = function () {
+  var minValuePrice = MIN_PRICE_FOR_NIGHT[roomTypeFieldElement.value];
+  priceForNightFieldElement.setAttribute('min', minValuePrice);
+  priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
+};
+
+// Определяет соответствие количества комнат и гостей
+var validateGuests = function () {
+  var roomNumberValue = roomNumberElement.value;
+  var capacityValue = capacityElement.value;
+  var capacityArray = ROOM_NUMBER_AND_CAPACITY[roomNumberValue];
+  roomNumberElement.setCustomValidity('');
+  roomNumberElement.checkValidity();
+  if (capacityArray.indexOf(capacityValue) < 0) {
+    roomNumberElement.setCustomValidity('Количество комнат не подходит для количества гостей');
+  }
+};
 // Создает обработчик отпускания кнопки мыши
 if (mapPinMainElement) {
   mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
 }
+
+timeInFieldElement.addEventListener('change', function () {
+  changeTimeSelection(timeInFieldElement, timeOutFieldElement);
+});
+timeOutFieldElement.addEventListener('change', function () {
+  changeTimeSelection(timeOutFieldElement, timeInFieldElement);
+});
+roomTypeFieldElement.addEventListener('change', changeTypeSelection);
+roomNumberElement.addEventListener('change', validateGuests);
+capacityElement.addEventListener('change', validateGuests);
+
+getAddress();
 
 // по-умолчанию карта и формы отключены
 toggleMapDisabled(true);
