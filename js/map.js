@@ -322,30 +322,9 @@ var getAddress = function () {
   }
 };
 
-getAddress();
-
-// Создает обработчик отпускания кнопки мыши
-if (mapPinMainElement) {
-  mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
-}
-
-// по-умолчанию карта и формы отключены
-toggleMapDisabled(true);
-toggleFormDisabled(true);
-
-var offers = getOffers(OFFERS_COUNT);
-
-// валидация форм
-// синхронизация времени заезда и выезда
 var changeTimeSelection = function (checkIn, checkOut) {
   checkOut.value = checkIn.value;
 };
-timeInFieldElement.addEventListener('change', function () {
-  changeTimeSelection(timeInFieldElement, timeOutFieldElement);
-});
-timeOutFieldElement.addEventListener('change', function () {
-  changeTimeSelection(timeOutFieldElement, timeInFieldElement);
-});
 
 // меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
 var changeTypeSelection = function () {
@@ -353,8 +332,6 @@ var changeTypeSelection = function () {
   priceForNightFieldElement.setAttribute('min', minValuePrice);
   priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
 };
-roomTypeFieldElement.addEventListener('change', changeTypeSelection);
-
 
 // Определяет соответствие количества комнат и гостей
 var validateGuests = function () {
@@ -367,7 +344,25 @@ var validateGuests = function () {
     roomNumberElement.setCustomValidity('Количество комнат не подходит для количества гостей');
   }
 };
+// Создает обработчик отпускания кнопки мыши
+if (mapPinMainElement) {
+  mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
+}
 
+timeInFieldElement.addEventListener('change', function () {
+  changeTimeSelection(timeInFieldElement, timeOutFieldElement);
+});
+timeOutFieldElement.addEventListener('change', function () {
+  changeTimeSelection(timeOutFieldElement, timeInFieldElement);
+});
+roomTypeFieldElement.addEventListener('change', changeTypeSelection);
 roomNumberElement.addEventListener('change', validateGuests);
 capacityElement.addEventListener('change', validateGuests);
 
+getAddress();
+
+// по-умолчанию карта и формы отключены
+toggleMapDisabled(true);
+toggleFormDisabled(true);
+
+var offers = getOffers(OFFERS_COUNT);
