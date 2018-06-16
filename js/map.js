@@ -89,8 +89,8 @@ var timeInFieldElement = adFormElement.querySelector('#timein');
 var timeOutFieldElement = adFormElement.querySelector('#timeout');
 var roomTypeFieldElement = adFormElement.querySelector('#type');
 var priceForNightFieldElement = adFormElement.querySelector('#price');
-var roomNumberElement = adFormElement.querySelector('select#room_number');
-var capacityElement = adFormElement.querySelector('select#capacity');
+var roomNumberElement = adFormElement.querySelector('#room_number');
+var capacityElement = adFormElement.querySelector('#capacity');
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -266,6 +266,7 @@ var onClickActivatePage = function () {
   makePins(offers);
   mapElement.addEventListener('click', onMapPinClick);
   mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
+  validateGuests();
 };
 
 // удаляет попап
@@ -369,3 +370,4 @@ var validateGuests = function () {
 
 roomNumberElement.addEventListener('change', validateGuests);
 capacityElement.addEventListener('change', validateGuests);
+
