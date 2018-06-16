@@ -244,8 +244,6 @@ var createCardOffer = function (offerData) {
   return cardElement;
 };
 
-
-// ******************** module4-task-1 ***************************//
 // Переключает форму из неактивного состояния
 var toggleFormDisabled = function (formDisabled) {
   adFormElement.classList.toggle('ad-form--disabled', formDisabled);
@@ -359,8 +357,50 @@ roomTypeFieldElement.addEventListener('change', changeTypeSelection);
 roomNumberElement.addEventListener('change', validateGuests);
 capacityElement.addEventListener('change', validateGuests);
 
-getAddress();
+mapPinMainElement.addEventListener('mousedown', function (evt) {
+  toggleMapDisabled(false);
+  toggleFormDisabled(false);
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
 
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: moveEvt.clientX - startCoords.x,
+      y: moveEvt.clientY - startCoords.y
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
+    var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
+
+    shiftOffsetY = shiftOffsetY < 130 ? 130 : shiftOffsetY;
+    shiftOffsetY = shiftOffsetY > 630 ? 630 : shiftOffsetY;
+    shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
+    shiftOffsetX = shiftOffsetX > 1140 ? 1140 : shiftOffsetX;
+
+    mapPinMainElement.style.top = shiftOffsetY + 'px';
+    mapPinMainElement.style.left = shiftOffsetX + 'px';
+  };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    getAddress();
+  };
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+getAddress();
 // по-умолчанию карта и формы отключены
 toggleMapDisabled(true);
 toggleFormDisabled(true);
