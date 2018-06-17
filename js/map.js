@@ -181,6 +181,7 @@ var makePin = function (offerObject, offerNumber) {
   newPinIconElement.src = offerObject.author.avatar;
   newPinIconElement.alt = offerObject.offer.title;
   newPinElement.tabIndex = offerNumber;
+  newPinElement.dataset.index = offerNumber;
   return newPinElement;
 };
 
@@ -313,7 +314,7 @@ var onPopupCloseClick = function () {
 var onMapPinClick = function (evt) {
   var targetPinElement = evt.target.closest('.map__pin');
   if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
-    showOffer(offers[targetPinElement.tabIndex]);
+    showOffer(offers[targetPinElement.dataset.index]);
     var popupCloseElement = document.querySelector('.popup__close');
     popupCloseElement.addEventListener('click', onPopupCloseClick);
     document.addEventListener('keydown', onPopupEscapePress);
