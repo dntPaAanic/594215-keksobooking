@@ -316,14 +316,14 @@ var onMapPinClick = function (evt) {
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
+var setAddressFieldValue = function (pinLeft, pinTop) {
+  addressFieldElement.value = pinLeft + ', ' + pinTop;
+};
 
-// Получает координаты адреса
 var getAddress = function () {
-  if (mapPinMainElement) {
-    var pinLeft = parseInt(window.getComputedStyle(mapPinMainElement, null).getPropertyValue('left').slice(0, -2), 10) + PIN_MAIN_WIDTH / 2;
-    var pinTop = parseInt(window.getComputedStyle(mapPinMainElement, null).getPropertyValue('top').slice(0, -2), 10) + PIN_MAIN_HEIGHT;
-    addressFieldElement.value = pinLeft + ', ' + pinTop;
-  }
+  var pinLeft = Math.round((mapPinMainElement.offsetLeft + (PIN_MAIN_WIDTH / 2)));
+  var pinTop = Math.round((mapPinMainElement.offsetTop + PIN_MAIN_HEIGHT));
+  setAddressFieldValue(pinLeft, pinTop);
 };
 
 var changeTimeSelection = function (checkIn, checkOut) {
@@ -383,7 +383,6 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
-
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
 
@@ -394,13 +393,12 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
+    setAddressFieldValue(shiftOffsetX, shiftOffsetY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-    getAddress();
   };
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
