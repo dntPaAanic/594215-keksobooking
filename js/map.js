@@ -58,6 +58,8 @@ var LOCATION_Y_MAX = 630;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var PIN_MAIN_WIDTH = 62;
+var PIN_MAIN_HEIGHT = 87;
 
 var ESCAPE_KEYCODE = 27;
 
@@ -74,6 +76,10 @@ var ROOM_NUMBER_AND_CAPACITY = {
   '3': ['1', '2', '3'],
   '100': ['0']
 };
+
+var MIN_COORD_Y = 130;
+var MAX_COORD_Y = 630;
+var MAX_COORD_X = 1140;
 
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
@@ -311,11 +317,11 @@ var onMapPinClick = function (evt) {
   }
 };
 
-// Получает координаты адреса по умолчанию
+// Получает координаты адреса
 var getAddress = function () {
   if (mapPinMainElement) {
-    var pinLeft = window.getComputedStyle(mapPinMainElement, null).getPropertyValue('left').slice(0, -2);
-    var pinTop = window.getComputedStyle(mapPinMainElement, null).getPropertyValue('top').slice(0, -2);
+    var pinLeft = parseInt(window.getComputedStyle(mapPinMainElement, null).getPropertyValue('left').slice(0, -2), 10) + PIN_MAIN_WIDTH / 2;
+    var pinTop = parseInt(window.getComputedStyle(mapPinMainElement, null).getPropertyValue('top').slice(0, -2), 10) + PIN_MAIN_HEIGHT;
     addressFieldElement.value = pinLeft + ', ' + pinTop;
   }
 };
@@ -381,10 +387,10 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
 
-    shiftOffsetY = shiftOffsetY < 130 ? 130 : shiftOffsetY;
-    shiftOffsetY = shiftOffsetY > 630 ? 630 : shiftOffsetY;
+    shiftOffsetY = shiftOffsetY < MIN_COORD_Y ? MIN_COORD_Y : shiftOffsetY;
+    shiftOffsetY = shiftOffsetY > MAX_COORD_Y ? MAX_COORD_Y : shiftOffsetY;
     shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
-    shiftOffsetX = shiftOffsetX > 1140 ? 1140 : shiftOffsetX;
+    shiftOffsetX = shiftOffsetX > MAX_COORD_X ? MAX_COORD_X : shiftOffsetX;
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
