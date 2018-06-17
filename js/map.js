@@ -58,6 +58,8 @@ var LOCATION_Y_MAX = 630;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var PIN_MAIN_WIDTH = 62;
+var PIN_MAIN_HEIGHT = 87;
 
 var ESCAPE_KEYCODE = 27;
 
@@ -74,6 +76,10 @@ var ROOM_NUMBER_AND_CAPACITY = {
   '3': ['1', '2', '3'],
   '100': ['0']
 };
+
+var MIN_COORD_Y = 130;
+var MAX_COORD_Y = 630;
+var MAX_COORD_X = 1140;
 
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
@@ -244,8 +250,6 @@ var createCardOffer = function (offerData) {
   return cardElement;
 };
 
-
-// ******************** module4-task-1 ***************************//
 // Переключает форму из неактивного состояния
 var toggleFormDisabled = function (formDisabled) {
   adFormElement.classList.toggle('ad-form--disabled', formDisabled);
@@ -312,14 +316,14 @@ var onMapPinClick = function (evt) {
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
+var setAddressFieldValue = function (pinLeft, pinTop) {
+  addressFieldElement.value = pinLeft + ', ' + pinTop;
+};
 
-// Получает координаты адреса по умолчанию
 var getAddress = function () {
-  if (mapPinMainElement) {
-    var pinLeft = window.getComputedStyle(mapPinMainElement, null).getPropertyValue('left').slice(0, -2);
-    var pinTop = window.getComputedStyle(mapPinMainElement, null).getPropertyValue('top').slice(0, -2);
-    addressFieldElement.value = pinLeft + ', ' + pinTop;
-  }
+  var pinLeft = Math.round((mapPinMainElement.offsetLeft + (PIN_MAIN_WIDTH / 2)));
+  var pinTop = Math.round((mapPinMainElement.offsetTop + PIN_MAIN_HEIGHT));
+  setAddressFieldValue(pinLeft, pinTop);
 };
 
 var changeTimeSelection = function (checkIn, checkOut) {
@@ -359,8 +363,48 @@ roomTypeFieldElement.addEventListener('change', changeTypeSelection);
 roomNumberElement.addEventListener('change', validateGuests);
 capacityElement.addEventListener('change', validateGuests);
 
-getAddress();
+mapPinMainElement.addEventListener('mousedown', function (evt) {
+  toggleMapDisabled(false);
+  toggleFormDisabled(false);
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
 
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: moveEvt.clientX - startCoords.x,
+      y: moveEvt.clientY - startCoords.y
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+    var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
+    var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
+
+    shiftOffsetY = shiftOffsetY < MIN_COORD_Y ? MIN_COORD_Y : shiftOffsetY;
+    shiftOffsetY = shiftOffsetY > MAX_COORD_Y ? MAX_COORD_Y : shiftOffsetY;
+    shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
+    shiftOffsetX = shiftOffsetX > MAX_COORD_X ? MAX_COORD_X : shiftOffsetX;
+
+    mapPinMainElement.style.top = shiftOffsetY + 'px';
+    mapPinMainElement.style.left = shiftOffsetX + 'px';
+    setAddressFieldValue(shiftOffsetX, shiftOffsetY);
+  };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+getAddress();
 // по-умолчанию карта и формы отключены
 toggleMapDisabled(true);
 toggleFormDisabled(true);
