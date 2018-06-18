@@ -388,8 +388,8 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
-    var shiftOffsetY = mapPinMainTop + shift.y;
-    var shiftOffsetX = mapPinMainLeft + shift.x;
+    var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
+    var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
 
     shiftOffsetY = shiftOffsetY < MIN_COORD_Y ? MIN_COORD_Y : shiftOffsetY;
     shiftOffsetY = shiftOffsetY > MAX_COORD_Y ? MAX_COORD_Y : shiftOffsetY;
