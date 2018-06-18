@@ -76,9 +76,9 @@ var ROOM_NUMBER_AND_CAPACITY = {
   '100': ['0']
 };
 
-var MIN_COORD_Y = 130;
-var MAX_COORD_Y = 630;
-var MAX_COORD_X = 1140;
+var MAP_PIN_MIN_COORD_Y = 130;
+var MAP_PIN_MAX_COORD_Y = 630;
+var MAP_PIN_MAX_COORD_X = 1140;
 var MAP_PIN_MAIN_TAIL = 15;
 
 var mapElement = document.querySelector('.map');
@@ -328,7 +328,7 @@ var setAddressFieldValue = function (pinLeft, pinTop) {
 // добавляет координаты пина при неактивной карте
 var getAddress = function () {
   var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
-  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY));
+  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL));
   setAddressFieldValue(pinLeft, pinTop);
 };
 
@@ -391,15 +391,17 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     };
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
+    var calculationStartMainPinMinCoordY = MAP_PIN_MIN_COORD_Y - mapPinMainHeight - MAP_PIN_MAIN_TAIL;
+    var calculationStartMainPinMaxCoordY = MAP_PIN_MAX_COORD_Y - mapPinMainHeight - MAP_PIN_MAIN_TAIL;
+    shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
+    shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
-    shiftOffsetY = shiftOffsetY < MIN_COORD_Y ? MIN_COORD_Y : shiftOffsetY;
-    shiftOffsetY = shiftOffsetY > MAX_COORD_Y ? MAX_COORD_Y : shiftOffsetY;
     shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
-    shiftOffsetX = shiftOffsetX > MAX_COORD_X ? MAX_COORD_X : shiftOffsetX;
+    shiftOffsetX = shiftOffsetX > MAP_PIN_MAX_COORD_X ? MAP_PIN_MAX_COORD_X : shiftOffsetX;
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddressFieldValue(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY);
+    setAddressFieldValue(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY - LOCATION_Y_INFELICITY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
