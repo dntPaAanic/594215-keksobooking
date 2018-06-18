@@ -55,7 +55,7 @@ var LOCATION_X_MIN = 300;
 var LOCATION_X_MAX = 900;
 var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
-var LOCATION_Y_INFELICITY = 50;
+var LOCATION_Y_INFELICITY = 80;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
@@ -76,8 +76,6 @@ var ROOM_NUMBER_AND_CAPACITY = {
   '100': ['0']
 };
 
-var MAP_MAIN_PIN_MIN_COORD_Y = 130;
-var MAP_MAIN_PIN_MAX_COORD_Y = 630;
 var MAP_MAIN_PIN_MAX_COORD_X = 1140;
 var MAP_MAIN_PIN_TAIL = 15;
 
@@ -321,7 +319,7 @@ var onMapPinClick = function (evt) {
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
-var setAddressMainPinFieldValue = function (pinLeft, pinTop) {
+var setAddress = function (pinLeft, pinTop) {
   addressFieldElement.value = pinLeft + ', ' + pinTop;
 };
 
@@ -329,7 +327,7 @@ var setAddressMainPinFieldValue = function (pinLeft, pinTop) {
 var getAddress = function () {
   var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
   var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_MAIN_PIN_TAIL));
-  setAddressMainPinFieldValue(pinLeft, pinTop);
+  setAddress(pinLeft, pinTop);
 };
 
 var changeTimeSelection = function (checkIn, checkOut) {
@@ -391,8 +389,8 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     };
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
-    var calculationStartMainPinMinCoordY = MAP_MAIN_PIN_MIN_COORD_Y - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
-    var calculationStartMainPinMaxCoordY = MAP_MAIN_PIN_MAX_COORD_Y - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
+    var calculationStartMainPinMinCoordY = LOCATION_Y_MIN - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
+    var calculationStartMainPinMaxCoordY = LOCATION_Y_MAX - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
     shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
     shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
@@ -401,7 +399,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddressMainPinFieldValue(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY - LOCATION_Y_INFELICITY);
+    setAddress(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY + LOCATION_Y_INFELICITY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
