@@ -321,7 +321,7 @@ var onMapPinClick = function (evt) {
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
-var setAddressFieldValue = function (pinLeft, pinTop) {
+var setAddressMainPinFieldValue = function (pinLeft, pinTop) {
   addressFieldElement.value = pinLeft + ', ' + pinTop;
 };
 
@@ -329,7 +329,7 @@ var setAddressFieldValue = function (pinLeft, pinTop) {
 var getAddress = function () {
   var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
   var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL));
-  setAddressFieldValue(pinLeft, pinTop);
+  setAddressMainPinFieldValue(pinLeft, pinTop);
 };
 
 var changeTimeSelection = function (checkIn, checkOut) {
@@ -401,7 +401,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddressFieldValue(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY - LOCATION_Y_INFELICITY);
+    setAddressMainPinFieldValue(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY - LOCATION_Y_INFELICITY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
