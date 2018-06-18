@@ -327,7 +327,7 @@ var setAddressFieldValue = function (pinLeft, pinTop) {
 
 // добавляет координаты пина при неактивной карте
 var getAddress = function () {
-  var pinLeft = Math.round((mapPinMainLeft - (mapPinMainWidth / 2)));
+  var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
   var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY));
   setAddressFieldValue(pinLeft, pinTop);
 };
@@ -399,7 +399,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddressFieldValue(Math.round(shiftOffsetX - mapPinMainWidth / 2), shiftOffsetY - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY);
+    setAddressFieldValue(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
