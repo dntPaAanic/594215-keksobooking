@@ -76,10 +76,10 @@ var ROOM_NUMBER_AND_CAPACITY = {
   '100': ['0']
 };
 
-var MAP_PIN_MIN_COORD_Y = 130;
-var MAP_PIN_MAX_COORD_Y = 630;
-var MAP_PIN_MAX_COORD_X = 1140;
-var MAP_PIN_MAIN_TAIL = 15;
+var MAP_MAIN_PIN_MIN_COORD_Y = 130;
+var MAP_MAIN_PIN_MAX_COORD_Y = 630;
+var MAP_MAIN_PIN_MAX_COORD_X = 1140;
+var MAP_MAIN_PIN_TAIL = 15;
 
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
@@ -328,7 +328,7 @@ var setAddressMainPinFieldValue = function (pinLeft, pinTop) {
 // добавляет координаты пина при неактивной карте
 var getAddress = function () {
   var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
-  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL));
+  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_MAIN_PIN_TAIL));
   setAddressMainPinFieldValue(pinLeft, pinTop);
 };
 
@@ -391,13 +391,13 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     };
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
-    var calculationStartMainPinMinCoordY = MAP_PIN_MIN_COORD_Y - mapPinMainHeight - MAP_PIN_MAIN_TAIL;
-    var calculationStartMainPinMaxCoordY = MAP_PIN_MAX_COORD_Y - mapPinMainHeight - MAP_PIN_MAIN_TAIL;
+    var calculationStartMainPinMinCoordY = MAP_MAIN_PIN_MIN_COORD_Y - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
+    var calculationStartMainPinMaxCoordY = MAP_MAIN_PIN_MAX_COORD_Y - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
     shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
     shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
     shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
-    shiftOffsetX = shiftOffsetX > MAP_PIN_MAX_COORD_X ? MAP_PIN_MAX_COORD_X : shiftOffsetX;
+    shiftOffsetX = shiftOffsetX > MAP_MAIN_PIN_MAX_COORD_X ? MAP_MAIN_PIN_MAX_COORD_X : shiftOffsetX;
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
