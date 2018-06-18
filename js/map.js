@@ -58,8 +58,6 @@ var LOCATION_Y_MAX = 630;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-var PIN_MAIN_WIDTH = 62;
-var PIN_MAIN_HEIGHT = 87;
 
 var ESCAPE_KEYCODE = 27;
 
@@ -80,6 +78,7 @@ var ROOM_NUMBER_AND_CAPACITY = {
 var MIN_COORD_Y = 130;
 var MAX_COORD_Y = 630;
 var MAX_COORD_X = 1140;
+var MAP_PIN_MAIN_TAIL = 22;
 
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
@@ -97,6 +96,10 @@ var roomTypeFieldElement = adFormElement.querySelector('#type');
 var priceForNightFieldElement = adFormElement.querySelector('#price');
 var roomNumberElement = adFormElement.querySelector('#room_number');
 var capacityElement = adFormElement.querySelector('#capacity');
+var mapPinMainWidth = mapPinMainElement.offsetWidth;
+var mapPinMainHeight = mapPinMainElement.offsetHeight;
+var mapPinMainLeft = mapPinMainElement.offsetLeft;
+var mapPinMainTop = mapPinMainElement.offsetTop;
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -320,9 +323,10 @@ var setAddressFieldValue = function (pinLeft, pinTop) {
   addressFieldElement.value = pinLeft + ', ' + pinTop;
 };
 
+// добавляет координаты пина при неактивной карте
 var getAddress = function () {
-  var pinLeft = Math.round((mapPinMainElement.offsetLeft + (PIN_MAIN_WIDTH / 2)));
-  var pinTop = Math.round((mapPinMainElement.offsetTop + PIN_MAIN_HEIGHT));
+  var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
+  var pinTop = Math.round((mapPinMainTop + mapPinMainHeight / 2));
   setAddressFieldValue(pinLeft, pinTop);
 };
 
@@ -393,7 +397,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddressFieldValue(shiftOffsetX, shiftOffsetY);
+    setAddressFieldValue(Math.round(shiftOffsetX - mapPinMainWidth / 2), shiftOffsetY - mapPinMainHeight - MAP_PIN_MAIN_TAIL);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
