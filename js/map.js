@@ -55,6 +55,7 @@ var LOCATION_X_MIN = 300;
 var LOCATION_X_MAX = 900;
 var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
+var LOCATION_Y_INFELICITY = 50;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
@@ -78,7 +79,7 @@ var ROOM_NUMBER_AND_CAPACITY = {
 var MIN_COORD_Y = 130;
 var MAX_COORD_Y = 630;
 var MAX_COORD_X = 1140;
-var MAP_PIN_MAIN_TAIL = 22;
+var MAP_PIN_MAIN_TAIL = 15;
 
 var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
@@ -327,7 +328,7 @@ var setAddressFieldValue = function (pinLeft, pinTop) {
 // добавляет координаты пина при неактивной карте
 var getAddress = function () {
   var pinLeft = Math.round((mapPinMainLeft - (mapPinMainWidth / 2)));
-  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL));
+  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY));
   setAddressFieldValue(pinLeft, pinTop);
 };
 
@@ -398,7 +399,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddressFieldValue(Math.round(shiftOffsetX - mapPinMainWidth / 2), shiftOffsetY - mapPinMainHeight - MAP_PIN_MAIN_TAIL);
+    setAddressFieldValue(Math.round(shiftOffsetX - mapPinMainWidth / 2), shiftOffsetY - mapPinMainHeight - MAP_PIN_MAIN_TAIL - LOCATION_Y_INFELICITY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
