@@ -60,8 +60,6 @@ var LOCATION_Y_INFELICITY = 80;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
-var ESCAPE_KEYCODE = 27;
-
 var MIN_PRICE_FOR_NIGHT = {
   bungalo: 0,
   flat: 1000,
@@ -100,61 +98,28 @@ var mapPinMainHeight = mapPinMainElement.offsetHeight;
 var mapPinMainLeft = mapPinMainElement.offsetLeft;
 var mapPinMainTop = mapPinMainElement.offsetTop;
 
-var getRandomNumber = function (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
-var getRandomElement = function (arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
-
-var getRandomIndex = function (arr) {
-  return Math.round(Math.random() * (arr.length - 1));
-};
-
-var getRandomUniqueElement = function (arr) {
-  var randomIndex = getRandomIndex(arr);
-  var randomItem = arr.splice(randomIndex, 1);
-  return randomItem[0];
-};
-
 var offerTitle = OFFER_TITLE.slice();
 
-// Fisher–Yates shuffle
-var getShuffleArray = function (arr) {
-  for (var i = arr.length - 1; i > 0; i--) {
-    var rand = Math.floor(Math.random() * (i + 1));
-    var temp = arr[i];
-    arr[i] = arr[rand];
-    arr[rand] = temp;
-  }
-  return arr;
-};
-
-var getShuffleArrayWithRandomLength = function (array) {
-  return getShuffleArray(array).slice(0, getRandomNumber(1, array.length + 1));
-};
-
 var getOfferInfo = function (index) {
-  var locationX = getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
-  var locationY = getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
+  var locationX = window.utils.getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
+  var locationY = window.utils.getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
 
   return {
     'author': {
       'avatar': AVATAR_LINK_PATH + AVATAR_NAME_PREFIX + (index + 1) + AVATAR_FILENAME_EXTENSION
     },
     'offer': {
-      'title': getRandomUniqueElement(offerTitle),
+      'title': window.utils.getRandomUniqueElement(offerTitle),
       'address': locationX + ',' + locationY,
-      'price': getRandomNumber(PRICE_MIN, PRICE_MAX),
-      'type': getRandomElement(TYPES),
-      'rooms': getRandomNumber(ROOMS_MIN, ROOMS_MAX),
-      'guests': getRandomNumber(GUEST_MIN, GUEST_MAX),
-      'checkin': getRandomElement(TIME_CHECK_IN),
-      'checkout': getRandomElement(TIME_CHECK_OUT),
-      'features': getShuffleArrayWithRandomLength(FEATURES),
+      'price': window.utils.getRandomNumber(PRICE_MIN, PRICE_MAX),
+      'type': window.utils.getRandomElement(TYPES),
+      'rooms': window.utils.getRandomNumber(ROOMS_MIN, ROOMS_MAX),
+      'guests': window.utils.getRandomNumber(GUEST_MIN, GUEST_MAX),
+      'checkin': window.utils.getRandomElement(TIME_CHECK_IN),
+      'checkout': window.utils.getRandomElement(TIME_CHECK_OUT),
+      'features': window.utils.getShuffleArrayWithRandomLength(FEATURES),
       'description': '',
-      'photos': getShuffleArray(PHOTOS)
+      'photos': window.utils.getShuffleArray(PHOTOS)
     },
     'location': {
       'x': locationX,
@@ -299,9 +264,7 @@ var closePopup = function () {
 
 // функция нажатия Esc
 var onPopupEscapePress = function (evt) {
-  if (evt.keyCode === ESCAPE_KEYCODE) {
-    closePopup();
-  }
+  window.utils.isEscEvent(evt, closePopup);
 };
 
 // функция клика на крестик
