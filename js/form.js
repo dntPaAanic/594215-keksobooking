@@ -1,17 +1,6 @@
 'use strict';
 (function () {
-  var ROOM_NUMBER_AND_CAPACITY = {
-    '1': ['1'],
-    '2': ['1', '2'],
-    '3': ['1', '2', '3'],
-    '100': ['0']
-  };
-  var MIN_PRICE_FOR_NIGHT = {
-    bungalo: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
-  };
+
   var adFormFieldsetsElement = document.querySelectorAll('fieldset');
   var adFormElement = document.querySelector('.ad-form');
   var addressFieldElement = adFormElement.querySelector('#address');
@@ -35,7 +24,7 @@
   // добавляет координаты пина при неактивной карте
   var getAddress = function () {
     var pinLeft = Math.round((window.map.mapPinMainLeft + (window.map.mapPinMainWidth / 2)));
-    var pinTop = Math.round((window.map.mapPinMainTop - window.map.mapPinMainHeight - window.map.MAP_MAIN_PIN_TAIL));
+    var pinTop = Math.round((window.map.mapPinMainTop - window.map.mapPinMainHeight - window.data.mapMainPinTail));
     setAddress(pinLeft, pinTop);
   };
 
@@ -45,7 +34,7 @@
 
   // меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
   var changeTypeSelection = function () {
-    var minValuePrice = MIN_PRICE_FOR_NIGHT[roomTypeFieldElement.value];
+    var minValuePrice = window.utils.minPriceForNight[roomTypeFieldElement.value];
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
@@ -54,7 +43,7 @@
   var validateGuests = function () {
     var roomNumberValue = roomNumberElement.value;
     var capacityValue = capacityElement.value;
-    var capacityArray = ROOM_NUMBER_AND_CAPACITY[roomNumberValue];
+    var capacityArray = window.data.roomNumberAndCapacity[roomNumberValue];
     roomNumberElement.setCustomValidity('');
     roomNumberElement.checkValidity();
     if (capacityArray.indexOf(capacityValue) < 0) {
