@@ -55,16 +55,6 @@ var onClickActivatePage = function () {
   window.form.validateGuests();
 };
 
-// удаляет попап
-var removePopup = function () {
-  var popupElement = mapElement.querySelector('.popup');
-  if (popupElement) {
-    mapElement.removeChild(popupElement);
-  }
-};
-
-
-
 // добавляет обработчик клика по карте
 var onMapPinClick = function (evt) {
   var targetPinElement = evt.target.closest('.map__pin');

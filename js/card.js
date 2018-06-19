@@ -54,7 +54,13 @@
     removePopup();
     document.removeEventListener('keydown', onPopupEscapePress);
   };
-
+// удаляет попап
+  var removePopup = function () {
+    var popupElement = mapElement.querySelector('.popup');
+    if (popupElement) {
+      mapElement.removeChild(popupElement);
+    }
+  };
 // функция нажатия Esc
   var onPopupEscapePress = function (evt) {
     window.utils.isEscEvent(evt, closePopup);
