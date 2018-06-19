@@ -57,9 +57,6 @@ var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 var LOCATION_Y_INFELICITY = 80;
 
-var PIN_WIDTH = 50;
-var PIN_HEIGHT = 70;
-
 var MIN_PRICE_FOR_NIGHT = {
   bungalo: 0,
   flat: 1000,
@@ -81,7 +78,7 @@ var mapElement = document.querySelector('.map');
 var mapFiltersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinMainElement = mapElement.querySelector('.map__pin--main');
-var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
+
 var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
 var adFormElement = document.querySelector('.ad-form');
@@ -97,6 +94,7 @@ var mapPinMainWidth = mapPinMainElement.offsetWidth;
 var mapPinMainHeight = mapPinMainElement.offsetHeight;
 var mapPinMainLeft = mapPinMainElement.offsetLeft;
 var mapPinMainTop = mapPinMainElement.offsetTop;
+
 
 var offerTitle = OFFER_TITLE.slice();
 
@@ -134,6 +132,14 @@ var getOffers = function (offersCount) {
     offers.push(getOfferInfo(i));
   }
   return offers;
+};
+
+var makePins = function (offerObjects) {
+  var docFragment = document.createDocumentFragment();
+  for (var i = 0; i < offerObjects.length; i++) {
+    docFragment.appendChild(window.pin.makePin(offerObjects[i], i));
+  }
+  mapPinsElement.appendChild(docFragment);
 };
 
 var accomodationType = function (val) {

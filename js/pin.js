@@ -1,8 +1,9 @@
 'use strict';
 
 (function () {
-
-
+  var PIN_WIDTH = 50;
+  var PIN_HEIGHT = 70;
+  var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
   var makePin = function (offerObject, offerNumber) {
     var newPinElement = mapPinElement.cloneNode(true);
     var newPinIconElement = newPinElement.querySelector('.map__pin img');
@@ -15,11 +16,8 @@
     return newPinElement;
   };
 
-  var makePins = function (offerObjects) {
-    var docFragment = document.createDocumentFragment();
-    for (var i = 0; i < offerObjects.length; i++) {
-      docFragment.appendChild(makePin(offerObjects[i], i));
-    }
-    mapPinsElement.appendChild(docFragment);
+
+  window.pin = {
+    makePin: makePin
   };
 })();
