@@ -57,20 +57,6 @@ var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 var LOCATION_Y_INFELICITY = 80;
 
-var MIN_PRICE_FOR_NIGHT = {
-  bungalo: 0,
-  flat: 1000,
-  house: 5000,
-  palace: 10000
-};
-
-var ROOM_NUMBER_AND_CAPACITY = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0']
-};
-
 var MAP_MAIN_PIN_MAX_COORD_X = 1140;
 var MAP_MAIN_PIN_TAIL = 15;
 
@@ -81,21 +67,11 @@ var mapPinMainElement = mapElement.querySelector('.map__pin--main');
 
 var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
-var adFormElement = document.querySelector('.ad-form');
-var adFormFieldsetsElement = document.querySelectorAll('fieldset');
-var addressFieldElement = adFormElement.querySelector('#address');
-var timeInFieldElement = adFormElement.querySelector('#timein');
-var timeOutFieldElement = adFormElement.querySelector('#timeout');
-var roomTypeFieldElement = adFormElement.querySelector('#type');
-var priceForNightFieldElement = adFormElement.querySelector('#price');
-var roomNumberElement = adFormElement.querySelector('#room_number');
-var capacityElement = adFormElement.querySelector('#capacity');
+
 var mapPinMainWidth = mapPinMainElement.offsetWidth;
 var mapPinMainHeight = mapPinMainElement.offsetHeight;
 var mapPinMainLeft = mapPinMainElement.offsetLeft;
 var mapPinMainTop = mapPinMainElement.offsetTop;
-
-
 var offerTitle = OFFER_TITLE.slice();
 
 var getOfferInfo = function (index) {
@@ -203,14 +179,6 @@ var createCardOffer = function (offerData) {
   return cardElement;
 };
 
-// Переключает форму из неактивного состояния
-var toggleFormDisabled = function (formDisabled) {
-  adFormElement.classList.toggle('ad-form--disabled', formDisabled);
-  for (var i = 0; i < adFormFieldsetsElement.length; i++) {
-    adFormFieldsetsElement[i].disabled = formDisabled;
-  }
-};
-
 // Переключает карту из неактивного состояния
 var toggleMapDisabled = function (mapDisabled) {
   mapElement.classList.toggle('map--faded', mapDisabled);
@@ -219,11 +187,11 @@ var toggleMapDisabled = function (mapDisabled) {
 // Отключает неактивный режим карты и создает пины при отжатии кнопки мыши
 var onClickActivatePage = function () {
   toggleMapDisabled(false);
-  toggleFormDisabled(false);
+  window.form.toggleFormDisabled(false);
   makePins(offers);
   mapElement.addEventListener('click', onMapPinClick);
   mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
-  validateGuests();
+  window.form.validateGuests();
 };
 
 // удаляет попап
@@ -267,57 +235,15 @@ var onMapPinClick = function (evt) {
     document.addEventListener('keydown', onPopupEscapePress);
   }
 };
-var setAddress = function (pinLeft, pinTop) {
-  addressFieldElement.value = pinLeft + ', ' + pinTop;
-};
 
-// добавляет координаты пина при неактивной карте
-var getAddress = function () {
-  var pinLeft = Math.round((mapPinMainLeft + (mapPinMainWidth / 2)));
-  var pinTop = Math.round((mapPinMainTop - mapPinMainHeight - MAP_MAIN_PIN_TAIL));
-  setAddress(pinLeft, pinTop);
-};
-
-var changeTimeSelection = function (checkIn, checkOut) {
-  checkOut.value = checkIn.value;
-};
-
-// меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
-var changeTypeSelection = function () {
-  var minValuePrice = MIN_PRICE_FOR_NIGHT[roomTypeFieldElement.value];
-  priceForNightFieldElement.setAttribute('min', minValuePrice);
-  priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
-};
-
-// Определяет соответствие количества комнат и гостей
-var validateGuests = function () {
-  var roomNumberValue = roomNumberElement.value;
-  var capacityValue = capacityElement.value;
-  var capacityArray = ROOM_NUMBER_AND_CAPACITY[roomNumberValue];
-  roomNumberElement.setCustomValidity('');
-  roomNumberElement.checkValidity();
-  if (capacityArray.indexOf(capacityValue) < 0) {
-    roomNumberElement.setCustomValidity('Количество комнат не подходит для количества гостей');
-  }
-};
 // Создает обработчик отпускания кнопки мыши
 if (mapPinMainElement) {
   mapPinMainElement.addEventListener('mouseup', onClickActivatePage);
 }
 
-timeInFieldElement.addEventListener('change', function () {
-  changeTimeSelection(timeInFieldElement, timeOutFieldElement);
-});
-timeOutFieldElement.addEventListener('change', function () {
-  changeTimeSelection(timeOutFieldElement, timeInFieldElement);
-});
-roomTypeFieldElement.addEventListener('change', changeTypeSelection);
-roomNumberElement.addEventListener('change', validateGuests);
-capacityElement.addEventListener('change', validateGuests);
-
 mapPinMainElement.addEventListener('mousedown', function (evt) {
   toggleMapDisabled(false);
-  toggleFormDisabled(false);
+  window.form.toggleFormDisabled(false);
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
@@ -347,7 +273,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    setAddress(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY + LOCATION_Y_INFELICITY);
+    window.form.setAddress(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY + LOCATION_Y_INFELICITY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
@@ -358,9 +284,16 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
   document.addEventListener('mouseup', onMouseUp);
 });
 
-getAddress();
+
 // по-умолчанию карта и формы отключены
 toggleMapDisabled(true);
-toggleFormDisabled(true);
 
 var offers = getOffers(OFFERS_COUNT);
+
+window.map = {
+  mapPinMainLeft: mapPinMainLeft,
+  mapPinMainWidth: mapPinMainWidth,
+  mapPinMainTop: mapPinMainTop,
+  mapPinMainHeight: mapPinMainHeight,
+  MAP_MAIN_PIN_TAIL: MAP_MAIN_PIN_TAIL
+};
