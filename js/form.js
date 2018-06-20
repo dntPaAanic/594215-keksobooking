@@ -38,14 +38,14 @@
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
-  var onAmountCapacityChange = function () {
-    var roomNumberValue = roomNumberElement.value;
-    var capacityValue = capacityElement.value;
+  var onAmountCapacityChange = function (roomNumberValue, capacityValue) {
+    roomNumberValue = roomNumberElement.value;
+    capacityValue = capacityElement.value;
     var capacityArray = window.data.roomsAmountAndCapacity[roomNumberValue];
     roomNumberElement.setCustomValidity('');
     roomNumberElement.checkValidity();
     if (capacityArray.indexOf(capacityValue) < 0) {
-      roomNumberElement.setCustomValidity('Количество комнат не подходит для количества гостей');
+      roomNumberElement.setCustomValidity('Выберите другое количество комнат');
     }
   };
 
@@ -55,14 +55,18 @@
   timeInFieldElement.addEventListener('change', function () {
     onTimeChange(timeInFieldElement, timeOutFieldElement);
   });
-
   timeOutFieldElement.addEventListener('change', function () {
     onTimeChange(timeOutFieldElement, timeInFieldElement);
   });
 
   roomTypeFieldElement.addEventListener('change', onTypeChange);
-  roomNumberElement.addEventListener('change', onAmountCapacityChange);
-  capacityElement.addEventListener('change', onAmountCapacityChange);
+
+  roomNumberElement.addEventListener('change', function () {
+    onAmountCapacityChange(roomNumberElement, capacityElement);
+  });
+  capacityElement.addEventListener('change', function () {
+    onAmountCapacityChange(roomNumberElement, capacityElement);
+  });
 
   window.form = {
     toggleFormDisabled: toggleFormDisabled,
