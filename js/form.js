@@ -24,7 +24,7 @@
   // добавляет координаты пина при неактивной карте
   var getAddress = function () {
     var pinLeft = Math.round((window.map.mapPinMainLeft + (window.map.mapPinMainWidth / 2)));
-    var pinTop = Math.round((window.map.mapPinMainTop - window.map.mapPinMainHeight - window.data.mapMainPinTail));
+    var pinTop = Math.round((window.map.mapPinMainTop + window.map.mapPinMainHeight + window.data.mapMainPinTail));
     setAddress(pinLeft, pinTop);
   };
 
