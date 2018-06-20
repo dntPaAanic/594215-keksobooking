@@ -8,7 +8,7 @@
 
   var AVATAR_FILENAME_EXTENSION = '.png';
 
-  var OFFER_TITLE = [
+  var OFFERS_TITLE = [
     'Большая уютная квартира',
     'Маленькая неуютная квартира',
     'Огромный прекрасный дворец',
@@ -31,13 +31,13 @@
   var ROOMS_MAX = 5;
   var GUEST_MIN = 1;
   var GUEST_MAX = 15;
-  var TIME_CHECK_IN = [
+  var CHECK_IN_TIMES = [
     '12:00',
     '13:00',
     '14:00'
   ];
 
-  var TIME_CHECK_OUT = [
+  var CHECK_OUT_TIMES = [
     '12:00',
     '13:00',
     '14:00'
@@ -58,14 +58,14 @@
     'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
   ];
 
-  var ROOM_NUMBER_AND_CAPACITY = {
+  var ROOM_NUMBERS_AND_CAPACITIES = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
     '100': ['0']
   };
 
-  var MIN_PRICE_FOR_NIGHT = {
+  var MIN_PRICES_FOR_NIGHT = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -80,7 +80,7 @@
   var MAIN_PIN_MAX_COORD_X = 1140;
   var MAIN_PIN_TAIL = 15;
 
-  var offerTitle = OFFER_TITLE.slice();
+  var offerTitle = OFFERS_TITLE.slice();
   var getOfferInfo = function (index) {
     var locationX = window.utils.getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
     var locationY = window.utils.getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
@@ -96,8 +96,8 @@
         'type': window.utils.getRandomElement(TYPES),
         'rooms': window.utils.getRandomNumber(ROOMS_MIN, ROOMS_MAX),
         'guests': window.utils.getRandomNumber(GUEST_MIN, GUEST_MAX),
-        'checkin': window.utils.getRandomElement(TIME_CHECK_IN),
-        'checkout': window.utils.getRandomElement(TIME_CHECK_OUT),
+        'checkin': window.utils.getRandomElement(CHECK_IN_TIMES),
+        'checkout': window.utils.getRandomElement(CHECK_OUT_TIMES),
         'features': window.utils.getShuffleArrayWithRandomLength(FEATURES),
         'description': '',
         'photos': window.utils.getShuffleArray(PHOTOS)
@@ -120,8 +120,8 @@
   var offers = getOffers(OFFERS_COUNT);
   window.data = {
     mainPinTail: MAIN_PIN_TAIL,
-    roomNumberAndCapacity: ROOM_NUMBER_AND_CAPACITY,
-    minPriceForNight: MIN_PRICE_FOR_NIGHT,
+    roomNumberAndCapacity: ROOM_NUMBERS_AND_CAPACITIES,
+    minPriceForNight: MIN_PRICES_FOR_NIGHT,
     offers: offers,
     locationMinY: LOCATION_Y_MIN,
     locationMaxY: LOCATION_Y_MAX,
