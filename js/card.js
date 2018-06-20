@@ -1,7 +1,26 @@
 'use strict';
 (function () {
-
-
+  var mapElement = document.querySelector('.map');
+  var accomodationType = function (val) {
+    var typeOffer = '';
+    switch (val) {
+      case 'flat':
+        typeOffer = 'Квартира';
+        break;
+      case 'bungalo':
+        typeOffer = 'Бунгало';
+        break;
+      case 'house':
+        typeOffer = 'Дом';
+        break;
+      case 'palace':
+        typeOffer = 'Дворец';
+        break;
+    }
+    return typeOffer;
+  };
+  var mapFiltersElement = document.querySelector('.map__filters-container');
+  var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();
     for (var i = 0; i < features.length; i++) {
@@ -49,26 +68,31 @@
     mapElement.insertBefore(currentOfferElement, mapFiltersElement);
   };
 
-// закрытие попапа
+  // закрытие попапа
   var closePopup = function () {
     removePopup();
     document.removeEventListener('keydown', onPopupEscapePress);
   };
-// удаляет попап
+  // удаляет попап
   var removePopup = function () {
     var popupElement = mapElement.querySelector('.popup');
     if (popupElement) {
       mapElement.removeChild(popupElement);
     }
   };
-// функция нажатия Esc
+  // функция нажатия Esc
   var onPopupEscapePress = function (evt) {
     window.utils.isEscEvent(evt, closePopup);
   };
 
-// функция клика на крестик
+  // функция клика на крестик
   var onPopupCloseClick = function () {
     closePopup();
   };
 
+  window.card = {
+    showOffer: showOffer,
+    onPopupCloseClick: onPopupCloseClick,
+    onPopupEscapePress: onPopupEscapePress
+  };
 })();

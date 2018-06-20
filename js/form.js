@@ -34,7 +34,7 @@
 
   // меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
   var changeTypeSelection = function () {
-    var minValuePrice = window.utils.minPriceForNight[roomTypeFieldElement.value];
+    var minValuePrice = window.data.minPriceForNight[roomTypeFieldElement.value];
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };

@@ -73,7 +73,7 @@
   var MAP_MAIN_PIN_MAX_COORD_X = 1140;
   var MAP_MAIN_PIN_TAIL = 15;
 
-
+  var offerTitle = OFFER_TITLE.slice();
   var getOfferInfo = function (index) {
     var locationX = window.utils.getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
     var locationY = window.utils.getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
@@ -113,6 +113,11 @@
   window.data = {
     mapMainPinTail: MAP_MAIN_PIN_TAIL,
     roomNumberAndCapacity: ROOM_NUMBER_AND_CAPACITY,
-    minPriceForNight: MIN_PRICE_FOR_NIGHT
+    minPriceForNight: MIN_PRICE_FOR_NIGHT,
+    offers: offers,
+    locationMinY: LOCATION_Y_MIN,
+    locationMaxY: LOCATION_Y_MAX,
+    mainPinMaxX: MAP_MAIN_PIN_MAX_COORD_X,
+    locationInfelicityY: LOCATION_Y_INFELICITY
   };
 })();

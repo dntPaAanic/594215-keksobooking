@@ -1,17 +1,15 @@
 'use strict';
 
 var mapElement = document.querySelector('.map');
-var mapFiltersElement = document.querySelector('.map__filters-container');
+
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinMainElement = mapElement.querySelector('.map__pin--main');
-
-var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
 var mapPinMainWidth = mapPinMainElement.offsetWidth;
 var mapPinMainHeight = mapPinMainElement.offsetHeight;
 var mapPinMainLeft = mapPinMainElement.offsetLeft;
 var mapPinMainTop = mapPinMainElement.offsetTop;
-var offerTitle = OFFER_TITLE.slice();
+
 
 var makePins = function (offerObjects) {
   var docFragment = document.createDocumentFragment();
@@ -19,25 +17,6 @@ var makePins = function (offerObjects) {
     docFragment.appendChild(window.pin.makePin(offerObjects[i], i));
   }
   mapPinsElement.appendChild(docFragment);
-};
-
-var accomodationType = function (val) {
-  var typeOffer = '';
-  switch (val) {
-    case 'flat':
-      typeOffer = 'Квартира';
-      break;
-    case 'bungalo':
-      typeOffer = 'Бунгало';
-      break;
-    case 'house':
-      typeOffer = 'Дом';
-      break;
-    case 'palace':
-      typeOffer = 'Дворец';
-      break;
-  }
-  return typeOffer;
 };
 
 // Переключает карту из неактивного состояния
@@ -49,7 +28,7 @@ var toggleMapDisabled = function (mapDisabled) {
 var onClickActivatePage = function () {
   toggleMapDisabled(false);
   window.form.toggleFormDisabled(false);
-  makePins(offers);
+  makePins(window.data.offers);
   mapElement.addEventListener('click', onMapPinClick);
   mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
   window.form.validateGuests();
@@ -59,10 +38,10 @@ var onClickActivatePage = function () {
 var onMapPinClick = function (evt) {
   var targetPinElement = evt.target.closest('.map__pin');
   if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
-    showOffer(offers[targetPinElement.dataset.index]);
+    window.card.showOffer(window.data.offers[targetPinElement.dataset.index]);
     var popupCloseElement = document.querySelector('.popup__close');
-    popupCloseElement.addEventListener('click', onPopupCloseClick);
-    document.addEventListener('keydown', onPopupEscapePress);
+    popupCloseElement.addEventListener('click', window.card.onPopupCloseClick);
+    document.addEventListener('keydown', window.card.onPopupEscapePress);
   }
 };
 
@@ -93,17 +72,17 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     };
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
-    var calculationStartMainPinMinCoordY = LOCATION_Y_MIN - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
-    var calculationStartMainPinMaxCoordY = LOCATION_Y_MAX - mapPinMainHeight - MAP_MAIN_PIN_TAIL;
+    var calculationStartMainPinMinCoordY = window.data.locationMinY - mapPinMainHeight - window.data.mapMainPinTail;
+    var calculationStartMainPinMaxCoordY = window.data.locationMaxY - mapPinMainHeight - window.data.mapMainPinTail;
     shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
     shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
     shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
-    shiftOffsetX = shiftOffsetX > MAP_MAIN_PIN_MAX_COORD_X ? MAP_MAIN_PIN_MAX_COORD_X : shiftOffsetX;
+    shiftOffsetX = shiftOffsetX > window.data.mainPinMaxX ? window.data.mainPinMaxX : shiftOffsetX;
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    window.form.setAddress(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY + LOCATION_Y_INFELICITY);
+    window.form.setAddress(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY + window.data.locationInfelicityY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
