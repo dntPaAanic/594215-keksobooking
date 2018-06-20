@@ -38,8 +38,6 @@
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
-
-  // Определяет соответствие количества комнат и гостей
   var onAmountCapacityChange = function () {
     var roomNumberValue = roomNumberElement.value;
     var capacityValue = capacityElement.value;
