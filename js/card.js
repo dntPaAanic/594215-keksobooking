@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var mapElement = document.querySelector('.map');
   var accomodationType = function (val) {
     var typeOffer = '';
     switch (val) {
@@ -20,7 +19,7 @@
     return typeOffer;
   };
 
-  var mapFiltersElement = document.querySelector('.map__filters-container');
+  var filtersElement = document.querySelector('.map__filters-container');
   var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var createFeaturesList = function (features) {
@@ -69,7 +68,7 @@
   var showOffer = function (offer) {
     removePopup();
     var currentOfferElement = createCardOffer(offer);
-    mapElement.insertBefore(currentOfferElement, mapFiltersElement);
+    window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
   };
   // закрытие попапа
   var closePopup = function () {
@@ -78,9 +77,9 @@
   };
   // удаляет попап
   var removePopup = function () {
-    var popupElement = mapElement.querySelector('.popup');
+    var popupElement = window.map.mapElement.querySelector('.popup');
     if (popupElement) {
-      mapElement.removeChild(popupElement);
+      window.map.mapElement.removeChild(popupElement);
     }
   };
   // функция нажатия Esc
