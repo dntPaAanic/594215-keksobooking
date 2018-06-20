@@ -5,10 +5,10 @@ var mapElement = document.querySelector('.map');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinMainElement = mapElement.querySelector('.map__pin--main');
 
-var mapPinMainWidth = mapPinMainElement.offsetWidth;
-var mapPinMainHeight = mapPinMainElement.offsetHeight;
-var mapPinMainLeft = mapPinMainElement.offsetLeft;
-var mapPinMainTop = mapPinMainElement.offsetTop;
+var mainPinWidth = mapPinMainElement.offsetWidth;
+var mainPinHeight = mapPinMainElement.offsetHeight;
+var mainPinLeft = mapPinMainElement.offsetLeft;
+var mainPinTop = mapPinMainElement.offsetTop;
 
 
 var makePins = function (offerObjects) {
@@ -31,7 +31,7 @@ var onClickActivatePage = function () {
   makePins(window.data.offers);
   mapElement.addEventListener('click', onMapPinClick);
   mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
-  window.form.onGuestCapacityValidate();
+  window.form.onAmountCapacityChange();
 };
 
 // добавляет обработчик клика по карте
@@ -72,8 +72,8 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     };
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
-    var calculationStartMainPinMinCoordY = window.data.locationMinY - mapPinMainHeight - window.data.mainPinTail;
-    var calculationStartMainPinMaxCoordY = window.data.locationMaxY - mapPinMainHeight - window.data.mainPinTail;
+    var calculationStartMainPinMinCoordY = window.data.locationMinY - mainPinHeight - window.data.mainPinTail;
+    var calculationStartMainPinMaxCoordY = window.data.locationMaxY - mainPinHeight - window.data.mainPinTail;
     shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
     shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
@@ -82,7 +82,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     mapPinMainElement.style.top = shiftOffsetY + 'px';
     mapPinMainElement.style.left = shiftOffsetX + 'px';
-    window.form.setAddress(Math.round(shiftOffsetX + mapPinMainWidth / 2), shiftOffsetY + window.data.locationInfelicityY);
+    window.form.setAddress(Math.round(shiftOffsetX + mainPinWidth / 2), shiftOffsetY + window.data.locationInfelicityY);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
@@ -97,8 +97,8 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 toggleMapDisabled(true);
 
 window.map = {
-  mainPinLeft: mapPinMainLeft,
-  mainPinWidth: mapPinMainWidth,
-  mainPinTop: mapPinMainTop,
-  mainPinHeight: mapPinMainHeight
+  mainPinLeft: mainPinLeft,
+  mainPinWidth: mainPinWidth,
+  mainPinTop: mainPinTop,
+  mainPinHeight: mainPinHeight
 };

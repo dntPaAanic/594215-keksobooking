@@ -58,7 +58,7 @@
     'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
   ];
 
-  var ROOM_NUMBERS_AND_CAPACITIES = {
+  var ROOMS_AMOUNT_AND_CAPACITIES = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
@@ -120,7 +120,7 @@
   var offers = getOffers(OFFERS_COUNT);
   window.data = {
     mainPinTail: MAIN_PIN_TAIL,
-    roomNumberAndCapacity: ROOM_NUMBERS_AND_CAPACITIES,
+    roomsAmountAndCapacity: ROOMS_AMOUNT_AND_CAPACITIES,
     minPriceForNight: MIN_PRICES_FOR_NIGHT,
     offers: offers,
     locationMinY: LOCATION_Y_MIN,

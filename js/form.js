@@ -28,22 +28,22 @@
     setAddress(pinLeft, pinTop);
   };
 
-  var onTimeSelectionChange = function (checkIn, checkOut) {
+  var onTimeChange = function (checkIn, checkOut) {
     checkOut.value = checkIn.value;
   };
 
   // меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
-  var onTypeSelectionChange = function () {
+  var onTypeChange = function () {
     var minValuePrice = window.data.minPriceForNight[roomTypeFieldElement.value];
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
 
   // Определяет соответствие количества комнат и гостей
-  var onGuestCapacityValidate = function () {
+  var onAmountCapacityChange = function () {
     var roomNumberValue = roomNumberElement.value;
     var capacityValue = capacityElement.value;
-    var capacityArray = window.data.roomNumberAndCapacity[roomNumberValue];
+    var capacityArray = window.data.roomsAmountAndCapacity[roomNumberValue];
     roomNumberElement.setCustomValidity('');
     roomNumberElement.checkValidity();
     if (capacityArray.indexOf(capacityValue) < 0) {
@@ -55,20 +55,20 @@
   toggleFormDisabled(true);
 
   timeInFieldElement.addEventListener('change', function () {
-    onTimeSelectionChange(timeInFieldElement, timeOutFieldElement);
+    onTimeChange(timeInFieldElement, timeOutFieldElement);
   });
 
   timeOutFieldElement.addEventListener('change', function () {
-    onTimeSelectionChange(timeOutFieldElement, timeInFieldElement);
+    onTimeChange(timeOutFieldElement, timeInFieldElement);
   });
 
-  roomTypeFieldElement.addEventListener('change', onTypeSelectionChange);
-  roomNumberElement.addEventListener('change', onGuestCapacityValidate);
-  capacityElement.addEventListener('change', onGuestCapacityValidate);
+  roomTypeFieldElement.addEventListener('change', onTypeChange);
+  roomNumberElement.addEventListener('change', onAmountCapacityChange);
+  capacityElement.addEventListener('change', onAmountCapacityChange);
 
   window.form = {
     toggleFormDisabled: toggleFormDisabled,
-    onGuestCapacityValidate: onGuestCapacityValidate,
+    onAmountCapacityChange: onAmountCapacityChange,
     setAddress: setAddress
   };
 })();
