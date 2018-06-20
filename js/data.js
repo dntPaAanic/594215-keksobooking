@@ -5,6 +5,7 @@
 
   var AVATAR_LINK_PATH = 'img/avatars/user';
   var AVATAR_NAME_PREFIX = 0;
+
   var AVATAR_FILENAME_EXTENSION = '.png';
 
   var OFFER_TITLE = [
@@ -17,6 +18,7 @@
     'Уютное бунгало далеко от моря',
     'Неуютное бунгало по колено в воде'
   ];
+
   var PRICE_MIN = 1000;
   var PRICE_MAX = 1000000;
   var TYPES = [
@@ -34,11 +36,13 @@
     '13:00',
     '14:00'
   ];
+
   var TIME_CHECK_OUT = [
     '12:00',
     '13:00',
     '14:00'
   ];
+
   var FEATURES = [
     'wifi',
     'dishwasher',
@@ -47,17 +51,20 @@
     'elevator',
     'conditioner'
   ];
+
   var PHOTOS = [
     'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
     'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
     'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
   ];
+
   var ROOM_NUMBER_AND_CAPACITY = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
     '100': ['0']
   };
+
   var MIN_PRICE_FOR_NIGHT = {
     bungalo: 0,
     flat: 1000,
@@ -70,8 +77,8 @@
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
 
-  var MAP_MAIN_PIN_MAX_COORD_X = 1140;
-  var MAP_MAIN_PIN_TAIL = 15;
+  var MAIN_PIN_MAX_COORD_X = 1140;
+  var MAIN_PIN_TAIL = 15;
 
   var offerTitle = OFFER_TITLE.slice();
   var getOfferInfo = function (index) {
@@ -109,15 +116,16 @@
     }
     return offers;
   };
+
   var offers = getOffers(OFFERS_COUNT);
   window.data = {
-    mapMainPinTail: MAP_MAIN_PIN_TAIL,
+    mainPinTail: MAIN_PIN_TAIL,
     roomNumberAndCapacity: ROOM_NUMBER_AND_CAPACITY,
     minPriceForNight: MIN_PRICE_FOR_NIGHT,
     offers: offers,
     locationMinY: LOCATION_Y_MIN,
     locationMaxY: LOCATION_Y_MAX,
-    mainPinMaxX: MAP_MAIN_PIN_MAX_COORD_X,
+    mainPinMaxX: MAIN_PIN_MAX_COORD_X,
     locationInfelicityY: LOCATION_Y_INFELICITY
   };
 })();

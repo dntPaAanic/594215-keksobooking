@@ -19,8 +19,10 @@
     }
     return typeOffer;
   };
+
   var mapFiltersElement = document.querySelector('.map__filters-container');
   var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
+
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();
     for (var i = 0; i < features.length; i++) {
@@ -45,6 +47,7 @@
     }
     return photoList;
   };
+
   // создает текст объявления
   var createCardOffer = function (offerData) {
     var cardElement = mapCardElement.cloneNode(true);
@@ -61,13 +64,13 @@
     cardElement.querySelector('.popup__avatar').src = offerData.author.avatar;
     return cardElement;
   };
+
   // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
   var showOffer = function (offer) {
     removePopup();
     var currentOfferElement = createCardOffer(offer);
     mapElement.insertBefore(currentOfferElement, mapFiltersElement);
   };
-
   // закрытие попапа
   var closePopup = function () {
     removePopup();
@@ -84,7 +87,6 @@
   var onPopupEscapePress = function (evt) {
     window.utils.isEscEvent(evt, closePopup);
   };
-
   // функция клика на крестик
   var onPopupCloseClick = function () {
     closePopup();

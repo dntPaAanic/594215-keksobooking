@@ -72,8 +72,8 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     };
     var shiftOffsetY = mapPinMainElement.offsetTop + shift.y;
     var shiftOffsetX = mapPinMainElement.offsetLeft + shift.x;
-    var calculationStartMainPinMinCoordY = window.data.locationMinY - mapPinMainHeight - window.data.mapMainPinTail;
-    var calculationStartMainPinMaxCoordY = window.data.locationMaxY - mapPinMainHeight - window.data.mapMainPinTail;
+    var calculationStartMainPinMinCoordY = window.data.locationMinY - mapPinMainHeight - window.data.mainPinTail;
+    var calculationStartMainPinMaxCoordY = window.data.locationMaxY - mapPinMainHeight - window.data.mainPinTail;
     shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
     shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
@@ -97,8 +97,8 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
 toggleMapDisabled(true);
 
 window.map = {
-  mapPinMainLeft: mapPinMainLeft,
-  mapPinMainWidth: mapPinMainWidth,
-  mapPinMainTop: mapPinMainTop,
-  mapPinMainHeight: mapPinMainHeight,
+  mainPinLeft: mapPinMainLeft,
+  mainPinWidth: mapPinMainWidth,
+  mainPinTop: mapPinMainTop,
+  mainPinHeight: mapPinMainHeight
 };

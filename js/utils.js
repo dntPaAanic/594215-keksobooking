@@ -8,10 +8,12 @@
       action();
     }
   };
+
   // Функции для работы с переменными и массивами
   var getRandomNumber = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   };
+
   var getRandomElement = function (arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   };
@@ -25,6 +27,7 @@
     var randomItem = arr.splice(randomIndex, 1);
     return randomItem[0];
   };
+
   // Fisher–Yates shuffle
   var getShuffleArray = function (arr) {
     for (var i = arr.length - 1; i > 0; i--) {

@@ -23,8 +23,8 @@
 
   // добавляет координаты пина при неактивной карте
   var getAddress = function () {
-    var pinLeft = Math.round((window.map.mapPinMainLeft + (window.map.mapPinMainWidth / 2)));
-    var pinTop = Math.round((window.map.mapPinMainTop + window.map.mapPinMainHeight + window.data.mapMainPinTail));
+    var pinLeft = Math.round((window.map.mainPinLeft + (window.map.mainPinWidth / 2)));
+    var pinTop = Math.round((window.map.mainPinTop + window.map.mainPinHeight + window.data.mainPinTail));
     setAddress(pinLeft, pinTop);
   };
 
@@ -50,14 +50,18 @@
       roomNumberElement.setCustomValidity('Количество комнат не подходит для количества гостей');
     }
   };
+
   getAddress();
   toggleFormDisabled(true);
+
   timeInFieldElement.addEventListener('change', function () {
     changeTimeSelection(timeInFieldElement, timeOutFieldElement);
   });
+
   timeOutFieldElement.addEventListener('change', function () {
     changeTimeSelection(timeOutFieldElement, timeInFieldElement);
   });
+
   roomTypeFieldElement.addEventListener('change', changeTypeSelection);
   roomNumberElement.addEventListener('change', validateGuests);
   capacityElement.addEventListener('change', validateGuests);
