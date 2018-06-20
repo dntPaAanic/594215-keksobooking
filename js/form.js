@@ -28,19 +28,19 @@
     setAddress(pinLeft, pinTop);
   };
 
-  var changeTimeSelection = function (checkIn, checkOut) {
+  var onTimeSelectionChange = function (checkIn, checkOut) {
     checkOut.value = checkIn.value;
   };
 
   // меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
-  var changeTypeSelection = function () {
+  var onTypeSelectionChange = function () {
     var minValuePrice = window.data.minPriceForNight[roomTypeFieldElement.value];
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
 
   // Определяет соответствие количества комнат и гостей
-  var validateGuests = function () {
+  var onGuestCapacityValidate = function () {
     var roomNumberValue = roomNumberElement.value;
     var capacityValue = capacityElement.value;
     var capacityArray = window.data.roomNumberAndCapacity[roomNumberValue];
@@ -55,20 +55,20 @@
   toggleFormDisabled(true);
 
   timeInFieldElement.addEventListener('change', function () {
-    changeTimeSelection(timeInFieldElement, timeOutFieldElement);
+    onTimeSelectionChange(timeInFieldElement, timeOutFieldElement);
   });
 
   timeOutFieldElement.addEventListener('change', function () {
-    changeTimeSelection(timeOutFieldElement, timeInFieldElement);
+    onTimeSelectionChange(timeOutFieldElement, timeInFieldElement);
   });
 
-  roomTypeFieldElement.addEventListener('change', changeTypeSelection);
-  roomNumberElement.addEventListener('change', validateGuests);
-  capacityElement.addEventListener('change', validateGuests);
+  roomTypeFieldElement.addEventListener('change', onTypeSelectionChange);
+  roomNumberElement.addEventListener('change', onGuestCapacityValidate);
+  capacityElement.addEventListener('change', onGuestCapacityValidate);
 
   window.form = {
     toggleFormDisabled: toggleFormDisabled,
-    validateGuests: validateGuests,
+    onGuestCapacityValidate: onGuestCapacityValidate,
     setAddress: setAddress
   };
 })();

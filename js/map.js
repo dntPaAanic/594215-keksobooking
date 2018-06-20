@@ -31,7 +31,7 @@ var onClickActivatePage = function () {
   makePins(window.data.offers);
   mapElement.addEventListener('click', onMapPinClick);
   mapPinMainElement.removeEventListener('mouseup', onClickActivatePage);
-  window.form.validateGuests();
+  window.form.onGuestCapacityValidate();
 };
 
 // добавляет обработчик клика по карте
