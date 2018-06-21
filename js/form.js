@@ -38,10 +38,10 @@
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
-  var onAmountCapacityChange = function (roomNumberValue, capacityValue) {
-    roomNumberValue = roomNumberElement.value;
+  var onAmountCapacityChange = function (roomAmountValue, capacityValue) {
+    roomAmountValue = roomNumberElement.value;
     capacityValue = capacityElement.value;
-    var capacityArray = window.data.roomsAmountAndCapacity[roomNumberValue];
+    var capacityArray = window.data.roomsAmountAndCapacity[roomAmountValue];
     roomNumberElement.setCustomValidity('');
     roomNumberElement.checkValidity();
     if (capacityArray.indexOf(capacityValue) < 0) {
