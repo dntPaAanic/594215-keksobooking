@@ -94,6 +94,7 @@
   window.card = {
     showOffer: showOffer,
     onPopupCloseClick: onPopupCloseClick,
-    onPopupEscapePress: onPopupEscapePress
+    onPopupEscapePress: onPopupEscapePress,
+    closePopup: closePopup
   };
 })();

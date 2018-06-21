@@ -1,8 +1,8 @@
 'use strict';
 (function () {
-
   var adFormFieldsetsElement = document.querySelectorAll('fieldset');
   var adFormElement = document.querySelector('.ad-form');
+  var formResetElement = document.querySelector('.ad-form__reset');
   var addressFieldElement = adFormElement.querySelector('#address');
   var timeInFieldElement = adFormElement.querySelector('#timein');
   var timeOutFieldElement = adFormElement.querySelector('#timeout');
@@ -17,6 +17,8 @@
       adFormFieldsetsElement[i].disabled = formDisabled;
     }
   };
+
+  // Получение адреса пина после передвижения
   var setAddress = function (pinLeft, pinTop) {
     addressFieldElement.value = pinLeft + ', ' + pinTop;
   };
@@ -49,8 +51,23 @@
     }
   };
 
+  // Возврат в первоночальное состояние неактивное состояние
+  var resetAll = function () {
+    toggleFormDisabled(true);
+    window.map.toggleMapDisabled(true);
+    window.map.deletePins();
+    window.card.closePopup();
+    adFormElement.reset();
+  };
+
+  var onButtonClickReset = function () {
+    resetAll();
+  };
+
   getAddress();
   toggleFormDisabled(true);
+
+  formResetElement.addEventListener('click', onButtonClickReset);
 
   timeInFieldElement.addEventListener('change', function () {
     onTimeChange(timeInFieldElement, timeOutFieldElement);
