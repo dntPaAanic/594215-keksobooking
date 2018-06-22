@@ -19,20 +19,28 @@
     }
   };
 
-  var showSuccess = function (successDisabled) {
+  // Переключает форму уведомления об успешной отправке в/из неактивного состояния
+  var toggleSuccessDisabled = function (successDisabled) {
     successElement.classList.toggle('hidden', successDisabled);
   };
 
-  var hideSuccess = function () {
-    successElement.classList.add('hidden');
+  var closeSuccess = function () {
+    toggleSuccessDisabled(true);
+    document.removeEventListener('keydown', onSuccessEscapePress);
   };
 
-  var onSuccessClick = function () {
-    showSuccess(true);
+  var onSuccessEscapePress = function (evt) {
+    window.utils.isEscEvent(evt, closeSuccess);
+  };
+
+  var clickSuccessButton = function () {
+    toggleSuccessDisabled(false);
     resetAll();
-    // successElement.addEventListener('click', function () {
-    //   showSuccess(false);
-    // });
+    setDefaultposition();
+    successElement.addEventListener('click', function () {
+      toggleSuccessDisabled(true);
+    });
+    document.addEventListener('keydown', onSuccessEscapePress);
   };
 
   // Получение адреса пина после передвижения
@@ -45,6 +53,12 @@
     var pinLeft = Math.round((window.map.mainPinLeft + (window.map.mainPinWidth / 2)));
     var pinTop = Math.round((window.map.mainPinTop + window.map.mainPinHeight + window.data.mainPinTail));
     setAddress(pinLeft, pinTop);
+  };
+
+  var setDefaultposition = function () {
+    window.map.mainPinElement.style.left = window.map.mainPinLeft + 'px';
+    window.map.mainPinElement.style.top = window.map.mainPinTop + 'px';
+    getAddress();
   };
 
   var onTimeChange = function (checkIn, checkOut) {
@@ -103,7 +117,7 @@
   });
 
   adFormElement.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(adFormElement), onSuccessClick, window.backend.onError);
+    window.backend.upload(new FormData(adFormElement), clickSuccessButton, window.backend.onError);
     evt.preventDefault();
   });
 

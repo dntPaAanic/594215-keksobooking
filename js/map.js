@@ -111,7 +111,8 @@
     mainPinHeight: mainPinHeight,
     mapElement: mapElement,
     toggleMapDisabled: toggleMapDisabled,
-    deletePins: deletePins
+    deletePins: deletePins,
+    mainPinElement: mainPinElement
   };
 })();
 
