@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var adFormFieldsetsElement = document.querySelectorAll('fieldset');
+  var successElement = document.querySelector('.success');
   var adFormElement = document.querySelector('.ad-form');
   var formResetElement = document.querySelector('.ad-form__reset');
   var addressFieldElement = adFormElement.querySelector('#address');
@@ -16,6 +17,20 @@
     for (var i = 0; i < adFormFieldsetsElement.length; i++) {
       adFormFieldsetsElement[i].disabled = formDisabled;
     }
+  };
+
+  var showSuccess = function () {
+    successElement.classList.remove('hidden');
+  };
+
+  var hideSuccess = function () {
+    successElement.classList.add('hidden');
+  };
+
+  var onSuccessClick = function () {
+    showSuccess();
+    resetAll();
+    hideSuccess();
   };
 
   // Получение адреса пина после передвижения
@@ -83,6 +98,11 @@
   });
   capacityElement.addEventListener('change', function () {
     onAmountCapacityChange(roomNumberElement, capacityElement);
+  });
+
+  adFormElement.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(adFormElement), onSuccessClick, window.backend.onError);
+    evt.preventDefault();
   });
 
   window.form = {
