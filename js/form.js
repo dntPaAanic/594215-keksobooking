@@ -55,7 +55,7 @@
   var resetAll = function () {
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
-    window.map.hidePins();
+    window.map.deletePins();
     window.card.closePopup();
     adFormElement.reset();
   };

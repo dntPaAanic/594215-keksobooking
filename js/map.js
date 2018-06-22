@@ -18,27 +18,13 @@
     pinsElement.appendChild(docFragment);
   };
 
-  // Прячет пины
-  var hidePins = function () {
-    var hideButtons = document.querySelectorAll('.map__pin');
-    for (var i = 0; i < hideButtons.length; i++) {
-      if (hideButtons[i].classList.contains('map__pin--main')) {
-        continue;
-      }
-      hideButtons[i].classList.add('hidden');
+  // Удаляет пины
+  var deletePins = function () {
+    var buttonElement = pinsElement.querySelectorAll('button');
+    for (var i = 1; i < buttonElement.length; i++) {
+      pinsElement.removeChild(buttonElement[i]);
     }
-    return hideButtons;
   };
-
-  // Показывает пины
-  var onClickShowPins = function () {
-    var hideButtons = document.querySelectorAll('.map__pin');
-    for (var i = 0; i < hideButtons.length; i++) {
-      hideButtons[i].classList.remove('hidden');
-    }
-    return hideButtons;
-  };
-
   // Переключает карту из неактивного состояния
   var toggleMapDisabled = function (mapDisabled) {
     mapElement.classList.toggle('map--faded', mapDisabled);
@@ -48,10 +34,11 @@
   var onClickActivatePage = function () {
     toggleMapDisabled(false);
     window.form.toggleFormDisabled(false);
-    makePins(window.data.offers);
+    mapElement.addEventListener('click', function () {
+      makePins(window.data.offers);
+    });
     mapElement.addEventListener('click', onMapPinClick);
     mainPinElement.removeEventListener('mouseup', onClickActivatePage);
-    mapElement.addEventListener('click', onClickShowPins);
     window.form.onAmountCapacityChange();
   };
 
@@ -124,7 +111,7 @@
     mainPinHeight: mainPinHeight,
     mapElement: mapElement,
     toggleMapDisabled: toggleMapDisabled,
-    hidePins: hidePins
+    deletePins: deletePins
   };
 })();
 
