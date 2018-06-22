@@ -19,8 +19,8 @@
     }
   };
 
-  var showSuccess = function () {
-    successElement.classList.remove('hidden');
+  var showSuccess = function (successDisabled) {
+    successElement.classList.toggle('hidden', successDisabled);
   };
 
   var hideSuccess = function () {
@@ -28,9 +28,11 @@
   };
 
   var onSuccessClick = function () {
-    showSuccess();
+    showSuccess(true);
     resetAll();
-    hideSuccess();
+    // successElement.addEventListener('click', function () {
+    //   showSuccess(false);
+    // });
   };
 
   // Получение адреса пина после передвижения

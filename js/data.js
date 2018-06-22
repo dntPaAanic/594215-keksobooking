@@ -81,6 +81,7 @@
   var MAIN_PIN_TAIL = 15;
 
   var offerTitle = OFFERS_TITLE.slice();
+
   var getOfferInfo = function (index) {
     var locationX = window.utils.getRandomNumber(LOCATION_X_MIN, LOCATION_X_MAX);
     var locationY = window.utils.getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
@@ -118,6 +119,7 @@
   };
 
   var offers = getOffers(OFFERS_COUNT);
+
   window.data = {
     mainPinTail: MAIN_PIN_TAIL,
     roomsAmountAndCapacity: ROOMS_AMOUNT_AND_CAPACITIES,

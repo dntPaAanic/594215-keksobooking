@@ -34,7 +34,7 @@
   var onClickActivatePage = function () {
     toggleMapDisabled(false);
     window.form.toggleFormDisabled(false);
-    mapElement.addEventListener('click', function () {
+    mainPinElement.addEventListener('click', function () {
       makePins(window.data.offers);
     });
     mapElement.addEventListener('click', onMapPinClick);
