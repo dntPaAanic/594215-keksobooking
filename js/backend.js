@@ -49,27 +49,20 @@
 
     return xhr;
   };
-
+  // загружает данные на сервер
   var upload = function (data, onLoad, onError) {
     var xhr = setup(onLoad, onError);
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
-
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
 
+  // Загружает данные с сервера
   var load = function (onLoad, onError) {
     var xhr = setup(onLoad, onError);
 
     xhr.open('GET', URL_DOWNLOAD);
     xhr.send();
   };
-
 
   window.backend = {
     upload: upload,
