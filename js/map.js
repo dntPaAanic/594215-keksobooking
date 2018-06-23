@@ -1,5 +1,11 @@
 'use strict';
 (function () {
+  var OFFERS_COUNT = 5;
+  var MAIN_PIN_TAIL = 15;
+  var LOCATION_Y_MIN = 130;
+  var LOCATION_Y_MAX = 630;
+  var LOCATION_Y_INFELICITY = 80;
+  var MAIN_PIN_MAX_COORD_X = 1140;
   var mapElement = document.querySelector('.map');
   var pinsElement = document.querySelector('.map__pins');
   var mainPinElement = mapElement.querySelector('.map__pin--main');
@@ -12,7 +18,7 @@
   // Создает пины
   var makePins = function (pins) {
     var docFragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.offersCount; i++) {
+    for (var i = 0; i < OFFERS_COUNT; i++) {
       docFragment.appendChild(window.pin.makePin(pins[i], i));
     }
     pinsElement.appendChild(docFragment);
@@ -83,17 +89,17 @@
       };
       var shiftOffsetY = mainPinElement.offsetTop + shift.y;
       var shiftOffsetX = mainPinElement.offsetLeft + shift.x;
-      var calculationStartMainPinMinCoordY = window.data.locationMinY - mainPinHeight - window.data.mainPinTail;
-      var calculationStartMainPinMaxCoordY = window.data.locationMaxY - mainPinHeight - window.data.mainPinTail;
+      var calculationStartMainPinMinCoordY = LOCATION_Y_MIN - mainPinHeight - MAIN_PIN_TAIL;
+      var calculationStartMainPinMaxCoordY = LOCATION_Y_MAX - mainPinHeight - MAIN_PIN_TAIL;
       shiftOffsetY = shiftOffsetY < calculationStartMainPinMinCoordY ? calculationStartMainPinMinCoordY : shiftOffsetY;
       shiftOffsetY = shiftOffsetY > calculationStartMainPinMaxCoordY ? calculationStartMainPinMaxCoordY : shiftOffsetY;
 
       shiftOffsetX = shiftOffsetX < 0 ? 0 : shiftOffsetX;
-      shiftOffsetX = shiftOffsetX > window.data.mainPinMaxX ? window.data.mainPinMaxX : shiftOffsetX;
+      shiftOffsetX = shiftOffsetX > MAIN_PIN_MAX_COORD_X ? MAIN_PIN_MAX_COORD_X : shiftOffsetX;
 
       mainPinElement.style.top = shiftOffsetY + 'px';
       mainPinElement.style.left = shiftOffsetX + 'px';
-      window.form.setAddress(Math.round(shiftOffsetX + mainPinWidth / 2), shiftOffsetY + window.data.locationInfelicityY);
+      window.form.setAddress(Math.round(shiftOffsetX + mainPinWidth / 2), shiftOffsetY + LOCATION_Y_INFELICITY);
     };
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
@@ -106,9 +112,10 @@
 
   // по-умолчанию карта и формы отключены
   toggleMapDisabled(true);
-  window.backend.load(onLoad, window.form.onError);
+  window.backend.load(onLoad, window.backend.onError);
 
   window.map = {
+    mainPinTail: MAIN_PIN_TAIL,
     mainPinLeft: mainPinLeft,
     mainPinWidth: mainPinWidth,
     mainPinTop: mainPinTop,

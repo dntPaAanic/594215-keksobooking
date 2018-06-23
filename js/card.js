@@ -71,7 +71,7 @@
     window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
   };
   // закрытие попапа
-  var closePopup = function () {
+  var close = function () {
     removePopup();
     document.removeEventListener('keydown', onEscapePress);
   };
@@ -84,17 +84,17 @@
   };
   // функция нажатия Esc
   var onEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, closePopup);
+    window.utils.isEscEvent(evt, close);
   };
   // функция клика на крестик
   var onPopupCloseClick = function () {
-    closePopup();
+    close();
   };
 
   window.card = {
     show: show,
     onPopupCloseClick: onPopupCloseClick,
     onEscapePress: onEscapePress,
-    closePopup: closePopup
+    close: close
   };
 })();

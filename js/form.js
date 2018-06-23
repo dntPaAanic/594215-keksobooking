@@ -1,5 +1,18 @@
 'use strict';
 (function () {
+  var ROOMS_AMOUNT_AND_CAPACITIES = {
+    '1': ['1'],
+    '2': ['1', '2'],
+    '3': ['1', '2', '3'],
+    '100': ['0']
+  };
+
+  var MIN_PRICES_FOR_NIGHT = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
   var adFormFieldsetsElement = document.querySelectorAll('fieldset');
   var errorElement = document.createElement('div');
   var successElement = document.querySelector('.success');
@@ -58,7 +71,7 @@
   // добавляет координаты пина при неактивной карте
   var getAddress = function () {
     var pinLeft = Math.round((window.map.mainPinLeft + (window.map.mainPinWidth / 2)));
-    var pinTop = Math.round((window.map.mainPinTop + window.map.mainPinHeight + window.data.mainPinTail));
+    var pinTop = Math.round((window.map.mainPinTop + window.map.mainPinHeight + window.map.mainPinTail));
     setAddress(pinLeft, pinTop);
   };
 
@@ -74,14 +87,14 @@
 
   // меняет минимальное значение цены и placeholder поля "Цена за ночь" в зависимости от выбора типа жилья
   var onTypeChange = function () {
-    var minValuePrice = window.data.minPriceForNight[roomTypeFieldElement.value];
+    var minValuePrice = MIN_PRICES_FOR_NIGHT[roomTypeFieldElement.value];
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
   var onAmountCapacityChange = function (roomAmountValue, capacityValue) {
     roomAmountValue = roomNumberElement.value;
     capacityValue = capacityElement.value;
-    var capacityArray = window.data.roomsAmountAndCapacity[roomAmountValue];
+    var capacityArray = ROOMS_AMOUNT_AND_CAPACITIES[roomAmountValue];
     roomNumberElement.setCustomValidity('');
     roomNumberElement.checkValidity();
     if (capacityArray.indexOf(capacityValue) < 0) {
@@ -94,7 +107,7 @@
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
     window.map.deletePins();
-    window.card.closePopup();
+    window.card.close();
     adFormElement.reset();
     setDefaultposition();
   };
