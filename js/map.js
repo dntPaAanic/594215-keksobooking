@@ -15,6 +15,9 @@
   var mainPinLeft = mainPinElement.offsetLeft;
   var mainPinTop = mainPinElement.offsetTop;
 
+  var adFormElement = document.querySelector('.ad-form');
+  var formResetElement = adFormElement.querySelector('.ad-form__reset');
+
   // Создает пины
   var makePins = function (pins) {
     var docFragment = document.createDocumentFragment();
@@ -34,25 +37,38 @@
   // Переключает карту из неактивного состояния
   var toggleMapDisabled = function (mapDisabled) {
     mapElement.classList.toggle('map--faded', mapDisabled);
+    if (mapDisabled) {
+      deletePins();
+    }
   };
 
   var onLoad = function (data) {
     // Отключает неактивный режим карты и создает пины при отжатии кнопки мыши
-    var onClickActivatePage = function () {
+    var onActivatePage = function () {
       toggleMapDisabled(false);
       window.form.toggleFormDisabled(false);
-      mainPinElement.addEventListener('click', function () {
-        makePins(data);
-      });
+      makePins(data);
       mapElement.addEventListener('click', function (evt) {
         onMapPinClick(evt, data);
       });
-      mainPinElement.removeEventListener('mouseup', onClickActivatePage);
+      mainPinElement.removeEventListener('mouseup', onActivatePage);
+      mainPinElement.removeEventListener('keydown', onEnterPress);
       window.form.onAmountCapacityChange();
     };
     // Создает обработчик отпускания кнопки мыши
+    var onEnterPress = function (evt) {
+      window.utils.isEnterEvent(evt, onActivatePage);
+    };
+
     if (mainPinElement) {
-      mainPinElement.addEventListener('mouseup', onClickActivatePage);
+      mainPinElement.addEventListener('mouseup', onActivatePage);
+      mainPinElement.addEventListener('keydown', onEnterPress);
+    }
+    if (formResetElement) {
+      formResetElement.addEventListener('mouseup', function () {
+        mainPinElement.addEventListener('mouseup', onActivatePage);
+        mainPinElement.addEventListener('keydown', onEnterPress);
+      });
     }
   };
 
@@ -62,7 +78,7 @@
     if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
       window.card.show(data[targetPinElement.dataset.index]);
       var popupCloseElement = document.querySelector('.popup__close');
-      popupCloseElement.addEventListener('click', window.card.onPopupCloseClick);
+      popupCloseElement.addEventListener('click', window.card.onCloseElementClick);
       document.addEventListener('keydown', window.card.onEscapePress);
     }
   };
@@ -112,7 +128,7 @@
 
   // по-умолчанию карта и формы отключены
   toggleMapDisabled(true);
-  window.backend.load(onLoad, window.backend.onError);
+  window.backend.load(onLoad, window.utils.onError);
 
   window.map = {
     mainPinTail: MAIN_PIN_TAIL,
@@ -122,7 +138,6 @@
     mainPinHeight: mainPinHeight,
     mapElement: mapElement,
     toggleMapDisabled: toggleMapDisabled,
-    deletePins: deletePins,
     mainPinElement: mainPinElement
   };
 })();

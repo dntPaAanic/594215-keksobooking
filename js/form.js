@@ -14,7 +14,7 @@
     palace: 10000
   };
   var adFormFieldsetsElement = document.querySelectorAll('fieldset');
-  var errorElement = document.createElement('div');
+
   var successElement = document.querySelector('.success');
   var adFormElement = document.querySelector('.ad-form');
   var formResetElement = adFormElement.querySelector('.ad-form__reset');
@@ -25,12 +25,6 @@
   var priceForNightFieldElement = adFormElement.querySelector('#price');
   var roomNumberElement = adFormElement.querySelector('#room_number');
   var capacityElement = adFormElement.querySelector('#capacity');
-
-  var hideErrorMessage = function () {
-    setTimeout(function () {
-      errorElement.classList.add('hidden');
-    }, 10000);
-  };
 
   // Переключает форму из неактивного состояния
   var toggleFormDisabled = function (formDisabled) {
@@ -106,7 +100,6 @@
   var resetAll = function () {
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
-    window.map.deletePins();
     window.card.close();
     adFormElement.reset();
     setDefaultposition();
@@ -114,21 +107,6 @@
 
   var onButtonClickReset = function () {
     resetAll();
-  };
-
-  var onError = function (errorMessage) {
-    errorElement.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
-    errorElement.style.color = '#000000';
-    errorElement.style.textAlign = 'center';
-    errorElement.style.margin = 'center auto';
-    errorElement.style.position = 'fixed';
-    errorElement.style.left = '0';
-    errorElement.style.right = '0';
-    errorElement.style.fontSize = '30px';
-    errorElement.style.zIndex = '2';
-    errorElement.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', errorElement);
-    hideErrorMessage();
   };
 
   getAddress();
@@ -153,12 +131,11 @@
   });
 
   adFormElement.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(adFormElement), onSuccesButtonClick, onError);
+    window.backend.upload(new FormData(adFormElement), onSuccesButtonClick, window.utils.onError);
     evt.preventDefault();
   });
 
   window.form = {
-    onError: onError,
     toggleFormDisabled: toggleFormDisabled,
     onAmountCapacityChange: onAmountCapacityChange,
     setAddress: setAddress

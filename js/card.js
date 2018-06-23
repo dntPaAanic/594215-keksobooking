@@ -87,13 +87,13 @@
     window.utils.isEscEvent(evt, close);
   };
   // функция клика на крестик
-  var onPopupCloseClick = function () {
+  var onCloseElementClick = function () {
     close();
   };
 
   window.card = {
     show: show,
-    onPopupCloseClick: onPopupCloseClick,
+    onCloseElementClick: onCloseElementClick,
     onEscapePress: onEscapePress,
     close: close
   };
