@@ -5,9 +5,9 @@
   var URL_DOWNLOAD = 'https://js.dump.academy/keksobooking/data';
   var TIMEOUT = 10000;
 
-  var errorMessages = {
-    PAGE_NOT_FOUND: 404,
-    PAGE_SUCCESS: 200,
+  var httpStatusCodes = {
+    NOT_FOUND: 404,
+    SUCCESS: 200,
     USER_UNAUTHORIZED: 401,
     BAD_REQUEST: 400,
     SERVER_ERROR: 500
@@ -20,19 +20,19 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case errorMessages.PAGE_SUCCESS:
+        case httpStatusCodes.SUCCESS:
           onLoad(xhr.response);
           break;
-        case errorMessages.BAD_REQUEST:
+        case httpStatusCodes.BAD_REQUEST:
           onError('Неверный запрос');
           break;
-        case errorMessages.SERVER_ERROR:
+        case httpStatusCodes.SERVER_ERROR:
           onError('Внутренняя ошибка сервера');
           break;
-        case errorMessages.USER_UNAUTHORIZED:
+        case httpStatusCodes.USER_UNAUTHORIZED:
           onError('Пользователь не авторизован');
           break;
-        case errorMessages.PAGE_NOT_FOUND:
+        case httpStatusCodes.NOT_FOUND:
           onError('Страница не найдена');
           break;
 
@@ -68,31 +68,8 @@
     xhr.send();
   };
 
-  var errorElement = document.createElement('div');
-  var hideErrorMessage = function () {
-    setTimeout(function () {
-      errorElement.classList.add('hidden');
-    }, TIMEOUT);
-  };
-
-  var onError = function (errorMessage) {
-    errorElement.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
-    errorElement.style.color = '#000000';
-    errorElement.style.textAlign = 'center';
-    errorElement.style.margin = 'center auto';
-    errorElement.style.position = 'fixed';
-    errorElement.style.left = '0';
-    errorElement.style.right = '0';
-    errorElement.style.fontSize = '30px';
-    errorElement.style.zIndex = '2';
-    errorElement.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', errorElement);
-    hideErrorMessage();
-  };
-
   window.backend = {
     upload: upload,
-    load: load,
-    onError: onError
+    load: load
   };
 })();

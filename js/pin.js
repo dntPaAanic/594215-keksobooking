@@ -16,7 +16,6 @@
     return newPinElement;
   };
 
-
   window.pin = {
     makePin: makePin
   };

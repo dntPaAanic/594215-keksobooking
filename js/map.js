@@ -20,9 +20,9 @@
 
   // Удаляет пины
   var deletePins = function () {
-    var buttonElement = pinsElement.querySelectorAll('button');
-    for (var i = 1; i < buttonElement.length; i++) {
-      pinsElement.removeChild(buttonElement[i]);
+    var pinElement = pinsElement.querySelectorAll('.map__pin');
+    for (var i = 1; i < pinElement.length; i++) {
+      pinsElement.removeChild(pinElement[i]);
     }
   };
   // Переключает карту из неактивного состояния
@@ -54,10 +54,10 @@
   var onMapPinClick = function (evt, data) {
     var targetPinElement = evt.target.closest('.map__pin');
     if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
-      window.card.showOffer(data[targetPinElement.dataset.index]);
+      window.card.show(data[targetPinElement.dataset.index]);
       var popupCloseElement = document.querySelector('.popup__close');
       popupCloseElement.addEventListener('click', window.card.onPopupCloseClick);
-      document.addEventListener('keydown', window.card.onPopupEscapePress);
+      document.addEventListener('keydown', window.card.onEscapePress);
     }
   };
 
@@ -106,7 +106,7 @@
 
   // по-умолчанию карта и формы отключены
   toggleMapDisabled(true);
-  window.backend.load(onLoad, window.backend.onError);
+  window.backend.load(onLoad, window.form.onError);
 
   window.map = {
     mainPinLeft: mainPinLeft,

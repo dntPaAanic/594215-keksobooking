@@ -65,7 +65,7 @@
   };
 
   // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
-  var showOffer = function (offer) {
+  var show = function (offer) {
     removePopup();
     var currentOfferElement = createCardOffer(offer);
     window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
@@ -73,7 +73,7 @@
   // закрытие попапа
   var closePopup = function () {
     removePopup();
-    document.removeEventListener('keydown', onPopupEscapePress);
+    document.removeEventListener('keydown', onEscapePress);
   };
   // удаляет попап
   var removePopup = function () {
@@ -83,7 +83,7 @@
     }
   };
   // функция нажатия Esc
-  var onPopupEscapePress = function (evt) {
+  var onEscapePress = function (evt) {
     window.utils.isEscEvent(evt, closePopup);
   };
   // функция клика на крестик
@@ -92,9 +92,9 @@
   };
 
   window.card = {
-    showOffer: showOffer,
+    show: show,
     onPopupCloseClick: onPopupCloseClick,
-    onPopupEscapePress: onPopupEscapePress,
+    onEscapePress: onEscapePress,
     closePopup: closePopup
   };
 })();
