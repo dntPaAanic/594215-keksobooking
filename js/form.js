@@ -80,10 +80,10 @@
 
   var closeSuccess = function () {
     toggleSuccessDisabled(true);
-    document.removeEventListener('keydown', onSuccessEscapePress);
+    document.removeEventListener('keydown', onDocumentEscapePress);
   };
 
-  var onSuccessEscapePress = function (evt) {
+  var onDocumentEscapePress = function (evt) {
     window.utils.isEscEvent(evt, closeSuccess);
   };
 
@@ -93,14 +93,14 @@
     successElement.addEventListener('click', function () {
       toggleSuccessDisabled(true);
     });
-    document.addEventListener('keydown', onSuccessEscapePress);
+    document.addEventListener('keydown', onDocumentEscapePress);
   };
 
   // Возврат в первоночальное состояние неактивное состояние
   var resetAll = function () {
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
-    window.showCard.close();
+    window.card.close();
     adFormElement.reset();
     setDefaultposition();
   };

@@ -1,13 +1,13 @@
 'use strict';
 (function () {
-
+  var OFFERS_COUNT = 5;
   var MAIN_PIN_TAIL = 15;
   var LOCATION_Y_MIN = 130;
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
   var MAIN_PIN_MAX_COORD_X = 1140;
   var mapElement = document.querySelector('.map');
-
+  var pinsElement = document.querySelector('.map__pins');
   var mainPinElement = mapElement.querySelector('.map__pin--main');
 
   var mainPinWidth = mainPinElement.offsetWidth;
@@ -15,12 +15,28 @@
   var mainPinLeft = mainPinElement.offsetLeft;
   var mainPinTop = mainPinElement.offsetTop;
 
+  // Создает пины
+  var makePins = function (pins) {
+    var docFragment = document.createDocumentFragment();
+    for (var i = 0; i < OFFERS_COUNT; i++) {
+      docFragment.appendChild(window.pin.makePin(pins[i], i));
+    }
+    pinsElement.appendChild(docFragment);
+  };
+
+  // Удаляет пины
+  var deletePins = function () {
+    var pinElement = pinsElement.querySelectorAll('.map__pin');
+    for (var i = 1; i < pinElement.length; i++) {
+      pinsElement.removeChild(pinElement[i]);
+    }
+  };
 
   // Переключает карту из неактивного состояния
   var toggleMapDisabled = function (mapDisabled) {
     mapElement.classList.toggle('map--faded', mapDisabled);
     if (mapDisabled) {
-      window.pin.deletePins();
+      deletePins();
     }
   };
 
@@ -31,9 +47,9 @@
     var onActivatePage = function () {
       toggleMapDisabled(false);
       window.form.toggleFormDisabled(false);
-      window.pin.makePins(data);
+      makePins(data);
       mapElement.addEventListener('click', function (evt) {
-        window.showCard.onMapPinClick(evt, data);
+        window.card.onMapPinClick(evt, data);
       });
       mainPinElement.removeEventListener('mouseup', onActivatePage);
       mainPinElement.removeEventListener('keydown', onEnterPress);
@@ -47,7 +63,7 @@
       mainPinElement.addEventListener('mouseup', onActivatePage);
       mainPinElement.addEventListener('keydown', onEnterPress);
     }
-    //После ресета карты не появлялись пины, сделал обработчик на .ad-form__reset
+    // После ресета карты не появлялись пины, сделал обработчик на .ad-form__reset
     if (window.form.formResetElement) {
       window.form.formResetElement.addEventListener('mouseup', function () {
         mainPinElement.addEventListener('mouseup', onActivatePage);
