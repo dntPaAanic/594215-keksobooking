@@ -24,8 +24,10 @@
     }
   };
 
+  // делаем дополнительную функцию и передаем onActivatePage в бэкенд
   var onLoad = function (data) {
     // Отключает неактивный режим карты и создает пины при отжатии кнопки мыши
+    // если data передать сразу в onActivatePage, то после загрузки страницы карта активируется сама
     var onActivatePage = function () {
       toggleMapDisabled(false);
       window.form.toggleFormDisabled(false);
@@ -37,21 +39,22 @@
       mainPinElement.removeEventListener('keydown', onEnterPress);
       window.form.onAmountCapacityChange();
     };
-    // Создает обработчик отпускания кнопки мыши
     var onEnterPress = function (evt) {
       window.utils.isEnterEvent(evt, onActivatePage);
     };
-
+    // Создает обработчик отпускания кнопки мыши
     if (mainPinElement) {
       mainPinElement.addEventListener('mouseup', onActivatePage);
       mainPinElement.addEventListener('keydown', onEnterPress);
     }
+    //После ресета карты не появлялись пины, сделал обработчик на .ad-form__reset
     if (window.form.formResetElement) {
       window.form.formResetElement.addEventListener('mouseup', function () {
         mainPinElement.addEventListener('mouseup', onActivatePage);
         mainPinElement.addEventListener('keydown', onEnterPress);
       });
     }
+    // После отправки формы не появлялись пины, сделал обработчик на .success
     if (window.form.successElement) {
       window.form.successElement.addEventListener('mouseup', function () {
         mainPinElement.addEventListener('mouseup', onActivatePage);
@@ -105,6 +108,7 @@
 
   // по-умолчанию карта и формы отключены
   toggleMapDisabled(true);
+
   window.backend.load(onLoad, window.utils.onError);
 
   window.map = {
