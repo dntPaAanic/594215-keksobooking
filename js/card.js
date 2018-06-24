@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var filtersElement = document.querySelector('.map__filters-container');
+
   var accomodationType = function (val) {
     var typeOffer = '';
     switch (val) {
@@ -18,8 +20,44 @@
     }
     return typeOffer;
   };
+  // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
+  var show = function (offer) {
+    removePopup();
+    var currentOfferElement = renderOffer(offer);
+    window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
+  };
+  // закрытие попапа
+  var close = function () {
+    removePopup();
+    document.removeEventListener('keydown', onEscapePress);
+  };
+  // удаляет попап
+  var removePopup = function () {
+    var popupElement = window.map.mapElement.querySelector('.popup');
+    if (popupElement) {
+      window.map.mapElement.removeChild(popupElement);
+    }
+  };
+  // функция нажатия Esc
+  var onEscapePress = function (evt) {
+    window.utils.isEscEvent(evt, close);
+  };
+  // функция клика на крестик
+  var onCloseElementClick = function () {
+    close();
+  };
 
-  var filtersElement = document.querySelector('.map__filters-container');
+  // добавляет обработчик клика по карте
+  var onMapPinClick = function (evt, data) {
+    var targetPinElement = evt.target.closest('.map__pin');
+    if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
+      show(data[targetPinElement.dataset.index]);
+      var popupCloseElement = document.querySelector('.popup__close');
+      popupCloseElement.addEventListener('click', onCloseElementClick);
+      document.addEventListener('keydown', onEscapePress);
+    }
+  };
+
   var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var createFeaturesList = function (features) {
@@ -48,7 +86,7 @@
   };
 
   // создает текст объявления
-  var createCardOffer = function (offerData) {
+  var renderOffer = function (offerData) {
     var cardElement = mapCardElement.cloneNode(true);
     cardElement.querySelector('.popup__title').textContent = offerData.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = offerData.offer.address;
@@ -64,36 +102,8 @@
     return cardElement;
   };
 
-  // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
-  var showOffer = function (offer) {
-    removePopup();
-    var currentOfferElement = createCardOffer(offer);
-    window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
-  };
-  // закрытие попапа
-  var closePopup = function () {
-    removePopup();
-    document.removeEventListener('keydown', onPopupEscapePress);
-  };
-  // удаляет попап
-  var removePopup = function () {
-    var popupElement = window.map.mapElement.querySelector('.popup');
-    if (popupElement) {
-      window.map.mapElement.removeChild(popupElement);
-    }
-  };
-  // функция нажатия Esc
-  var onPopupEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, closePopup);
-  };
-  // функция клика на крестик
-  var onPopupCloseClick = function () {
-    closePopup();
-  };
-
   window.card = {
-    showOffer: showOffer,
-    onPopupCloseClick: onPopupCloseClick,
-    onPopupEscapePress: onPopupEscapePress
+    onMapPinClick: onMapPinClick,
+    close: close
   };
 })();

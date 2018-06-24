@@ -3,7 +3,9 @@
 (function () {
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+
   var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
+
   var makePin = function (offerObject, offerNumber) {
     var newPinElement = mapPinElement.cloneNode(true);
     var newPinIconElement = newPinElement.querySelector('.map__pin img');
@@ -15,7 +17,6 @@
     newPinElement.dataset.index = offerNumber;
     return newPinElement;
   };
-
 
   window.pin = {
     makePin: makePin

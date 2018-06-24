@@ -2,6 +2,9 @@
 
 (function () {
   var ESCAPE_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+  var errorElement = document.createElement('div');
+
   // ивент по нажатию клавиши escape
   var isEscEvent = function (evt, action) {
     if (evt.keyCode === ESCAPE_KEYCODE) {
@@ -9,46 +12,36 @@
     }
   };
 
-  // Функции для работы с переменными и массивами
-  var getRandomNumber = function (min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  };
-
-  var getRandomElement = function (arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  };
-
-  var getRandomIndex = function (arr) {
-    return Math.round(Math.random() * (arr.length - 1));
-  };
-
-  var getRandomUniqueElement = function (arr) {
-    var randomIndex = getRandomIndex(arr);
-    var randomItem = arr.splice(randomIndex, 1);
-    return randomItem[0];
-  };
-
-  // Fisher–Yates shuffle
-  var getShuffleArray = function (arr) {
-    for (var i = arr.length - 1; i > 0; i--) {
-      var rand = Math.floor(Math.random() * (i + 1));
-      var temp = arr[i];
-      arr[i] = arr[rand];
-      arr[rand] = temp;
+  var isEnterEvent = function (evt, action) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      action();
     }
-    return arr;
   };
 
-  var getShuffleArrayWithRandomLength = function (array) {
-    return getShuffleArray(array).slice(0, getRandomNumber(1, array.length + 1));
+  var hideErrorMessage = function () {
+    setTimeout(function () {
+      errorElement.classList.add('hidden');
+    }, 10000);
+  };
+
+  var onError = function (errorMessage) {
+    errorElement.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
+    errorElement.style.color = '#000000';
+    errorElement.style.textAlign = 'center';
+    errorElement.style.margin = 'center auto';
+    errorElement.style.position = 'fixed';
+    errorElement.style.left = '0';
+    errorElement.style.right = '0';
+    errorElement.style.fontSize = '30px';
+    errorElement.style.zIndex = '2';
+    errorElement.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', errorElement);
+    hideErrorMessage();
   };
 
   window.utils = {
-    isEscEvent: isEscEvent,
-    getRandomNumber: getRandomNumber,
-    getRandomElement: getRandomElement,
-    getRandomUniqueElement: getRandomUniqueElement,
-    getShuffleArrayWithRandomLength: getShuffleArrayWithRandomLength,
-    getShuffleArray: getShuffleArray
+    onError: onError,
+    isEnterEvent: isEnterEvent,
+    isEscEvent: isEscEvent
   };
 })();
