@@ -19,7 +19,7 @@
     return typeOffer;
   };
 
-  var filtersElement = document.querySelector('.map__filters-container');
+
   var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var createFeaturesList = function (features) {
@@ -64,37 +64,7 @@
     return cardElement;
   };
 
-  // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
-  var show = function (offer) {
-    removePopup();
-    var currentOfferElement = createCardOffer(offer);
-    window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
-  };
-  // закрытие попапа
-  var close = function () {
-    removePopup();
-    document.removeEventListener('keydown', onEscapePress);
-  };
-  // удаляет попап
-  var removePopup = function () {
-    var popupElement = window.map.mapElement.querySelector('.popup');
-    if (popupElement) {
-      window.map.mapElement.removeChild(popupElement);
-    }
-  };
-  // функция нажатия Esc
-  var onEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, close);
-  };
-  // функция клика на крестик
-  var onCloseElementClick = function () {
-    close();
-  };
-
   window.card = {
-    show: show,
-    onCloseElementClick: onCloseElementClick,
-    onEscapePress: onEscapePress,
-    close: close
+    createCardOffer: createCardOffer
   };
 })();

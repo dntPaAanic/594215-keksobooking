@@ -15,9 +15,6 @@
   var mainPinLeft = mainPinElement.offsetLeft;
   var mainPinTop = mainPinElement.offsetTop;
 
-  var adFormElement = document.querySelector('.ad-form');
-  var formResetElement = adFormElement.querySelector('.ad-form__reset');
-
   // Создает пины
   var makePins = function (pins) {
     var docFragment = document.createDocumentFragment();
@@ -49,7 +46,7 @@
       window.form.toggleFormDisabled(false);
       makePins(data);
       mapElement.addEventListener('click', function (evt) {
-        onMapPinClick(evt, data);
+        window.showCard.onMapPinClick(evt, data);
       });
       mainPinElement.removeEventListener('mouseup', onActivatePage);
       mainPinElement.removeEventListener('keydown', onEnterPress);
@@ -64,22 +61,17 @@
       mainPinElement.addEventListener('mouseup', onActivatePage);
       mainPinElement.addEventListener('keydown', onEnterPress);
     }
-    if (formResetElement) {
-      formResetElement.addEventListener('mouseup', function () {
+    if (window.form.formResetElement) {
+      window.form.formResetElement.addEventListener('mouseup', function () {
         mainPinElement.addEventListener('mouseup', onActivatePage);
         mainPinElement.addEventListener('keydown', onEnterPress);
       });
     }
-  };
-
-  // добавляет обработчик клика по карте
-  var onMapPinClick = function (evt, data) {
-    var targetPinElement = evt.target.closest('.map__pin');
-    if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
-      window.card.show(data[targetPinElement.dataset.index]);
-      var popupCloseElement = document.querySelector('.popup__close');
-      popupCloseElement.addEventListener('click', window.card.onCloseElementClick);
-      document.addEventListener('keydown', window.card.onEscapePress);
+    if (window.form.successElement) {
+      window.form.successElement.addEventListener('mouseup', function () {
+        mainPinElement.addEventListener('mouseup', onActivatePage);
+        mainPinElement.addEventListener('keydown', onEnterPress);
+      });
     }
   };
 

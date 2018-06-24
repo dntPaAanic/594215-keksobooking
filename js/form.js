@@ -39,24 +39,6 @@
     successElement.classList.toggle('hidden', successDisabled);
   };
 
-  var closeSuccess = function () {
-    toggleSuccessDisabled(true);
-    document.removeEventListener('keydown', onSuccessEscapePress);
-  };
-
-  var onSuccessEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, closeSuccess);
-  };
-
-  var onSuccesButtonClick = function () {
-    toggleSuccessDisabled(false);
-    resetAll();
-    successElement.addEventListener('click', function () {
-      toggleSuccessDisabled(true);
-    });
-    document.addEventListener('keydown', onSuccessEscapePress);
-  };
-
   // Получение адреса пина после передвижения
   var setAddress = function (pinLeft, pinTop) {
     addressFieldElement.value = pinLeft + ', ' + pinTop;
@@ -96,11 +78,29 @@
     }
   };
 
+  var closeSuccess = function () {
+    toggleSuccessDisabled(true);
+    document.removeEventListener('keydown', onSuccessEscapePress);
+  };
+
+  var onSuccessEscapePress = function (evt) {
+    window.utils.isEscEvent(evt, closeSuccess);
+  };
+
+  var onSuccessButtonClick = function () {
+    toggleSuccessDisabled(false);
+    resetAll();
+    successElement.addEventListener('click', function () {
+      toggleSuccessDisabled(true);
+    });
+    document.addEventListener('keydown', onSuccessEscapePress);
+  };
+
   // Возврат в первоночальное состояние неактивное состояние
   var resetAll = function () {
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
-    window.card.close();
+    window.showCard.close();
     adFormElement.reset();
     setDefaultposition();
   };
@@ -131,11 +131,13 @@
   });
 
   adFormElement.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(adFormElement), onSuccesButtonClick, window.utils.onError);
+    window.backend.upload(new FormData(adFormElement), onSuccessButtonClick, window.utils.onError);
     evt.preventDefault();
   });
 
   window.form = {
+    successElement: successElement,
+    formResetElement: formResetElement,
     toggleFormDisabled: toggleFormDisabled,
     onAmountCapacityChange: onAmountCapacityChange,
     setAddress: setAddress
