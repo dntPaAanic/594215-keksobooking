@@ -58,23 +58,24 @@
     var onEnterPress = function (evt) {
       window.utils.isEnterEvent(evt, onActivatePage);
     };
-    // Создает обработчик отпускания кнопки мыши
-    if (mainPinElement) {
+    var activatePage = function () {
       mainPinElement.addEventListener('mouseup', onActivatePage);
       mainPinElement.addEventListener('keydown', onEnterPress);
+    };
+    // Создает обработчик отпускания кнопки мыши
+    if (mainPinElement) {
+      activatePage();
     }
     // После ресета карты не появлялись пины, сделал обработчик на .ad-form__reset
-    if (window.form.formResetElement) {
-      window.form.formResetElement.addEventListener('mouseup', function () {
-        mainPinElement.addEventListener('mouseup', onActivatePage);
-        mainPinElement.addEventListener('keydown', onEnterPress);
+    if (window.form.adFormElement) {
+      window.form.adFormElement.addEventListener('reset', function () {
+        activatePage();
       });
     }
     // После отправки формы не появлялись пины, сделал обработчик на .success
     if (window.form.successElement) {
       window.form.successElement.addEventListener('mouseup', function () {
-        mainPinElement.addEventListener('mouseup', onActivatePage);
-        mainPinElement.addEventListener('keydown', onEnterPress);
+        activatePage();
       });
     }
   };

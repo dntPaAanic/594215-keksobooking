@@ -105,14 +105,14 @@
     setDefaultposition();
   };
 
-  var onButtonClickReset = function () {
+  var onButtonResetClick = function () {
     resetAll();
   };
 
   getAddress();
   toggleFormDisabled(true);
 
-  formResetElement.addEventListener('click', onButtonClickReset);
+  formResetElement.addEventListener('click', onButtonResetClick);
 
   timeInFieldElement.addEventListener('change', function () {
     onTimeChange(timeInFieldElement, timeOutFieldElement);
@@ -136,6 +136,7 @@
   });
 
   window.form = {
+    adFormElement: adFormElement,
     successElement: successElement,
     formResetElement: formResetElement,
     toggleFormDisabled: toggleFormDisabled,
