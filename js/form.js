@@ -37,6 +37,7 @@
   // Переключает форму уведомления об успешной отправке в/из неактивного состояния
   var toggleSuccessDisabled = function (successDisabled) {
     successElement.classList.toggle('hidden', successDisabled);
+    successElement.focus();
   };
 
   // Получение адреса пина после передвижения
@@ -105,7 +106,8 @@
     setDefaultposition();
   };
 
-  var onButtonResetClick = function () {
+  var onButtonResetClick = function (evt) {
+    evt.preventDefault();
     resetAll();
   };
 
