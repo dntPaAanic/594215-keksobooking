@@ -52,7 +52,7 @@
     setAddress(pinLeft, pinTop);
   };
 
-  var setDefaultposition = function () {
+  var setDefaultPosition = function () {
     window.map.mainPinElement.style.left = window.map.mainPinLeft + 'px';
     window.map.mainPinElement.style.top = window.map.mainPinTop + 'px';
     getAddress();
@@ -103,7 +103,7 @@
     window.map.toggleMapDisabled(true);
     window.card.close();
     adFormElement.reset();
-    setDefaultposition();
+    setDefaultPosition();
   };
 
   var onButtonResetClick = function (evt) {
