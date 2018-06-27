@@ -102,6 +102,7 @@
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
     window.card.close();
+    window.map.filtersFormElement.reset();
     adFormElement.reset();
     setDefaultPosition();
   };

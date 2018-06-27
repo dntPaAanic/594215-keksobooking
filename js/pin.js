@@ -28,9 +28,12 @@
     newPinIconElement.src = offerObject.author.avatar;
     newPinIconElement.alt = offerObject.offer.title;
     newPinElement.tabIndex = offerNumber;
-    newPinElement.dataset.index = offerNumber;
+    newPinElement.addEventListener('click', function (evt) {
+      window.card.onMapPinClick(evt, offerObject);
+    });
     return newPinElement;
   };
+
 
   window.pin = {
     makePin: makePin,
