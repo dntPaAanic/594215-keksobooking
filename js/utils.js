@@ -25,6 +25,7 @@
     }, 10000);
   };
 
+  // Создание DOM-элемента, показывающего ошибку
   var onError = function (errorMessage) {
     errorElement.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
     errorElement.style.color = '#000000';
@@ -40,12 +41,19 @@
     hideErrorMessage();
   };
 
+
   var debounce = function (fun) {
     var lastTimeout = null;
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, DEBOUNCE_INTERVAL);
+    };
   };
 
   window.utils = {

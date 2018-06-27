@@ -6,7 +6,7 @@
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
   var MAIN_PIN_MAX_COORD_X = 1140;
-  var PRICE_TO_COMPARE = {
+  var PRICES_TO_COMPARE = {
     low: 10000,
     high: 50000
   };
@@ -27,6 +27,8 @@
   var mainPinLeft = mainPinElement.offsetLeft;
   var mainPinTop = mainPinElement.offsetTop;
 
+  var offers = [];
+
   // Создает пины
   var makePins = function (pins) {
     var docFragment = document.createDocumentFragment();
@@ -44,8 +46,6 @@
       pinsElement.removeChild(pinElement[i]);
     }
   };
-
-  var offers = [];
 
   // Обновляет/фильтрует и создает новые пины
   var updatePins = function () {
@@ -68,9 +68,9 @@
       if (priceFilterElement.value !== 'any') {
         filteredOffers = filteredOffers.filter(function (offerData) {
           var priceFilterValues = {
-            'low': offerData.offer.price < PRICE_TO_COMPARE.low,
-            'middle': offerData.offer.price >= PRICE_TO_COMPARE.low && offerData.offer.price < PRICE_TO_COMPARE.high,
-            'high': offerData.offer.price >= PRICE_TO_COMPARE.high
+            'low': offerData.offer.price < PRICES_TO_COMPARE.low,
+            'middle': offerData.offer.price >= PRICES_TO_COMPARE.low && offerData.offer.price < PRICES_TO_COMPARE.high,
+            'high': offerData.offer.price >= PRICES_TO_COMPARE.high
           };
           return priceFilterValues[priceFilterElement.value];
         });
@@ -189,7 +189,7 @@
 
   // Добавляет обработчик на форму с фильтрами для устранения дребезга
   filtersFormElement.addEventListener('change', function () {
-    window.utils.debounce(updatePins);
+    window.utils.debounce(updatePins());
   });
 
   // по-умолчанию карта и формы отключены

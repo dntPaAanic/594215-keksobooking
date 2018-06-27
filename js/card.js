@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var filtersElement = document.querySelector('.map__filters-container');
+  var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var accomodationType = function (val) {
     var typeOffer = '';
@@ -59,8 +60,6 @@
       document.addEventListener('keydown', onEscapePress);
     }
   };
-
-  var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();

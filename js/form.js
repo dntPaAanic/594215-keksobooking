@@ -13,8 +13,8 @@
     house: 5000,
     palace: 10000
   };
-  var adFormFieldsetsElement = document.querySelectorAll('fieldset');
 
+  var adFormFieldsetsElement = document.querySelectorAll('fieldset');
   var successElement = document.querySelector('.success');
   var adFormElement = document.querySelector('.ad-form');
   var formResetElement = adFormElement.querySelector('.ad-form__reset');
@@ -68,6 +68,7 @@
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
+
   var onAmountCapacityChange = function (roomAmountValue, capacityValue) {
     roomAmountValue = roomNumberElement.value;
     capacityValue = capacityElement.value;
@@ -110,6 +111,7 @@
   var onButtonResetClick = function (evt) {
     evt.preventDefault();
     resetAll();
+    formResetElement.removeEventListener('click', onButtonResetClick);
   };
 
   getAddress();
@@ -129,6 +131,7 @@
   roomNumberElement.addEventListener('change', function () {
     onAmountCapacityChange(roomNumberElement, capacityElement);
   });
+
   capacityElement.addEventListener('change', function () {
     onAmountCapacityChange(roomNumberElement, capacityElement);
   });
