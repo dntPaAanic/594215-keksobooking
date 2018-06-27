@@ -6,6 +6,11 @@
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
   var MAIN_PIN_MAX_COORD_X = 1140;
+  var PRICES_TO_COMPARE = {
+    low: 10000,
+    high: 50000
+  };
+
   var mapElement = document.querySelector('.map');
   var pinsElement = document.querySelector('.map__pins');
   var mainPinElement = mapElement.querySelector('.map__pin--main');
@@ -15,10 +20,20 @@
   var mainPinLeft = mainPinElement.offsetLeft;
   var mainPinTop = mainPinElement.offsetTop;
 
+  var filtersForm = document.querySelector('.map__filters');
+  var typeFilter = filtersForm.querySelector('#housing-type');
+  var priceFilter = filtersForm.querySelector('#housing-price');
+  var roomsFilter = filtersForm.querySelector('#housing-rooms');
+  var guestsFilter = filtersForm.querySelector('#housing-guests');
+  var featuresFilters = filtersForm.querySelectorAll('#housing-features input[name="features"]');
+
+  var offers = [];
+
   // Создает пины
   var makePins = function (pins) {
     var docFragment = document.createDocumentFragment();
-    for (var i = 0; i < OFFERS_COUNT; i++) {
+    var pinsCount = (pins.length > OFFERS_COUNT) ? OFFERS_COUNT : pins.length;
+    for (var i = 0; i < pinsCount; i++) {
       docFragment.appendChild(window.pin.makePin(pins[i], i));
     }
     pinsElement.appendChild(docFragment);
@@ -31,6 +46,57 @@
       pinsElement.removeChild(pinElement[i]);
     }
   };
+
+  var updatePins = function () {
+    var filteredOffers = offers;
+    deletePins();
+    window.card.close();
+
+    var filterByValue = function (element, property) {
+      if (element.value !== 'any') {
+        filteredOffers = filteredOffers.filter(function (offerData) {
+          return offerData.offer[property].toString() === element.value;
+        });
+      }
+      return filteredOffers;
+    };
+
+    var filterByPrice = function () {
+      if (priceFilter.value !== 'any') {
+        filteredOffers = filteredOffers.filter(function (offerData) {
+          var priceFilterValues = {
+            'middle': offerData.offer.price >= PRICES_TO_COMPARE.low && offerData.offer.price < PRICES_TO_COMPARE.high,
+            'low': offerData.offer.price < PRICES_TO_COMPARE.low,
+            'high': offerData.offer.price >= PRICES_TO_COMPARE.high
+          };
+          return priceFilterValues[priceFilter.value];
+        });
+      }
+      return filteredOffers;
+    };
+
+    var filterByFeatures = function () {
+      [].forEach.call(featuresFilters, function (item) {
+        if (item.checked) {
+          filteredOffers = filteredOffers.filter(function (offerData) {
+            return offerData.offer.features.indexOf(item.value) >= 0;
+          });
+        }
+      });
+      return filteredOffers;
+    };
+
+    filterByValue(typeFilter, 'type');
+    filterByValue(roomsFilter, 'rooms');
+    filterByValue(guestsFilter, 'guests');
+    filterByPrice();
+    filterByFeatures();
+    makePins(filteredOffers);
+  };
+
+  filtersForm.addEventListener('change', function () {
+    window.utils.debounce(updatePins);
+  });
 
   // Переключает карту из неактивного состояния
   var toggleMapDisabled = function (mapDisabled) {
@@ -47,7 +113,8 @@
     var onActivatePage = function () {
       toggleMapDisabled(false);
       window.form.toggleFormDisabled(false);
-      makePins(data);
+      offers = data.slice();
+      makePins(offers);
       mapElement.addEventListener('click', function (evt) {
         window.card.onMapPinClick(evt, data);
       });
