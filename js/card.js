@@ -29,6 +29,7 @@
   // закрытие попапа
   var close = function () {
     removePopup();
+    window.pin.removePinActiveState();
     document.removeEventListener('keydown', onEscapePress);
   };
   // удаляет попап
@@ -52,6 +53,7 @@
     var targetPinElement = evt.target.closest('.map__pin');
     if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
       show(data[targetPinElement.dataset.index]);
+      window.pin.addCurrentPinActiveState(targetPinElement);
       var popupCloseElement = document.querySelector('.popup__close');
       popupCloseElement.addEventListener('click', onCloseElementClick);
       document.addEventListener('keydown', onEscapePress);
