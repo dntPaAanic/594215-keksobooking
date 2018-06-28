@@ -6,9 +6,9 @@
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
   var MAIN_PIN_MAX_COORD_X = 1140;
-  var RENT_PRICES = {
-    low: 10000,
-    high: 50000
+  var RentPrice = {
+    LOW: 10000,
+    HIGH: 50000
   };
 
   var mapElement = document.querySelector('.map');
@@ -68,9 +68,9 @@
       if (priceFilterElement.value !== 'any') {
         filteredOffers = filteredOffers.filter(function (offerData) {
           var priceFilterValues = {
-            'low': offerData.offer.price < RENT_PRICES.low,
-            'middle': offerData.offer.price >= RENT_PRICES.low && offerData.offer.price < RENT_PRICES.high,
-            'high': offerData.offer.price >= RENT_PRICES.high
+            'low': offerData.offer.price < RentPrice.LOW,
+            'middle': offerData.offer.price >= RentPrice.LOW && offerData.offer.price < RentPrice.HIGH,
+            'high': offerData.offer.price >= RentPrice.HIGH
           };
           return priceFilterValues[priceFilterElement.value];
         });
@@ -189,7 +189,7 @@
 
   // Добавляет обработчик на форму с фильтрами для устранения дребезга
   filtersFormElement.addEventListener('change', function () {
-    window.utils.debounce(updatePins());
+    window.utils.debounce(updatePins);
   });
 
   // по-умолчанию карта и формы отключены

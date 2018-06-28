@@ -3,7 +3,8 @@
 (function () {
   var ESCAPE_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  var DEBOUNCE_INTERVAL = 300;
+  var DEBOUNCE_INTERVAL = 500;
+  var lastTimeout;
   var errorElement = document.createElement('div');
 
   // ивент по нажатию клавиши escape
@@ -43,17 +44,10 @@
 
 
   var debounce = function (fun) {
-    var lastTimeout = null;
-
-    return function () {
-      var args = arguments;
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(function () {
-        fun.apply(null, args);
-      }, DEBOUNCE_INTERVAL);
-    };
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
   };
 
   window.utils = {

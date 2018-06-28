@@ -3,12 +3,12 @@
 (function () {
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+  var activePin;
 
   var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
 
   // функция убирает активное состояние у метки
   var removePinActiveState = function () {
-    var activePin = document.querySelector('.map__pin--active');
     if (activePin) {
       activePin.classList.remove('map__pin--active');
     }
@@ -18,6 +18,7 @@
   var addCurrentPinActiveState = function (currentPin) {
     removePinActiveState();
     currentPin.classList.add('map__pin--active');
+    activePin = currentPin;
   };
 
   var makePin = function (offerObject, offerNumber) {
