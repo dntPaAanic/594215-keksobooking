@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var filtersElement = document.querySelector('.map__filters-container');
+  var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var accomodationType = function (val) {
     var typeOffer = '';
@@ -29,6 +30,7 @@
   // закрытие попапа
   var close = function () {
     removePopup();
+    window.pin.removePinActiveState();
     document.removeEventListener('keydown', onEscapePress);
   };
   // удаляет попап
@@ -51,14 +53,13 @@
   var onMapPinClick = function (evt, data) {
     var targetPinElement = evt.target.closest('.map__pin');
     if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
-      show(data[targetPinElement.dataset.index]);
+      show(data);
+      window.pin.addCurrentPinActiveState(targetPinElement);
       var popupCloseElement = document.querySelector('.popup__close');
       popupCloseElement.addEventListener('click', onCloseElementClick);
       document.addEventListener('keydown', onEscapePress);
     }
   };
-
-  var mapCardElement = document.querySelector('template').content.querySelector('.map__card');
 
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();
@@ -96,6 +97,7 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData.offer.checkin + ', выезд до ' + offerData.offer.checkout;
     cardElement.querySelector('.popup__features').innerHTML = '';
     cardElement.querySelector('.popup__features').appendChild(createFeaturesList(offerData.offer.features));
+    cardElement.querySelector('.popup__description').textContent = offerData.offer.description;
     cardElement.querySelector('.popup__photos').innerHTML = '';
     cardElement.querySelector('.popup__photos').appendChild(createPhotosList(offerData.offer.photos));
     cardElement.querySelector('.popup__avatar').src = offerData.author.avatar;

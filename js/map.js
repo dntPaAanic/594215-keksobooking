@@ -6,20 +6,35 @@
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
   var MAIN_PIN_MAX_COORD_X = 1140;
+  var RentPrice = {
+    LOW: 10000,
+    HIGH: 50000
+  };
+
   var mapElement = document.querySelector('.map');
   var pinsElement = document.querySelector('.map__pins');
   var mainPinElement = mapElement.querySelector('.map__pin--main');
+
+  var filtersFormElement = document.querySelector('.map__filters');
+  var typeFilterElement = filtersFormElement.querySelector('#housing-type');
+  var priceFilterElement = filtersFormElement.querySelector('#housing-price');
+  var roomsFilterElement = filtersFormElement.querySelector('#housing-rooms');
+  var guestsFilterElement = filtersFormElement.querySelector('#housing-guests');
+  var featuresFiltersElement = filtersFormElement.querySelectorAll('.map__checkbox');
 
   var mainPinWidth = mainPinElement.offsetWidth;
   var mainPinHeight = mainPinElement.offsetHeight;
   var mainPinLeft = mainPinElement.offsetLeft;
   var mainPinTop = mainPinElement.offsetTop;
 
+  var offers = [];
+
   // Создает пины
   var makePins = function (pins) {
     var docFragment = document.createDocumentFragment();
-    for (var i = 0; i < OFFERS_COUNT; i++) {
-      docFragment.appendChild(window.pin.makePin(pins[i], i));
+    var pinsCount = (pins.length > OFFERS_COUNT) ? OFFERS_COUNT : pins.length;
+    for (var i = 0; i < pinsCount; i++) {
+      docFragment.appendChild(window.pin.makePin(pins[i]));
     }
     pinsElement.appendChild(docFragment);
   };
@@ -30,6 +45,57 @@
     for (var i = 1; i < pinElement.length; i++) {
       pinsElement.removeChild(pinElement[i]);
     }
+  };
+
+  // Обновляет/фильтрует и создает новые пины
+  var updatePins = function () {
+    var filteredOffers = offers;
+    deletePins();
+    window.card.close();
+
+    // Фильтрует по значению элемента
+    var filterByValue = function (element, property) {
+      if (element.value !== 'any') {
+        filteredOffers = filteredOffers.filter(function (offerData) {
+          return offerData.offer[property].toString() === element.value;
+        });
+      }
+      return filteredOffers;
+    };
+
+    // Фильтрует по цене
+    var filterByPrice = function () {
+      if (priceFilterElement.value !== 'any') {
+        filteredOffers = filteredOffers.filter(function (offerData) {
+          var priceFilterValues = {
+            'low': offerData.offer.price < RentPrice.LOW,
+            'middle': offerData.offer.price >= RentPrice.LOW && offerData.offer.price < RentPrice.HIGH,
+            'high': offerData.offer.price >= RentPrice.HIGH
+          };
+          return priceFilterValues[priceFilterElement.value];
+        });
+      }
+      return filteredOffers;
+    };
+
+    // Фильтрует по фичам
+    var filterByFeatures = function () {
+      [].forEach.call(featuresFiltersElement, function (item) {
+        if (item.checked) {
+          filteredOffers = filteredOffers.filter(function (offerData) {
+            return offerData.offer.features.indexOf(item.value) >= 0;
+          });
+        }
+      });
+      return filteredOffers;
+    };
+
+    filterByValue(typeFilterElement, 'type');
+    filterByValue(roomsFilterElement, 'rooms');
+    filterByValue(guestsFilterElement, 'guests');
+    filterByPrice();
+    filterByFeatures();
+    makePins(filteredOffers);
   };
 
   // Переключает карту из неактивного состояния
@@ -47,10 +113,8 @@
     var onActivatePage = function () {
       toggleMapDisabled(false);
       window.form.toggleFormDisabled(false);
-      makePins(data);
-      mapElement.addEventListener('click', function (evt) {
-        window.card.onMapPinClick(evt, data);
-      });
+      offers = data.slice();
+      makePins(offers);
       mainPinElement.removeEventListener('mouseup', onActivatePage);
       mainPinElement.removeEventListener('keydown', onEnterPress);
       window.form.onAmountCapacityChange();
@@ -123,6 +187,11 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  // Добавляет обработчик на форму с фильтрами для устранения дребезга
+  filtersFormElement.addEventListener('change', function () {
+    window.utils.debounce(updatePins);
+  });
+
   // по-умолчанию карта и формы отключены
   toggleMapDisabled(true);
 
@@ -136,6 +205,7 @@
     mainPinHeight: mainPinHeight,
     mapElement: mapElement,
     toggleMapDisabled: toggleMapDisabled,
-    mainPinElement: mainPinElement
+    mainPinElement: mainPinElement,
+    filtersFormElement: filtersFormElement
   };
 })();

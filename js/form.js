@@ -13,8 +13,8 @@
     house: 5000,
     palace: 10000
   };
-  var adFormFieldsetsElement = document.querySelectorAll('fieldset');
 
+  var adFormFieldsetsElement = document.querySelectorAll('fieldset');
   var successElement = document.querySelector('.success');
   var adFormElement = document.querySelector('.ad-form');
   var formResetElement = adFormElement.querySelector('.ad-form__reset');
@@ -37,6 +37,7 @@
   // Переключает форму уведомления об успешной отправке в/из неактивного состояния
   var toggleSuccessDisabled = function (successDisabled) {
     successElement.classList.toggle('hidden', successDisabled);
+    successElement.focus();
   };
 
   // Получение адреса пина после передвижения
@@ -51,7 +52,7 @@
     setAddress(pinLeft, pinTop);
   };
 
-  var setDefaultposition = function () {
+  var setDefaultPosition = function () {
     window.map.mainPinElement.style.left = window.map.mainPinLeft + 'px';
     window.map.mainPinElement.style.top = window.map.mainPinTop + 'px';
     getAddress();
@@ -67,6 +68,7 @@
     priceForNightFieldElement.setAttribute('min', minValuePrice);
     priceForNightFieldElement.setAttribute('placeholder', minValuePrice);
   };
+
   var onAmountCapacityChange = function (roomAmountValue, capacityValue) {
     roomAmountValue = roomNumberElement.value;
     capacityValue = capacityElement.value;
@@ -101,12 +103,15 @@
     toggleFormDisabled(true);
     window.map.toggleMapDisabled(true);
     window.card.close();
+    window.map.filtersFormElement.reset();
     adFormElement.reset();
-    setDefaultposition();
+    setDefaultPosition();
   };
 
-  var onButtonResetClick = function () {
+  var onButtonResetClick = function (evt) {
+    evt.preventDefault();
     resetAll();
+    formResetElement.removeEventListener('click', onButtonResetClick);
   };
 
   getAddress();
@@ -126,6 +131,7 @@
   roomNumberElement.addEventListener('change', function () {
     onAmountCapacityChange(roomNumberElement, capacityElement);
   });
+
   capacityElement.addEventListener('change', function () {
     onAmountCapacityChange(roomNumberElement, capacityElement);
   });

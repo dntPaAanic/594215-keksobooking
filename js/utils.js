@@ -3,6 +3,8 @@
 (function () {
   var ESCAPE_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 500;
+  var lastTimeout;
   var errorElement = document.createElement('div');
 
   // ивент по нажатию клавиши escape
@@ -24,6 +26,7 @@
     }, 10000);
   };
 
+  // Создание DOM-элемента, показывающего ошибку
   var onError = function (errorMessage) {
     errorElement.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
     errorElement.style.color = '#000000';
@@ -39,9 +42,18 @@
     hideErrorMessage();
   };
 
+
+  var debounce = function (action) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(action, DEBOUNCE_INTERVAL);
+  };
+
   window.utils = {
     onError: onError,
     isEnterEvent: isEnterEvent,
-    isEscEvent: isEscEvent
+    isEscEvent: isEscEvent,
+    debounce: debounce
   };
 })();
