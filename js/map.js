@@ -6,7 +6,7 @@
   var LOCATION_Y_MAX = 630;
   var LOCATION_Y_INFELICITY = 80;
   var MAIN_PIN_MAX_COORD_X = 1140;
-  var PRICES_TO_COMPARE = {
+  var RENT_PRICES = {
     low: 10000,
     high: 50000
   };
@@ -68,9 +68,9 @@
       if (priceFilterElement.value !== 'any') {
         filteredOffers = filteredOffers.filter(function (offerData) {
           var priceFilterValues = {
-            'low': offerData.offer.price < PRICES_TO_COMPARE.low,
-            'middle': offerData.offer.price >= PRICES_TO_COMPARE.low && offerData.offer.price < PRICES_TO_COMPARE.high,
-            'high': offerData.offer.price >= PRICES_TO_COMPARE.high
+            'low': offerData.offer.price < RENT_PRICES.low,
+            'middle': offerData.offer.price >= RENT_PRICES.low && offerData.offer.price < RENT_PRICES.high,
+            'high': offerData.offer.price >= RENT_PRICES.high
           };
           return priceFilterValues[priceFilterElement.value];
         });
