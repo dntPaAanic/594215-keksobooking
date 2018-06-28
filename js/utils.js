@@ -43,11 +43,11 @@
   };
 
 
-  var debounce = function (fun) {
+  var debounce = function (action) {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+    lastTimeout = window.setTimeout(action, DEBOUNCE_INTERVAL);
   };
 
   window.utils = {
