@@ -5,7 +5,7 @@
   var URL_DOWNLOAD = 'https://js.dump.academy/keksobooking/data';
   var TIMEOUT = 10000;
 
-  var httpStatusCodes = {
+  var Code = {
     NOT_FOUND: 404,
     SUCCESS: 200,
     USER_UNAUTHORIZED: 401,
@@ -20,19 +20,19 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case httpStatusCodes.SUCCESS:
+        case Code.SUCCESS:
           onLoad(xhr.response);
           break;
-        case httpStatusCodes.BAD_REQUEST:
+        case Code.BAD_REQUEST:
           onError('Неверный запрос');
           break;
-        case httpStatusCodes.SERVER_ERROR:
+        case Code.SERVER_ERROR:
           onError('Внутренняя ошибка сервера');
           break;
-        case httpStatusCodes.USER_UNAUTHORIZED:
+        case Code.USER_UNAUTHORIZED:
           onError('Пользователь не авторизован');
           break;
-        case httpStatusCodes.NOT_FOUND:
+        case Code.NOT_FOUND:
           onError('Страница не найдена');
           break;
 
