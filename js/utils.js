@@ -24,6 +24,7 @@
     setTimeout(function () {
       errorElement.classList.add('hidden');
     }, 10000);
+    errorElement.classList.remove('hidden');
   };
 
   // Создание DOM-элемента, показывающего ошибку

@@ -202,6 +202,7 @@
     formResetElement: formResetElement,
     toggleFormDisabled: toggleFormDisabled,
     onAmountCapacityChange: onAmountCapacityChange,
-    setAddress: setAddress
+    setAddress: setAddress,
+    onTypeChange: onTypeChange
   };
 })();

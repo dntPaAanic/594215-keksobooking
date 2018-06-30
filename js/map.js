@@ -118,6 +118,7 @@
       mainPinElement.removeEventListener('mouseup', onActivatePage);
       mainPinElement.removeEventListener('keydown', onEnterPress);
       window.form.onAmountCapacityChange();
+      window.form.onTypeChange();
     };
     var onEnterPress = function (evt) {
       window.utils.checkEnterEvent(evt, onActivatePage);
