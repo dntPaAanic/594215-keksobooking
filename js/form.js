@@ -116,7 +116,7 @@
   // Возврат в первоночальное состояние неактивное состояние
   var resetAll = function () {
     toggleFormDisabled(true);
-    window.map.toggleMapDisabled(true);
+    window.map.toggleDisabled(true);
     window.card.close();
     window.map.filtersFormElement.reset();
     adFormElement.reset();
@@ -197,10 +197,9 @@
   });
 
   window.form = {
-    adFormElement: adFormElement,
+    adElement: adFormElement,
     successElement: successElement,
-    formResetElement: formResetElement,
-    toggleFormDisabled: toggleFormDisabled,
+    toggleFieldsDisabled: toggleFormDisabled,
     onAmountCapacityChange: onAmountCapacityChange,
     setAddress: setAddress,
     onTypeChange: onTypeChange

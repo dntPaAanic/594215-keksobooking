@@ -25,19 +25,19 @@
   var show = function (offer) {
     removePopup();
     var cardElement = renderOffer(offer);
-    window.map.mapElement.insertBefore(cardElement, filtersElement);
+    window.map.element.insertBefore(cardElement, filtersElement);
   };
   // закрытие попапа
   var close = function () {
     removePopup();
-    window.pin.removePinActiveState();
+    window.pin.removeActiveState();
     document.removeEventListener('keydown', onEscapePress);
   };
   // удаляет попап
   var removePopup = function () {
-    var popupElement = window.map.mapElement.querySelector('.popup');
+    var popupElement = window.map.element.querySelector('.popup');
     if (popupElement) {
-      window.map.mapElement.removeChild(popupElement);
+      window.map.element.removeChild(popupElement);
     }
   };
   // функция нажатия Esc
@@ -54,7 +54,7 @@
     var targetPinElement = evt.target.closest('.map__pin');
     if (targetPinElement && !targetPinElement.classList.contains('map__pin--main')) {
       show(data);
-      window.pin.addCurrentPinActiveState(targetPinElement);
+      window.pin.addCurrentActiveState(targetPinElement);
       var popupCloseElement = document.querySelector('.popup__close');
       popupCloseElement.addEventListener('click', onCloseElementClick);
       document.addEventListener('keydown', onEscapePress);
