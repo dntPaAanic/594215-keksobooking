@@ -37,8 +37,8 @@
 
 
   window.pin = {
-    makePin: makePin,
-    addCurrentPinActiveState: addCurrentPinActiveState,
-    removePinActiveState: removePinActiveState
+    make: makePin,
+    addCurrentActiveState: addCurrentPinActiveState,
+    removeActiveState: removePinActiveState
   };
 })();

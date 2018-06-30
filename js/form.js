@@ -116,11 +116,12 @@
   // Возврат в первоночальное состояние неактивное состояние
   var resetAll = function () {
     toggleFormDisabled(true);
-    window.map.toggleMapDisabled(true);
+    window.map.toggleDisabled(true);
     window.card.close();
     window.map.filtersFormElement.reset();
     adFormElement.reset();
     setDefaultPosition();
+    priceForNightFieldElement.placeholder = MIN_PRICES_FOR_NIGHT.flat;
     avatarPreviewElement.src = defaultAvatarIcon;
     removePhotos();
   };
@@ -197,11 +198,11 @@
   });
 
   window.form = {
-    adFormElement: adFormElement,
+    adElement: adFormElement,
     successElement: successElement,
-    formResetElement: formResetElement,
-    toggleFormDisabled: toggleFormDisabled,
+    toggleFieldsDisabled: toggleFormDisabled,
     onAmountCapacityChange: onAmountCapacityChange,
-    setAddress: setAddress
+    setAddress: setAddress,
+    onTypeChange: onTypeChange
   };
 })();

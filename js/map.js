@@ -34,7 +34,7 @@
     var docFragment = document.createDocumentFragment();
     var selectedOffers = offer.slice(0, OFFERS_COUNT);
     selectedOffers.forEach(function (pin) {
-      docFragment.appendChild(window.pin.makePin(pin));
+      docFragment.appendChild(window.pin.make(pin));
     });
     pinsElement.appendChild(docFragment);
   };
@@ -112,12 +112,13 @@
     // если data передать сразу в onActivatePage, то после загрузки страницы карта активируется сама
     var onActivatePage = function () {
       toggleMapDisabled(false);
-      window.form.toggleFormDisabled(false);
+      window.form.toggleFieldsDisabled(false);
       offers = data.slice();
       makePins(offers);
       mainPinElement.removeEventListener('mouseup', onActivatePage);
       mainPinElement.removeEventListener('keydown', onEnterPress);
       window.form.onAmountCapacityChange();
+      window.form.onTypeChange();
     };
     var onEnterPress = function (evt) {
       window.utils.checkEnterEvent(evt, onActivatePage);
@@ -130,9 +131,9 @@
     if (mainPinElement) {
       addMainPinEvents();
     }
-    // После ресета карты не появлялись пины, сделал обработчик на .ad-form__reset
-    if (window.form.adFormElement) {
-      window.form.adFormElement.addEventListener('reset', function () {
+    // После ресета карты не появлялись пины, сделал обработчик на .ad-form
+    if (window.form.adElement) {
+      window.form.adElement.addEventListener('reset', function () {
         addMainPinEvents();
       });
     }
@@ -146,7 +147,7 @@
 
   mainPinElement.addEventListener('mousedown', function (evt) {
     toggleMapDisabled(false);
-    window.form.toggleFormDisabled(false);
+    window.form.toggleFieldsDisabled(false);
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -203,8 +204,8 @@
     mainPinWidth: mainPinWidth,
     mainPinTop: mainPinTop,
     mainPinHeight: mainPinHeight,
-    mapElement: mapElement,
-    toggleMapDisabled: toggleMapDisabled,
+    element: mapElement,
+    toggleDisabled: toggleMapDisabled,
     mainPinElement: mainPinElement,
     filtersFormElement: filtersFormElement
   };
