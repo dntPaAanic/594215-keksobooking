@@ -111,7 +111,6 @@
   var onButtonResetClick = function (evt) {
     evt.preventDefault();
     resetAll();
-    formResetElement.removeEventListener('click', onButtonResetClick);
   };
 
   getAddress();
