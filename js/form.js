@@ -144,7 +144,7 @@
         imageElement.width = Photo.WIDTH;
         imageElement.height = Photo.HEIGHT;
         imageElement.style = 'margin-right: 10px';
-        imageElement.classList.add('form__photo');
+        imageElement.classList.add('ad-form__photo--upload');
         imageElement.src = reader.result;
         photoContainerElement.insertBefore(imageElement, photoPreviewElement);
       });
@@ -153,7 +153,7 @@
 
   // Удаляет загруженные фотографии
   var removePhotos = function () {
-    var photoElement = document.querySelectorAll('.form__photo');
+    var photoElement = document.querySelectorAll('.ad-form__photo--upload');
     if (photoElement) {
       [].forEach.call(photoElement, function (photo) {
         photo.parentNode.removeChild(photo);
