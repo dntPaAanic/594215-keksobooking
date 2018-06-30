@@ -29,9 +29,9 @@
   // Переключает форму из неактивного состояния
   var toggleFormDisabled = function (formDisabled) {
     adFormElement.classList.toggle('ad-form--disabled', formDisabled);
-    for (var i = 0; i < adFormFieldsetsElement.length; i++) {
-      adFormFieldsetsElement[i].disabled = formDisabled;
-    }
+    [].forEach.call(adFormFieldsetsElement, function (item) {
+      item.disabled = formDisabled;
+    });
   };
 
   // Переключает форму уведомления об успешной отправке в/из неактивного состояния
