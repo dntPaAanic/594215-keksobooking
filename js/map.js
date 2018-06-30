@@ -30,21 +30,21 @@
   var offers = [];
 
   // Создает пины
-  var makePins = function (pins) {
+  var makePins = function (offer) {
     var docFragment = document.createDocumentFragment();
-    var pinsCount = (pins.length > OFFERS_COUNT) ? OFFERS_COUNT : pins.length;
-    for (var i = 0; i < pinsCount; i++) {
-      docFragment.appendChild(window.pin.makePin(pins[i]));
-    }
+    var selectedOffers = offer.slice(0, OFFERS_COUNT);
+    selectedOffers.forEach(function (pin) {
+      docFragment.appendChild(window.pin.makePin(pin));
+    });
     pinsElement.appendChild(docFragment);
   };
 
   // Удаляет пины
   var deletePins = function () {
-    var pinElement = pinsElement.querySelectorAll('.map__pin');
-    for (var i = 1; i < pinElement.length; i++) {
-      pinsElement.removeChild(pinElement[i]);
-    }
+    var pinElement = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pinElement.forEach(function (item) {
+      pinsElement.removeChild(item);
+    });
   };
 
   // Обновляет/фильтрует и создает новые пины
@@ -80,7 +80,7 @@
 
     // Фильтрует по фичам
     var filterByFeatures = function () {
-      [].forEach.call(featuresFiltersElement, function (item) {
+      featuresFiltersElement.forEach(function (item) {
         if (item.checked) {
           filteredOffers = filteredOffers.filter(function (offerData) {
             return offerData.offer.features.indexOf(item.value) >= 0;
@@ -120,7 +120,7 @@
       window.form.onAmountCapacityChange();
     };
     var onEnterPress = function (evt) {
-      window.utils.isEnterEvent(evt, onActivatePage);
+      window.utils.checkEnterEvent(evt, onActivatePage);
     };
     var addMainPinEvents = function () {
       mainPinElement.addEventListener('mouseup', onActivatePage);

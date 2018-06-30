@@ -24,8 +24,8 @@
   // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
   var show = function (offer) {
     removePopup();
-    var currentOfferElement = renderOffer(offer);
-    window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
+    var cardElement = renderOffer(offer);
+    window.map.mapElement.insertBefore(cardElement, filtersElement);
   };
   // закрытие попапа
   var close = function () {
@@ -42,7 +42,7 @@
   };
   // функция нажатия Esc
   var onEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, close);
+    window.utils.checkEscEvent(evt, close);
   };
   // функция клика на крестик
   var onCloseElementClick = function () {
@@ -63,26 +63,26 @@
 
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (feature) {
       var liElement = document.createElement('li');
       liElement.classList.add('popup__feature');
-      liElement.classList.add('popup__feature--' + features[i]);
+      liElement.classList.add('popup__feature--' + feature);
       featuresList.appendChild(liElement);
-    }
+    });
     return featuresList;
   };
 
   var createPhotosList = function (photosArray) {
     var photoList = document.createDocumentFragment();
-    for (var i = 0; i < photosArray.length; i++) {
+    photosArray.forEach(function (photo) {
       var mapCardPhotoElement = document.createElement('img');
       mapCardPhotoElement.classList.add('popup__photo');
-      mapCardPhotoElement.src = photosArray[i];
+      mapCardPhotoElement.src = photo;
       mapCardPhotoElement.width = 45;
       mapCardPhotoElement.height = 40;
       mapCardPhotoElement.alt = 'Фотография жилья';
       photoList.appendChild(mapCardPhotoElement);
-    }
+    });
     return photoList;
   };
 

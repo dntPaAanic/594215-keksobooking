@@ -14,6 +14,13 @@
     palace: 10000
   };
 
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+  var Photo = {
+    WIDTH: 70,
+    HEIGHT: 70
+  };
+
   var adFormFieldsetsElement = document.querySelectorAll('fieldset');
   var successElement = document.querySelector('.success');
   var adFormElement = document.querySelector('.ad-form');
@@ -26,12 +33,20 @@
   var roomNumberElement = adFormElement.querySelector('#room_number');
   var capacityElement = adFormElement.querySelector('#capacity');
 
+  var avatarChooserElement = adFormElement.querySelector('.ad-form-header__input');
+  var avatarPreviewElement = adFormElement.querySelector('.ad-form-header__preview img');
+  var imagesChooserElement = adFormElement.querySelector('.ad-form__input');
+  var photoContainerElement = adFormElement.querySelector('.ad-form__photo-container');
+  var photoPreviewElement = adFormElement.querySelector('.ad-form__photo');
+
+  var defaultAvatarIcon = avatarPreviewElement.src;
+
   // Переключает форму из неактивного состояния
   var toggleFormDisabled = function (formDisabled) {
     adFormElement.classList.toggle('ad-form--disabled', formDisabled);
-    for (var i = 0; i < adFormFieldsetsElement.length; i++) {
-      adFormFieldsetsElement[i].disabled = formDisabled;
-    }
+    adFormFieldsetsElement.forEach(function (item) {
+      item.disabled = formDisabled;
+    });
   };
 
   // Переключает форму уведомления об успешной отправке в/из неактивного состояния
@@ -86,7 +101,7 @@
   };
 
   var onDocumentEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, closeSuccess);
+    window.utils.checkEscEvent(evt, closeSuccess);
   };
 
   var onSuccessButtonClick = function () {
@@ -106,16 +121,56 @@
     window.map.filtersFormElement.reset();
     adFormElement.reset();
     setDefaultPosition();
+    avatarPreviewElement.src = defaultAvatarIcon;
+    removePhotos();
   };
 
   var onButtonResetClick = function (evt) {
     evt.preventDefault();
     resetAll();
-    formResetElement.removeEventListener('click', onButtonResetClick);
+  };
+
+  var onAvatarLoad = function () {
+    var file = avatarChooserElement.files[0];
+    window.utils.loadFile(file, FILE_TYPES, function (reader) {
+      avatarPreviewElement.src = reader.result;
+    });
+  };
+
+  var loadPhotos = function (photos) {
+    photos.forEach(function (photo) {
+      window.utils.loadFile(photo, FILE_TYPES, function (reader) {
+        var imageElement = document.createElement('img');
+        imageElement.width = Photo.WIDTH;
+        imageElement.height = Photo.HEIGHT;
+        imageElement.style = 'margin-right: 10px';
+        imageElement.classList.add('ad-form__photo--upload');
+        imageElement.src = reader.result;
+        photoContainerElement.insertBefore(imageElement, photoPreviewElement);
+      });
+    });
+  };
+
+  // Удаляет загруженные фотографии
+  var removePhotos = function () {
+    var photoElement = document.querySelectorAll('.ad-form__photo--upload');
+    if (photoElement) {
+      photoElement.forEach(function (photo) {
+        photo.parentNode.removeChild(photo);
+      });
+    }
   };
 
   getAddress();
   toggleFormDisabled(true);
+
+  avatarChooserElement.addEventListener('change', onAvatarLoad);
+  imagesChooserElement.addEventListener('change', function () {
+    var photos = [].map.call(imagesChooserElement.files, function (photo) {
+      return photo;
+    });
+    loadPhotos(photos);
+  });
 
   formResetElement.addEventListener('click', onButtonResetClick);
 

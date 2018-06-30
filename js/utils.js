@@ -8,13 +8,13 @@
   var errorElement = document.createElement('div');
 
   // ивент по нажатию клавиши escape
-  var isEscEvent = function (evt, action) {
+  var checkEscEvent = function (evt, action) {
     if (evt.keyCode === ESCAPE_KEYCODE) {
       action();
     }
   };
 
-  var isEnterEvent = function (evt, action) {
+  var checkEnterEvent = function (evt, action) {
     if (evt.keyCode === ENTER_KEYCODE) {
       action();
     }
@@ -50,10 +50,31 @@
     lastTimeout = window.setTimeout(action, DEBOUNCE_INTERVAL);
   };
 
+  // Загрузка файлов
+  var loadFile = function (file, filetypes, callback) {
+    if (file) {
+      var fileName = file.name.toLowerCase();
+
+      var matches = filetypes.some(function (item) {
+        return fileName.endsWith(item);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          callback(reader);
+        });
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
   window.utils = {
     onError: onError,
-    isEnterEvent: isEnterEvent,
-    isEscEvent: isEscEvent,
-    debounce: debounce
+    checkEnterEvent: checkEnterEvent,
+    checkEscEvent: checkEscEvent,
+    debounce: debounce,
+    loadFile: loadFile
   };
 })();
