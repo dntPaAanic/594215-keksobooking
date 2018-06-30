@@ -44,7 +44,7 @@
   // Переключает форму из неактивного состояния
   var toggleFormDisabled = function (formDisabled) {
     adFormElement.classList.toggle('ad-form--disabled', formDisabled);
-    [].forEach.call(adFormFieldsetsElement, function (item) {
+    adFormFieldsetsElement.forEach(function (item) {
       item.disabled = formDisabled;
     });
   };
@@ -155,7 +155,7 @@
   var removePhotos = function () {
     var photoElement = document.querySelectorAll('.ad-form__photo--upload');
     if (photoElement) {
-      [].forEach.call(photoElement, function (photo) {
+      photoElement.forEach(function (photo) {
         photo.parentNode.removeChild(photo);
       });
     }

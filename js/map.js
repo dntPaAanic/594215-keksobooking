@@ -80,7 +80,7 @@
 
     // Фильтрует по фичам
     var filterByFeatures = function () {
-      [].forEach.call(featuresFiltersElement, function (item) {
+      featuresFiltersElement.forEach(function (item) {
         if (item.checked) {
           filteredOffers = filteredOffers.filter(function (offerData) {
             return offerData.offer.features.indexOf(item.value) >= 0;
