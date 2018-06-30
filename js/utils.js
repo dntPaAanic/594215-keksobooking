@@ -50,10 +50,31 @@
     lastTimeout = window.setTimeout(action, DEBOUNCE_INTERVAL);
   };
 
+  // Загрузка файлов
+  var loadFile = function (file, filetypes, callback) {
+    if (file) {
+      var fileName = file.name.toLowerCase();
+
+      var matches = filetypes.some(function (item) {
+        return fileName.endsWith(item);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          callback(reader);
+        });
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
   window.utils = {
     onError: onError,
     checkEnterEvent: checkEnterEvent,
     checkEscEvent: checkEscEvent,
-    debounce: debounce
+    debounce: debounce,
+    loadFile: loadFile
   };
 })();
