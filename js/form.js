@@ -121,6 +121,7 @@
     window.map.filtersFormElement.reset();
     adFormElement.reset();
     setDefaultPosition();
+    priceForNightFieldElement.placeholder = MIN_PRICES_FOR_NIGHT.flat;
     avatarPreviewElement.src = defaultAvatarIcon;
     removePhotos();
   };
