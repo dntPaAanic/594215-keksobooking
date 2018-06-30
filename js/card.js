@@ -24,8 +24,8 @@
   // показывает новый попап после удаления первоначального (если попап сначала есть, то он удаляется, потом создается новый)
   var show = function (offer) {
     removePopup();
-    var currentOfferElement = renderOffer(offer);
-    window.map.mapElement.insertBefore(currentOfferElement, filtersElement);
+    var cardElement = renderOffer(offer);
+    window.map.mapElement.insertBefore(cardElement, filtersElement);
   };
   // закрытие попапа
   var close = function () {
@@ -42,7 +42,7 @@
   };
   // функция нажатия Esc
   var onEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, close);
+    window.utils.checkEscEvent(evt, close);
   };
   // функция клика на крестик
   var onCloseElementClick = function () {

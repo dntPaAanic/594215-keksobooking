@@ -8,13 +8,13 @@
   var errorElement = document.createElement('div');
 
   // ивент по нажатию клавиши escape
-  var isEscEvent = function (evt, action) {
+  var checkEscEvent = function (evt, action) {
     if (evt.keyCode === ESCAPE_KEYCODE) {
       action();
     }
   };
 
-  var isEnterEvent = function (evt, action) {
+  var checkEnterEvent = function (evt, action) {
     if (evt.keyCode === ENTER_KEYCODE) {
       action();
     }
@@ -52,8 +52,8 @@
 
   window.utils = {
     onError: onError,
-    isEnterEvent: isEnterEvent,
-    isEscEvent: isEscEvent,
+    checkEnterEvent: checkEnterEvent,
+    checkEscEvent: checkEscEvent,
     debounce: debounce
   };
 })();

@@ -86,7 +86,7 @@
   };
 
   var onDocumentEscapePress = function (evt) {
-    window.utils.isEscEvent(evt, closeSuccess);
+    window.utils.checkEscEvent(evt, closeSuccess);
   };
 
   var onSuccessButtonClick = function () {
