@@ -63,26 +63,26 @@
 
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (value) {
       var liElement = document.createElement('li');
       liElement.classList.add('popup__feature');
-      liElement.classList.add('popup__feature--' + features[i]);
+      liElement.classList.add('popup__feature--' + value);
       featuresList.appendChild(liElement);
-    }
+    });
     return featuresList;
   };
 
   var createPhotosList = function (photosArray) {
     var photoList = document.createDocumentFragment();
-    for (var i = 0; i < photosArray.length; i++) {
+    photosArray.forEach(function (value) {
       var mapCardPhotoElement = document.createElement('img');
       mapCardPhotoElement.classList.add('popup__photo');
-      mapCardPhotoElement.src = photosArray[i];
+      mapCardPhotoElement.src = value;
       mapCardPhotoElement.width = 45;
       mapCardPhotoElement.height = 40;
       mapCardPhotoElement.alt = 'Фотография жилья';
       photoList.appendChild(mapCardPhotoElement);
-    }
+    });
     return photoList;
   };
 
