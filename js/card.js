@@ -63,10 +63,10 @@
 
   var createFeaturesList = function (features) {
     var featuresList = document.createDocumentFragment();
-    features.forEach(function (value) {
+    features.forEach(function (it) {
       var liElement = document.createElement('li');
       liElement.classList.add('popup__feature');
-      liElement.classList.add('popup__feature--' + value);
+      liElement.classList.add('popup__feature--' + it);
       featuresList.appendChild(liElement);
     });
     return featuresList;
@@ -74,10 +74,10 @@
 
   var createPhotosList = function (photosArray) {
     var photoList = document.createDocumentFragment();
-    photosArray.forEach(function (value) {
+    photosArray.forEach(function (it) {
       var mapCardPhotoElement = document.createElement('img');
       mapCardPhotoElement.classList.add('popup__photo');
-      mapCardPhotoElement.src = value;
+      mapCardPhotoElement.src = it;
       mapCardPhotoElement.width = 45;
       mapCardPhotoElement.height = 40;
       mapCardPhotoElement.alt = 'Фотография жилья';
